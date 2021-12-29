@@ -1,0 +1,1 @@
+Se va a eliminar la columna edad para poder usar una columna nueva tipo Date.
