@@ -1,0 +1,8 @@
+Valor total y numero de jugadores de un equipo
+select id_club, sum(convert(int,valor)) as valort, count(*) as nJugadores from jugadores group by id_club order by valort DESC
+
+
+Jugadores extranjeros de cada club
+select id_club, count(*) from jugadores where nacionalidad!='España' group by id_club
+
+

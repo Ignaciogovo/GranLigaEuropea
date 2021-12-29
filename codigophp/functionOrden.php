@@ -9,9 +9,9 @@
     }
     function planificacionjornadas($participantes,$mitad,$array1,$array2){
         $tiempo = 1;
-        while ($tiempo <=$participantes){ //Bucle para el número de jornadas siendo el número de jornadas igual al número de participantes.
+        while ($tiempo <=($participantes*2)-2){ //Bucle para el número de jornadas siendo el número de jornadas igual al número de participantes.
             echo " Jornada $tiempo <br>";
-            if ($tiempo == $mitad+1){
+            if ($tiempo == $participantes){
                 echo " Comienzo de la mitad de la temporada<br>";
             }
             if ($mitad%2==0) {  // Si la mitad de la temporada fuera impar algunos equipos jugarian más partidos en casa que de visitante y viceversa.

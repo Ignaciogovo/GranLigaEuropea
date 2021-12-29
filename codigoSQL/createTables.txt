@@ -1,0 +1,107 @@
+club(id PK,nombre,ciudad,nJugadores,nExtranjeros,ValorTotal)
+Jugadores(id PK, nombre, id_club FK, posicion, peso, Altura, Nacionalidad,edad, valor)
+partidos(id PK, id_ganador FK, id_perdedor FK,id_arbitro FK,jornada, temporada)
+Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles, amarillas, roja, titularidad)
+arbitros(id PK, nombre, nacionalidad, edad)
+clasificacion (id_equipo PK FK, puntos, goles)
+
+
+Para servidor SQL
+
+ INTEGER NOT NULL IDENTITY(1, 1) PRIMARY KEY
+
+
+CREATE TABLE [club] (
+  [id] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+  [nombre] varchar(100),
+  [ciudad] varchar(100),
+  [nJugadores] int,
+  [nExtranjeros] int,
+  [ValorTotal] varchar(100)
+);
+
+CREATE TABLE [arbitros] (
+  [id] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+  [nombre] varchar(100),
+  [nacionalidad] varchar(100),
+  [edad] int
+);
+
+
+CREATE TABLE [jugadores] (
+  [id] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+  [nombre] varchar(100),
+  [id_club] int,
+  [posicion] varchar(100),
+  [peso] varchar(100),
+  [altura] varchar(100),
+  [nacionalidad] varchar(100),
+  [edad] int,
+  [valor] varchar(100),
+  CONSTRAINT [FK_jugadores.id_club]
+    FOREIGN KEY ([id_club])
+      REFERENCES [club]([id])
+);
+
+CREATE TABLE [partidos] (
+  [id] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+  [id_ganador] int,
+  [id_perdedor] int,
+  [id_arbitro] int,
+  [jornada] int,
+  [temporada] int,
+  CONSTRAINT [FK_partidos.id_arbitro]
+    FOREIGN KEY ([id_arbitro])
+      REFERENCES [arbitros]([id]),
+  CONSTRAINT [FK_partidos.id_ganador]
+    FOREIGN KEY ([id_ganador])
+      REFERENCES [club]([id]),
+  CONSTRAINT [FK_partidos.id_perdedor]
+    FOREIGN KEY ([id_perdedor])
+      REFERENCES [club]([id])
+);
+
+CREATE TABLE [estadisticasPartido] (
+  [id] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+  [id_jugador] int,
+  [id_partido] int,
+  [goles] int,
+  [amarillas] int,
+  [roja] int,
+  [titularidad] varchar(100),
+  CONSTRAINT [FK_estadisticasPartido.id_jugador]
+    FOREIGN KEY ([id_jugador])
+      REFERENCES [jugadores]([id]),
+  CONSTRAINT [FK_estadisticasPartido.id_partido]
+    FOREIGN KEY ([id_partido])
+      REFERENCES [partidos]([id])
+);
+
+CREATE TABLE [clasificacion] (
+  [id_club] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+  [puntos] int,
+  [goles] int,
+  CONSTRAINT [FK_clasificacion.id_club]
+    FOREIGN KEY ([id_club])
+      REFERENCES [club]([id])
+);
+
+CREATE TABLE [estadisticasTotales] (
+  [id] int,
+  [id_jugador] int,
+  [id_club] int,
+  [goles] int,
+  [amarillas] int,
+  [roja] int,
+  CONSTRAINT [FK_estadisticasTotales.id_club]
+    FOREIGN KEY ([id_club])
+      REFERENCES [club]([id]),
+  CONSTRAINT [FK_estadisticasTotales.id_jugador]
+    FOREIGN KEY ([id_jugador])
+      REFERENCES [jugadores]([id])
+);
+
+
+
+ALTER TABLE clasificacion  add CONSTRAINT idclasificacion FOREIGN KEY (id) REFERENCES club(id);
+
