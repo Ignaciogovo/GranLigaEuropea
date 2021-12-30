@@ -8,7 +8,7 @@
 </head>
 <body>
       <?php
-        include('functionOrden.php');
+        include('C:/xampp/htdocs/ProyectoLigaInventada/codigophp/CreadorJornadas/functionOrden.php');
         $array1= array(2);
         $v1=3;
         while ($v1<9){

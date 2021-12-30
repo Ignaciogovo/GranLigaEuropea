@@ -9,7 +9,7 @@ $i=0;
         die();
         
     }else{
-        include('C:\xampp\htdocs\ProyectoLigaInventada\codigophp\functionOrden.php');
+        include('functionOrden.php');
         $primeros=$participantes/2;
         $array1= array(2);
         $v1=3;
