@@ -10,14 +10,14 @@
 <?php
 include('function.php');
 $nombre= array("los soberanos","Club Aquiles","Olimpo","Kings","Unión Penosa","Limón F.C","semen Padang","War hawks");
-$valor= array(45,47,72,65,52,35,75,71);
+$valor= array(65,47,72,50,52,35,75,71);
 print_r($nombre);
 echo "<br>";
-$tiempo =1;
+$tiempo =0;
 while ($tiempo < 4){
-    $E1= $nombre[8-$tiempo];
+    $E1= $nombre[8-($tiempo+1)];
     $E2= $nombre[$tiempo];
-    $V1= $valor[8-$tiempo];
+    $V1= $valor[8-($tiempo+1)];
     $V2= $valor[$tiempo];
     echo "$E1($V1) VS $E2($V2)";
     echo "<br>";
