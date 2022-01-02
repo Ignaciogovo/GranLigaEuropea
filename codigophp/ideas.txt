@@ -6,3 +6,7 @@ El número que sea mayor gana y se divide por 2'1 para saber la cantidad de gole
 
 
 Los jugadores tendrán un número según su valor y se le multiplicara a un número aleatorio para saber las estadisticas
+
+
+
+HAY QUE MEJORAR LA TABLA DE PARTIDOS --(ID, ID_LOCAL, ID_VISITANTE, GOLESLOCAL,GOLESVISITANTE,JORNADA,TEMPORADA)
