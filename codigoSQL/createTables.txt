@@ -1,7 +1,6 @@
 club(id PK,nombre,ciudad,nJugadores,nExtranjeros,ValorTotal)
 Jugadores(id PK, nombre, id_club FK, posicion, peso, Altura, Nacionalidad,edad, valor)
-(id PK, id_local FK, id_visitante FK,gol_local,gol_visitante,id_arbitro FK,jornada, temporada FK)
-partidos(id PK, id_ganador FK, id_perdedor FK,id_arbitro FK,jornada, temporada)
+partidos(id PK, id_local FK, id_visitante FK,gol_local,gol_visitante,id_arbitro FK,jornada, temporada FK)
 temporadas(id PK,fecha_inicio,fecha_final)
 Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles, amarillas, roja, titularidad)
 arbitros(id PK, nombre, nacionalidad, edad)

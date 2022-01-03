@@ -1,0 +1,49 @@
+prueba_partidos(id PK, id_local FK, id_visitante FK,gol_local,gol_visitante,id_arbitro FK,jornada, temporada FK)
+prueba_temporadas(id PK,fecha_inicio,fecha_final)
+prueba_Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles, amarillas, roja, titularidad)
+
+
+
+CREATE TABLE prueba_temporadas (
+  id int PRIMARY KEY NOT NULL,
+  Fecha_inicio datetime,
+  Fecha_final datetime
+);
+
+CREATE TABLE [prueba_partidos] (
+  [id] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+  [id_local] int,
+  [id_visitante] int,
+  [id_arbitro] int,
+  [jornada] int,
+  [temporada] int,
+  CONSTRAINT [FK_partidos.id_arbitro]
+    FOREIGN KEY ([id_arbitro])
+      REFERENCES [arbitros]([id]),
+  CONSTRAINT [FK_partidos.ID_LOCAL]
+    FOREIGN KEY ([id_local])
+      REFERENCES [club]([id]),
+  CONSTRAINT [FK_partidos.id_visitante]
+    FOREIGN KEY ([id_visitante])
+      REFERENCES [club]([id]),
+  CONSTRAINT [FK_partidos.temporada]
+      FOREIGN KEY (temporada) 
+      REFERENCES prueba_temporadas(id)
+
+);
+
+CREATE TABLE [prueba_Estadisticas_partido] (
+  [id] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+  [id_jugador] int,
+  [id_partido] int,
+  [goles] int,
+  [amarillas] int,
+  [roja] int,
+  [titularidad] varchar(100),
+  CONSTRAINT [FK_estadisticasPartido.id_jugador]
+    FOREIGN KEY ([id_jugador])
+      REFERENCES [jugadores]([id]),
+  CONSTRAINT [FK_estadisticasPartido.id_partido]
+    FOREIGN KEY ([id_partido])
+      REFERENCES [prueba_partidos]([id])
+);
