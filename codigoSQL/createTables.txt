@@ -1,10 +1,16 @@
 club(id PK,nombre,ciudad,nJugadores,nExtranjeros,ValorTotal)
 Jugadores(id PK, nombre, id_club FK, posicion, peso, Altura, Nacionalidad,edad, valor)
+(id PK, id_local FK, id_visitante FK,gol_local,gol_visitante,id_arbitro FK,jornada, temporada FK)
 partidos(id PK, id_ganador FK, id_perdedor FK,id_arbitro FK,jornada, temporada)
+temporadas(id PK,fecha_inicio,fecha_final)
 Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles, amarillas, roja, titularidad)
 arbitros(id PK, nombre, nacionalidad, edad)
 clasificacion (id_equipo PK FK, puntos, goles)
 
+Modificaciones:
+Historicos
+HistoricoClub(id PK, id_club FK, nJugadores,nExtranjeros,ValorTotal,fechaModificacion)
+HistoricoJugadores(id PK, id_jugador FK, id_club,valor,fechaModificacion)
 
 Para servidor SQL
 
@@ -42,23 +48,33 @@ CREATE TABLE [jugadores] (
     FOREIGN KEY ([id_club])
       REFERENCES [club]([id])
 );
+CREATE TABLE Temporada (
+  id int PRIMARY KEY NOT NULL,
+  Fecha_inicio datetime,
+  Fecha_final datetime
+);
+
 
 CREATE TABLE [partidos] (
   [id] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
-  [id_ganador] int,
-  [id_perdedor] int,
+  [id_local] int,
+  [id_visitante] int,
   [id_arbitro] int,
   [jornada] int,
   [temporada] int,
   CONSTRAINT [FK_partidos.id_arbitro]
     FOREIGN KEY ([id_arbitro])
       REFERENCES [arbitros]([id]),
-  CONSTRAINT [FK_partidos.id_ganador]
-    FOREIGN KEY ([id_ganador])
+  CONSTRAINT [FK_partidos.ID_LOCAL]
+    FOREIGN KEY ([id_local])
       REFERENCES [club]([id]),
-  CONSTRAINT [FK_partidos.id_perdedor]
-    FOREIGN KEY ([id_perdedor])
-      REFERENCES [club]([id])
+  CONSTRAINT [FK_partidos.id_visitante]
+    FOREIGN KEY ([id_visitante])
+      REFERENCES [club]([id]),
+  CONSTRAINT [FK_partidos.temporada]
+      FOREIGN KEY (temporada) 
+      REFERENCES Temporada(id)
+
 );
 
 CREATE TABLE [estadisticasPartido] (
