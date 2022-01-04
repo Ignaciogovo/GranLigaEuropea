@@ -1,4 +1,4 @@
-prueba_partidos(id PK, id_local FK, id_visitante FK,gol_local,gol_visitante,id_arbitro FK,jornada, temporada FK)
+prueba_partidos(id PK, id_local FK, id_visitante FK,goles_local,goles_visitante,id_arbitro FK,jornada, temporada FK)
 prueba_temporadas(id PK,fecha_inicio,fecha_final)
 prueba_Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles, amarillas, roja, titularidad)
 
@@ -9,24 +9,25 @@ CREATE TABLE prueba_temporadas (
   Fecha_inicio datetime,
   Fecha_final datetime
 );
-
 CREATE TABLE [prueba_partidos] (
   [id] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
   [id_local] int,
   [id_visitante] int,
+  [goles_local] int,
+  [goles_visitante] int,
   [id_arbitro] int,
   [jornada] int,
   [temporada] int,
-  CONSTRAINT [FK_partidos.id_arbitro]
+  CONSTRAINT [FK_pruebapartidos.id_arbitro]
     FOREIGN KEY ([id_arbitro])
       REFERENCES [arbitros]([id]),
-  CONSTRAINT [FK_partidos.ID_LOCAL]
+  CONSTRAINT [FK_pruebapartidos.ID_LOCAL]
     FOREIGN KEY ([id_local])
       REFERENCES [club]([id]),
-  CONSTRAINT [FK_partidos.id_visitante]
+  CONSTRAINT [FK_pruebapartidos.id_visitante]
     FOREIGN KEY ([id_visitante])
       REFERENCES [club]([id]),
-  CONSTRAINT [FK_partidos.temporada]
+  CONSTRAINT [FK_pruebapartidos.temporada]
       FOREIGN KEY (temporada) 
       REFERENCES prueba_temporadas(id)
 
@@ -40,10 +41,39 @@ CREATE TABLE [prueba_Estadisticas_partido] (
   [amarillas] int,
   [roja] int,
   [titularidad] varchar(100),
-  CONSTRAINT [FK_estadisticasPartido.id_jugador]
+  CONSTRAINT [FK_pruebaestadisticasPartido.id_jugador]
     FOREIGN KEY ([id_jugador])
       REFERENCES [jugadores]([id]),
-  CONSTRAINT [FK_estadisticasPartido.id_partido]
+  CONSTRAINT [FK_pruebaestadisticasPartido.id_partido]
     FOREIGN KEY ([id_partido])
       REFERENCES [prueba_partidos]([id])
 );
+CREATE TABLE [prueba_clasificacion] (
+  [id_club] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+  [puntos] int,
+  [golesAfavor] int,
+  [golesEncontra] int,
+  CONSTRAINT [FK_pruebaclasificacion.id_club]
+    FOREIGN KEY ([id_club])
+      REFERENCES [club]([id])
+);
+INSERT INTO [prueba_clasificacion] (id_club)
+VALUES
+  (1),
+  (2),
+  (3),
+  (4),
+  (5),
+  (6),
+  (7),
+  (8),
+  (9),
+  (10);
+INSERT INTO [prueba_clasificacion] (id_club)
+VALUES
+  (11),
+  (12),
+  (13),
+  (14),
+  (15),
+  (16);
