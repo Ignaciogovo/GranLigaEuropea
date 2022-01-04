@@ -8,7 +8,7 @@
 </head>
 <body>
       <?php
-        include('C:/xampp/htdocs/ProyectoLigaInventada/codigophp/CreadorJornadas/functionOrden.php');
+        include('C:/xampp/htdocs/ProyectoLiga/ProyectoLigaInventada/codigophp/ProgramasElavoracionDatos/ElavoracionPartidos/function.php');
         $array1= array(2);
         $v1=3;
         while ($v1<9){
@@ -22,7 +22,7 @@
             array_push($array2,$v1);
             $v1++;
         }
-        planificacionjornadas(16,8,$array1,$array2);
+        planificacionjornadasParaliga(2,$array1,$array2);
     ?>
 </body>
 </html>
