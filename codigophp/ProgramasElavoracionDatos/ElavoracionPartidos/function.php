@@ -14,10 +14,14 @@ function calculovalor($E){
         
     }
 function calculoJornada(){
+    error_reporting(0); //para desactivar los errores
     include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->query("select jornada from prueba_partidos order by id desc");
     $jornadas = $sentencia->fetchAll(PDO::FETCH_OBJ);
     $jornada = $jornadas[0]->jornada;   //Obtencion de la jornada a partir de un array de objetos¿?
+    if(empty($jornada)){
+        $jornada=0;
+    }
     $jornada++;
     return $jornada;
 }
@@ -26,10 +30,10 @@ function calculoTemporada(){
     $sentencia = $conexion->query("select temporada from prueba_partidos order by id desc");
     $temporadas = $sentencia->fetchAll(PDO::FETCH_OBJ);
     $temporada = $temporadas[0]->temporada;   //Obtencion de la temporada a partir de un array de objetos¿?
-        // if(!$n_temporada2){
-        //     $n_temporada2=1;
-        //     creacionTemporada($n_temporada2);
-        // }
+        if(empty($temporada)){
+            $temporada=1;
+            
+        }
 
     return $temporada;
       
@@ -110,7 +114,14 @@ function partido($E1,$E2,$jornada){
             if($gol1==$gol2){
                 $gol2++;
             }
-            elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada);
+            if($jornada%2==0){
+                elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada);
+            
+                //echo " local el de la derecha";
+            }else{
+                elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada);
+                //echo " local el de la izquierda";
+            }
             echo " Gana Equipo $E2 con un $potencial2  con goles: $gol2<br>";
             echo " Pierde Equipo $E1 con un $potencial1 con goles: $gol1<br>";
             $final = 1;
@@ -122,7 +133,14 @@ function partido($E1,$E2,$jornada){
             if($gol1==$gol2){
                 $gol1++;
             }
-            elavoracionDatospartido($E1,$E2,$gol1,$gol2, $jornada);
+            if($jornada%2==0){
+                elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada);
+            
+                //echo " local el de la derecha";
+            }else{
+                elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada);
+                //echo " local el de la izquierda";
+            }
             echo " Gana Equipo $E1 con un $potencial1 con goles: $gol1<br>";
             echo " Pierde Equipo $E2 con un $potencial2 con goles: $gol2<br>";
             $final = 1;

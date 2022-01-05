@@ -1,0 +1,35 @@
+CREATE OR ALTER PROCEDURE actualizarprueba_clasificacion @id_ganador int, @id_perdedor int, @golesganador int, @golesperdedor int
+as
+update prueba_clasificacion set puntos=puntos+3, golesAfavor=golesAfavor+@golesganador, golesEncontra=golesEncontra+@golesperdedor where id_club=@id_ganador;
+update prueba_clasificacion set golesAfavor=golesAfavor+@golesperdedor, golesEncontra=golesEncontra+@golesganador where id_club=@id_perdedor;
+go
+
+
+
+
+CREATE OR AlTER TRIGGER triggeractualizacionprueba_competicion
+ON prueba_partidos
+for insert
+as
+begin 
+set nocount on; --No deja rastro visible en la pantalla
+--declaracion variables
+declare @local as int;
+declare @visitante as int;
+declare @golocal as int;
+declare @golvisitante as int;
+--obtencion de las variables desde la tabla inserted
+select @local = id_local from inserted;
+select @visitante= id_visitante from inserted;
+select @golocal = goles_local from inserted;
+select @golvisitante= goles_visitante from inserted;
+--Condicionales para decidir el ganador
+	if @golocal > @golvisitante
+		begin
+			exec actualizarprueba_clasificacion @local,@visitante,@golocal, @golvisitante;
+		end
+	if @golocal < @golvisitante
+		begin
+			exec actualizarprueba_clasificacion @visitante,@local,@golvisitante, @golocal;
+		end
+end
