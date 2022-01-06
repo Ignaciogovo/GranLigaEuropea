@@ -48,7 +48,6 @@ function creacionTemporada($temporada){
 function partido($E1,$E2,$jornada){
     $V1=calculovalor($E1);
     $V2=calculovalor($E2);
-    echo " $V1,$V2";
     $diferencia=$V2-$V1;
     $diferencia = abs($diferencia);
     $final = 0;
@@ -147,13 +146,133 @@ function partido($E1,$E2,$jornada){
         }
     }
 }
-function elavoracionDatospartido($id_local,$id_visitante,$goles_local,$goles_visitante,$jornada){
+function partidoConEmpates($E1,$E2,$jornada){
+    $V1=calculovalor($E1);
+    $V2=calculovalor($E2);
+    $diferencia=$V2-$V1;
+    $diferencia = abs($diferencia); //Valor absoluto.
+        //Elavoración del número aleatorio, tendrán ventaja si el valor es mayor.
+        if ( $V1 < $V2 ){  
+            if($diferencia < 150000){
+                $potencial2= rand(0,8);
+                $potencial1= rand(0,8);
+                $aforo= rand(70,100);
+                //echo " Se produce la diferencia x1.15 ";
+            }elseif ($diferencia >= 150000 AND $diferencia < 500000) {
+                $potencial2= 1.25* rand(0,8);
+                $potencial1= rand(0,8);
+                $aforo = rand(60,95);
+                //echo " Se produce la diferencia x1.25 ";
+            }elseif ($diferencia >= 500000 AND $diferencia <=1000000) {
+                $potencial2= 1.5*rand(0,8);
+                $potencial1= rand(0,8);
+                $aforo = rand(60,90);
+                //echo " Se produce la diferencia x1.5 ";
+            }elseif ($diferencia >=1000000){
+                $potencial2= 1.75* rand(0,8);
+                $potencial1= rand(0,8);
+                $aforo = rand(65,100);
+                //echo " Se produce la diferencia x1.75";
+            }               
+        }elseif( $V1 > $V2){
+            if($diferencia < 150000){
+                $potencial1= rand(0,8);
+                $potencial2= rand(0,8);
+                $aforo= rand(70,100);
+                //echo " Se produce la diferencia x1.15 ";
+            }elseif ($diferencia >= 150000 AND $diferencia <500000) {
+                $potencial1= 1.25* rand(0,8);
+                $potencial2= rand(0,8);
+                $aforo = rand(60,95);
+                //echo " Se produce la diferencia x1.25 ";
+            }
+            elseif ($diferencia >= 500000 AND $diferencia <=1000000) {
+                $potencial1= 1.5* rand(0,8);
+                $potencial2= rand(0,8);
+                $aforo = rand(60,90);
+                //echo " Se produce la diferencia x1.5 ";
+            }elseif ($diferencia >=1000000){
+                $potencial1= 1.75* rand(0,8);
+                $potencial2= rand(0,8);
+                $aforo = rand(65,100);
+                //echo " Se produce la diferencia x1.75";
+            }           
+        }elseif($V1 == $V2){
+            $potencial2= rand(0,8);
+            $potencial1= rand(0,8);
+            $aforo = rand(70,100);
+        };
+        //Ventaja Local
+        if ($aforo > 80){
+            if($jornada%2==0){
+                $potencial2=$potencial2*1.15;
+                //echo " local el de la derecha";
+            }else{
+                $potencial1=$potencial1*1.15;
+                //echo " local el de la izquierda";
+            }
+        }
+        //convirtiendo la variable aforo en varchar
+        $aforo = "$aforo%";
+        //Asignación del equipo ganador
+        if ($potencial1 < $potencial2){
+            $gol1=($potencial1/2.5);
+            $gol2=($potencial2/2.5);
+            $gol1=round($gol1,0);
+            $gol2=round($gol2,0);
+            if($gol1==$gol2){
+                $gol2++;
+            }
+            if($jornada%2==0){
+                elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
+            
+            }else{
+                elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
+            }
+            echo " Gana Equipo $E2 con un $potencial2  con goles: $gol2<br>";
+            echo " Pierde Equipo $E1 con un $potencial1 con goles: $gol1<br>";
+        }elseif ($potencial1 > $potencial2){
+            $gol1=($potencial1/2.5);
+            $gol2=($potencial2/2.5);
+            $gol1=round($gol1,0);
+            $gol2=round($gol2,0);
+            if($gol1==$gol2){
+                $gol1++;
+            }
+            if($jornada%2==0){
+                elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
+            
+                //echo " local el de la derecha";
+            }else{
+                elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
+                //echo " local el de la izquierda";
+            }
+            echo " Gana Equipo $E1 con un $potencial1 con goles: $gol1<br>";
+            echo " Pierde Equipo $E2 con un $potencial2 con goles: $gol2<br>";
+        }elseif($potencial1=$potencial2){
+            $gol1=($potencial1/2.5);
+            $gol2=($potencial2/2.5);
+            $gol1=round($gol1,0);
+            $gol2=round($gol2,0);
+            if($jornada%2==0){
+                elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
+            
+                //echo " local el de la derecha";
+            }else{
+                elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
+                //echo " local el de la izquierda";
+            }
+            echo "Se produce un empate";
+        }
+        echo "se produce un aforo de: $aforo";
+    
+}
+function elavoracionDatospartido($id_local,$id_visitante,$goles_local,$goles_visitante,$jornada,$aforo){
     include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
-    $sentencia = $conexion->prepare("INSERT INTO prueba_partidos(id_local,id_visitante,goles_local,goles_visitante,id_arbitro,jornada,temporada) VALUES (?, ?, ?, ?, ?, ?, ?);");
+    $sentencia = $conexion->prepare("INSERT INTO prueba_partidos(id_local,id_visitante,goles_local,goles_visitante,id_arbitro,aforo,jornada,temporada) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
     $id_arbitro = rand(1,15);
     $temporada = calculoTemporada();
-    $resultado = $sentencia->execute([$id_local,$id_visitante,$goles_local,$goles_visitante,$id_arbitro,$jornada,$temporada]);
-
+    $resultado = $sentencia->execute([$id_local,$id_visitante,$goles_local,$goles_visitante,$id_arbitro,$aforo,$jornada,$temporada]);
 }
 function desplazamiento(){ // Desplazamiento de dos arrays. el ultimo valor del primer array pasa a ser ultimo del segundo y el primer valor del segundo array pasa a ser primero del primer array
     global $array1; 
@@ -184,11 +303,11 @@ function planificacionjornadasParaliga($jornada,$array1,$array2){
         }
         $v2 = 0;
         echo 1 . " --vs-- " . $array2[$v2]; // Para que el equipo 1 siempre esté fijo, fuera del bucle de orden de los partidos.
-        partido(1,$array2[$v2],$jornada);
+        partidoConEmpates(1,$array2[$v2],$jornada);
         echo "<br>";
         while ( $v2 < 7){  //Bucle para orden de los partidos.
         echo $array1[$v2] . " --vs-- " . $array2[$v2+1];
-        partido($array1[$v2],$array2[$v2+1],$jornada);
+        partidoConEmpates($array1[$v2],$array2[$v2+1],$jornada);
         echo "<br>";
         $v2++;
     }

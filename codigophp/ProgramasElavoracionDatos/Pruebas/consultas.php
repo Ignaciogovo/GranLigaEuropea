@@ -1,5 +1,5 @@
 <?php
-include("C:/xampp/htdocs/ProyectoLiga/ProyectoLigaInventada/codigophp/ProgramasElavoracionDatos/ElavoracionPartidos/function.php");
-echo "jornada " .calculoJornada();
-echo " temporada " .calculoTemporada();
+$agua =1;
+$coche = "$agua%";
+echo $coche;
 ?>

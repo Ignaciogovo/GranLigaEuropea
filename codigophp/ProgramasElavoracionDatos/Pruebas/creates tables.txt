@@ -16,6 +16,7 @@ CREATE TABLE [prueba_partidos] (
   [goles_local] int,
   [goles_visitante] int,
   [id_arbitro] int,
+  [aforo] varchar(10),
   [jornada] int,
   [temporada] int,
   CONSTRAINT [FK_pruebapartidos.id_arbitro]

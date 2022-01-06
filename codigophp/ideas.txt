@@ -5,6 +5,6 @@ El número que sea mayor gana y se divide por 2'1 para saber la cantidad de gole
 El eqipo local recibe una bonificación.
 
 
-
+Tabla estadios incluyendo capacidad, si esa capacidad supera un cupo el equipo local recibe una bonificación
 Los jugadores tendrán un número según su valor y se le multiplicara a un número aleatorio para saber las estadisticas
 
