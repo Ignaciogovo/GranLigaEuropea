@@ -22,7 +22,7 @@
             array_push($array2,$v1);
             $v1++;
         }
-        planificacionjornadasParaliga(2,$array1,$array2);
+        planificacionjornadasParaliga(30,$array1,$array2);
     ?>
 </body>
 </html>

@@ -1,9 +1,3 @@
-IF EXISTS(SELECT 1 FROM sys.tables WHERE object_id = OBJECT_ID('clasificacion'))
-BEGIN;
-    DROP TABLE [clasificacion];
-END;
-GO
-
 CREATE TABLE [estadios] (
     [nombre] VARCHAR(255) NULL,
     [id_club] INTEGER PRIMARY KEY,
