@@ -1,7 +1,6 @@
 <?php 
-include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
 function calculovalor($E){
-    global $conexion;
+    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
         $consulta="select (convert(int,ValorTotal)/nJugadores) as valorm from club where id=?";
         $valormedio=$conexion->prepare($consulta, [   //Obtener datos a partir de un cursor.
             PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
@@ -45,7 +44,7 @@ function creacionTemporada($temporada){
     $resultado = $sentencia->execute([$temporada, $fecha_inicio]);
 
 }
-function partido($E1,$E2,$jornada){
+function partidosinempates($E1,$E2,$jornada){
     $V1=calculovalor($E1);
     $V2=calculovalor($E2);
     $diferencia=$V2-$V1;
@@ -146,7 +145,7 @@ function partido($E1,$E2,$jornada){
         }
     }
 }
-function partidoConEmpates($E1,$E2,$jornada){
+function partido($E1,$E2,$jornada){
     $V1=calculovalor($E1);
     $V2=calculovalor($E2);
     $diferencia=$V2-$V1;
@@ -284,7 +283,7 @@ function desplazamiento(){ // Desplazamiento de dos arrays. el ultimo valor del 
 }
 function planificacionjornadasParaliga($jornada,$array1,$array2){
     $tiempo = 1;
-    while ($tiempo <$jornada){ //Bucle para el número de jornadas siendo el número de jornadas igual al número de participantes.
+    while ($tiempo <$jornada){ //Bucle para escoger la jornada. Cuando la variable $tiempo sea igual a la variable $jornada termina bucle con los equipos.
     global $array1;
     global $array2;
     desplazamiento();
@@ -303,11 +302,11 @@ function planificacionjornadasParaliga($jornada,$array1,$array2){
         }
         $v2 = 0;
         echo 1 . " --vs-- " . $array2[$v2]; // Para que el equipo 1 siempre esté fijo, fuera del bucle de orden de los partidos.
-        partidoConEmpates(1,$array2[$v2],$jornada);
+        partido(1,$array2[$v2],$jornada);
         echo "<br>";
         while ( $v2 < 7){  //Bucle para orden de los partidos.
         echo $array1[$v2] . " --vs-- " . $array2[$v2+1];
-        partidoConEmpates($array1[$v2],$array2[$v2+1],$jornada);
+        partido($array1[$v2],$array2[$v2+1],$jornada);
         echo "<br>";
         $v2++;
     }
