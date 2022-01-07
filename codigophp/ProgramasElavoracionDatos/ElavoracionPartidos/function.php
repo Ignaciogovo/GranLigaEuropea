@@ -9,8 +9,6 @@ function calculovalor($E){
         $v =$valormedio->fetchObject();
         $v =$v->valorm;
         return $v;
- 
-        
     }
 function calculoJornada(){
     error_reporting(0); //para desactivar los errores
@@ -31,18 +29,14 @@ function calculoTemporada(){
     $temporada = $temporadas[0]->temporada;   //Obtencion de la temporada a partir de un array de objetos¿?
         if(empty($temporada)){
             $temporada=1;
-            
         }
-
     return $temporada;
-      
 }
 function creacionTemporada($temporada){
     include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->prepare("INSERT INTO prueba_temporadas(id, Fecha_inicio) VALUES (?, ?);");
     $fecha_inicio = date("Y-m-d H:i:s"); //Formato DATETIME de sql.
     $resultado = $sentencia->execute([$temporada, $fecha_inicio]);
-
 }
 function partidosinempates($E1,$E2,$jornada){
     $V1=calculovalor($E1);
@@ -156,7 +150,6 @@ function partido($E1,$E2,$jornada){
                 $potencial2= rand(0,8);
                 $potencial1= rand(0,8);
                 $aforo= rand(70,100);
-                //echo " Se produce la diferencia x1.15 ";
             }elseif ($diferencia >= 150000 AND $diferencia < 500000) {
                 $potencial2= 1.25* rand(0,8);
                 $potencial1= rand(0,8);
@@ -177,8 +170,7 @@ function partido($E1,$E2,$jornada){
             if($diferencia < 150000){
                 $potencial1= rand(0,8);
                 $potencial2= rand(0,8);
-                $aforo= rand(70,100);
-                //echo " Se produce la diferencia x1.15 ";
+                $aforo= rand(70,100);                
             }elseif ($diferencia >= 150000 AND $diferencia <500000) {
                 $potencial1= 1.25* rand(0,8);
                 $potencial2= rand(0,8);
