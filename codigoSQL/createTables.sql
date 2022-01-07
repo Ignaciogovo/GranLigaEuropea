@@ -1,18 +1,18 @@
-club(id PK,nombre,ciudad,nJugadores,nExtranjeros,ValorTotal)
-Jugadores(id PK, nombre, id_club FK, posicion, peso, Altura, Nacionalidad,edad, valor)
-partidos(id PK, id_local FK, id_visitante FK,gol_local,gol_visitante,id_arbitro FK,aforo, jornada, temporada FK)
-temporadas(id PK,fecha_inicio,fecha_final)
-Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles, amarillas, roja, titularidad)
-arbitros(id PK, nombre, nacionalidad, edad)
-clasificacion (id_equipo PK FK, puntos, goles)
-estadios(nombre, id_equipo PK FK,capacidad)
+--club(id PK,nombre,ciudad,nJugadores,nExtranjeros,ValorTotal)
+--Jugadores(id PK, nombre, id_club FK, posicion, peso, Altura, Nacionalidad,edad, valor)
+--partidos(id PK, id_local FK, id_visitante FK,gol_local,gol_visitante,id_arbitro FK,aforo, jornada, temporada FK)
+--temporadas(id PK,fecha_inicio,fecha_final)
+--Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles, amarillas, roja, titularidad)
+--arbitros(id PK, nombre, nacionalidad, edad)
+--clasificacion (id_equipo PK FK, puntos, goles)
+--estadios(nombre, id_equipo PK FK,capacidad)
 
-Modificaciones:
-Historicos
-HistoricoClub(id PK, id_club FK, nJugadores,nExtranjeros,ValorTotal,fechaModificacion)
-HistoricoJugadores(id PK, id_jugador FK, id_club,valor,fechaModificacion)
+--Modificaciones:
+--Historicos
+--HistoricoClub(id PK, id_club FK, nJugadores,nExtranjeros,ValorTotal,fechaModificacion)
+--HistoricoJugadores(id PK, id_jugador FK, id_club,valor,fechaModificacion)
 
-Para servidor SQL
+--Para servidor SQL
 
  INTEGER NOT NULL IDENTITY(1, 1) PRIMARY KEY
 
