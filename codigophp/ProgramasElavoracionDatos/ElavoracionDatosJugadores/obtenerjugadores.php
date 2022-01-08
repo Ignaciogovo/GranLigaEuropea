@@ -1,22 +1,34 @@
 <?php
-   function obtencionjugadores($club,$posicion){
+   function obtencionjugadores($club){
     include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
-    $consulta="select id, valor from jugadores where id_club = ? and posicion = ? order by convert(int,valor) desc";
-    $delanteros=$conexion->prepare($consulta, [   //Obtener datos a partir de un cursor.
+    $consulta="select id,posicion, valor from jugadores where id_club = ? order by convert(int,valor) desc";//$consulta="select id, valor from jugadores where id_club = ? and posicion = ? order by convert(int,valor) desc";
+    $jugadores=$conexion->prepare($consulta, [   //Obtener datos a partir de un cursor.
         PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
     ]);
-    $delanteros->execute([$club,$posicion]);
-    $v =$delanteros->fetchAll();;
+    $jugadores->execute([$club]);
+    //$delanteros->execute([$club,$posicion]);
+    $v =$jugadores->fetchAll();;
     return $v;
    }
-   function asignacionNumeroaleatorio($array){
+   function asignacionesprobabilidades($array){
    for ($i=0; $i <count($array); $i++)
    {
-    $numero = rand(0,10);
+    $ptitular = rand(0,10);
+    $titular = 0;
+    $pgol = rand (0,10);
     $gol = 0;
-    echo "<br>" . $numero;
-    array_push($array[$i],$numero); //Key que asigna el potenicial de estadisticas.
-    array_push($array[$i],$gol);  //key que asigna el número de goles del jugador.
+    $pamarilla = rand (0,10);
+    $amarilla = 0;
+    $proja = rand (0,10);
+    $roja = 0;
+    array_push($array[$i],$ptitular); //Key que asigna el potenicial de titularidad.    KEY 3
+    array_push($array[$i],$titular); //Key que asigna el potenicial de titularidad.     KEY 4
+    array_push($array[$i],$pgol); //Key que asigna el potenicial de gol.                KEY 5
+    array_push($array[$i],$gol); //Key que asigna el numero de goles (Por ahora 0)      KEY 6
+    array_push($array[$i],$pamarilla); //Key que asigna el potenicial de titularidad.   KEY 7
+    array_push($array[$i],$amarilla);  //key que asigna el número de goles del jugador. KEY 8
+    array_push($array[$i],$proja); //Key que asigna el potenicial de titularidad.       KEY 9
+    array_push($array[$i],$roja);  //key que asigna el número de goles del jugador.     KEY 10
    }
    $array=mejorasignacion($array);
    return($array);
@@ -47,7 +59,7 @@
         }
         $numero = $array[$i];
         $numero[2]=$numero[2]*$potenciador;
-        echo "<br> potenciador =" . $potenciador . " numero total = " . $numero[2];      
+        //echo "<br> potenciador =" . $potenciador . " numero total = " . $numero[2];      
         $array[$i]= array_replace($array[$i],$numero);
         $a = $a -5;
     }
@@ -60,7 +72,7 @@
     for ($i=0; $i <$goles; $i++)
     {
      $numero = $array[0];
-     $numero[3]=$numero[3]+1;  //El valor del key 3 aumenta segun el valor del potencial del key 2
+     $numero[3]=$numero[3]+1;  //El valor del key 3(Numero de goles) aumenta segun el valor del potencial del key 2
      echo "<br>";
      echo $numero[2];
      $numero[2]=$numero[2]-3;    //Cada vez que se le asigna un gol, el valor del potencial del key 2 disminuye (-3).
@@ -70,18 +82,18 @@
     return $array;
 }
    $club = 2;
-   $posicion = 'Defensa';
-   $defensas=obtencionjugadores($club,$posicion);
-   $defensas=asignacionNumeroaleatorio($defensas);
-   print_r($defensas);
-   $defensas = asignargol($defensas, 5);
-   echo "<br>";
-   echo "<br>";
-   print_r($defensas);
+   $defensas=obtencionjugadores($club);
+   $defensas=asignacionesprobabilidades($defensas);
+//    print_r($defensas);
+//    $defensas = asignargol($defensas, 5);
+//    echo "<br>";
+//    echo "<br>";
+//    print_r($defensas);
    for ($i=0; $i <count($defensas); $i++){
     $numero = $defensas[$i];
-    echo "numero asignado " . $numero[2] . " goles : " . $numero[3];
-    echo "<br>";
+    if ($numero[1] == 'Defensa'){
+        print_r($defensas[$i]);
+    }
    }
  
 ?>
