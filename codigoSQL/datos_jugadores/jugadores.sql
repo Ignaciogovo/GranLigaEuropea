@@ -431,3 +431,27 @@ VALUES
 INSERT INTO [jugadores] (nombre,id_club,posicion,peso,altura,Nacionalidad,edad,valor)
 VALUES
   ('Rick Munoz','11','Defensa',83,180,'Brasil',24,2473693);
+
+
+
+
+
+--Los ultimos con fecha de nacimiento incluido
+INSERT INTO [jugadores] (nombre,id_club,posicion,peso,altura,nacionalidad,valor,fechaNacimiento)
+VALUES
+  ('Cuauhtémoc Garcia','14','Centrocampista',71,187,'Venezuela',2285055,'1998-10-24'),
+  ('Ian Cunni','14','Centrocampista',80,186,'Portugal',1090051,'1993-11-14'),
+  ('Antonio Valenzuela','14','Centrocampista',81,187,'España',1499455,'1989-11-04'),
+  ('Chigozie Bakare','2','Centrocampista',80,176,'Egipto',8468175,'1999-01-20'),
+  ('Jeffrey Patron','2','Centrocampista',94,185,'Venezuela',2796040,'1995-07-27'),
+  ('Ovie Anjorin','2','Centrocampista',77,177,'Nigeria',6165061,'1997-05-24');
+
+
+INSERT INTO [jugadores] (nombre,id_club,posicion,peso,altura,nacionalidad,valor,fechaNacimiento)
+VALUES
+  ('Suero Nuñez',7,'Defensa',93,191,'España',4187194,'1999-12-03'),
+  ('Herbert Alvarez',7,'Defensa',91,172,'España',5756941,'1998-01-06'),
+  ('Fulgencio Flores',5,'Defensa',86,181,'España',1196793,'1996-02-01'),
+  ('Eliseo Cruz',5,'Defensa',71,193,'España',6746023,'1994-04-04'),
+  ('Valentín Miranda',5,'Defensa',90,171,'España',4098574,'1999-10-04'),
+  ('Vincent Dhiño',7,'Defensa',95,175,'Portugal',7351533,'2000-09-14');
