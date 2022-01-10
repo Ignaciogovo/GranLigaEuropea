@@ -1,4 +1,5 @@
-<?php 
+<?php
+//FUNCIONES PARA SACAR DATOS DE LA BASE.
 function calculovalor($E){
     include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
         $consulta="select (convert(int,ValorTotal)/nJugadores) as valorm from club where id=?";
@@ -32,12 +33,30 @@ function calculoTemporada(){
         }
     return $temporada;
 }
+//FUNCIONES PARA INTROUDCIR DATOS  EN LA BASE A PARTIR DE LO OBTENIDO.
 function creacionTemporada($temporada){
     include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->prepare("INSERT INTO prueba_temporadas(id, Fecha_inicio) VALUES (?, ?);");
     $fecha_inicio = date("Y-m-d H:i:s"); //Formato DATETIME de sql.
     $resultado = $sentencia->execute([$temporada, $fecha_inicio]);
 }
+function elavoracionDatospartido($id_local,$id_visitante,$goles_local,$goles_visitante,$jornada,$aforo){
+    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    $sentencia = $conexion->prepare("INSERT INTO prueba_partidos(id_local,id_visitante,goles_local,goles_visitante,id_arbitro,aforo,jornada,temporada) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
+    $id_arbitro = rand(1,15);
+    $temporada = calculoTemporada();
+    $resultado = $sentencia->execute([$id_local,$id_visitante,$goles_local,$goles_visitante,$id_arbitro,$aforo,$jornada,$temporada]);
+}
+// FUNCIONES PARA EL DESPLAZAMIENTO DE LOS ARRAYS QUE ORGANIZAN LAS JORNADAS.
+function desplazamiento(){ // Desplazamiento de dos arrays. el ultimo valor del primer array pasa a ser ultimo del segundo y el primer valor del segundo array pasa a ser primero del primer array
+    global $array1; 
+    global $array2;
+    $last = array_pop($array1);
+    $first = array_shift($array2);
+        array_unshift($array1, $first);
+        array_push($array2,$last);
+}
+//FUNCIONES PARA LA ELAVORACIÓN DEL PARTIDO
 function partidosinempates($E1,$E2,$jornada){
     $V1=calculovalor($E1);
     $V2=calculovalor($E2);
@@ -258,21 +277,7 @@ function partido($E1,$E2,$jornada){
         echo "se produce un aforo de: $aforo";
     
 }
-function elavoracionDatospartido($id_local,$id_visitante,$goles_local,$goles_visitante,$jornada,$aforo){
-    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
-    $sentencia = $conexion->prepare("INSERT INTO prueba_partidos(id_local,id_visitante,goles_local,goles_visitante,id_arbitro,aforo,jornada,temporada) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
-    $id_arbitro = rand(1,15);
-    $temporada = calculoTemporada();
-    $resultado = $sentencia->execute([$id_local,$id_visitante,$goles_local,$goles_visitante,$id_arbitro,$aforo,$jornada,$temporada]);
-}
-function desplazamiento(){ // Desplazamiento de dos arrays. el ultimo valor del primer array pasa a ser ultimo del segundo y el primer valor del segundo array pasa a ser primero del primer array
-    global $array1; 
-    global $array2;
-    $last = array_pop($array1);
-    $first = array_shift($array2);
-        array_unshift($array1, $first);
-        array_push($array2,$last);
-}
+
 function planificacionjornadasParaliga($jornada,$array1,$array2){
     $tiempo = 1;
     while ($tiempo <$jornada){ //Bucle para escoger la jornada. Cuando la variable $tiempo sea igual a la variable $jornada termina bucle con los equipos.
