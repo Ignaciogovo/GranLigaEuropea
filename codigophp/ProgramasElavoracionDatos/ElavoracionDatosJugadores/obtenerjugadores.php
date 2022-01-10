@@ -57,6 +57,8 @@
        $rojas = rand(0,2);
        $tarjetas = array($amarillas,$rojas);
        return $tarjetas;
+       echo "tarjetas ";
+       print_r($tarjetas);
 
    }
    function asignacionesprobabilidades($array){
@@ -79,7 +81,6 @@
     array_push($array[$i],$proja); //Key que asigna el potenicial de roja.              KEY 9
     array_push($array[$i],$roja);  //key que asigna el número de goles del jugador.     KEY 10
    }
-   $array=asignacionTitular($array);
    return($array);
    } 
    function mejorapotencial($array,$opcion){ // se mejora el número asignado según su valor;
@@ -248,8 +249,13 @@
         $array=ordenarasignacion($array,$potencial);
         }
     }
-
-
+function EjecutarEstadisticas($array,$goles){
+    $array=asignacionesprobabilidades($array);
+    $array=asignacionTitular($array);
+    $array=asignargol($array,$goles);
+    $array=asignarTarjetas($array);
+    return $array;
+}
 
 
 
@@ -259,7 +265,7 @@
 ///Pruebas
    $club = 2;
    $jugadores=obtencionjugadores($club);
-   $jugadores=asignacionesprobabilidades($jugadores);
+   $jugadores=EjecutarEstadisticas($jugadores,4);
    echo "<br>";
    echo "<br>";
    echo "<br>";
@@ -270,7 +276,7 @@
    for ($i=0; $i <count($jugadores); $i++){
     $numero = $jugadores[$i];
     if ($numero[1] == 'Defensa'){
-        echo " id jugador: " . $numero [0] . " Posicion: " . $numero[1] . " valor: " . $numero[2] . " potencial titular: " . $numero[3] . " titular: " . $numero[4];
+        echo " id jugador: " . $numero [0] . " Posicion: " . $numero[1] . " valor: " . $numero[2] . " potencial titular: " . $numero[3] . " titular: " . $numero[4] . " Numero de goles: " . $numero[6] . " potencial amarilla: " . $numero[7] ." tarjetas amarillas: " . $numero[8] . " potencial roja: " . $numero[9] . " tarjetas rojas: " . $numero[10];
         echo "<br>";
     }
    }
@@ -279,7 +285,7 @@
    for ($i=0; $i <count($jugadores); $i++){
     $numero = $jugadores[$i];
     if ($numero[1] == 'Centrocampista'){
-        echo " id jugador: " . $numero [0] . " Posicion: " . $numero[1] . " valor: " . $numero[2] . " potencial titular: " . $numero[3] . " titular: " . $numero[4];;
+        echo " id jugador: " . $numero [0] . " Posicion: " . $numero[1] . " valor: " . $numero[2] . " potencial titular: " . $numero[3] . " titular: " . $numero[4] . " Numero de goles: " . $numero[6] . " tarjetas amarillas: " . $numero[8] . " tarjetas rojas: " . $numero[10];
         echo "<br>";
     }
    }
@@ -288,7 +294,7 @@
    for ($i=0; $i <count($jugadores); $i++){
     $numero = $jugadores[$i];
     if ($numero[1] == 'Delantero'){
-        echo " id jugador: " . $numero [0] . " Posicion: " . $numero[1] . " valor: " . $numero[2] . " potencial titular: " . $numero[3] . " titular: " . $numero[4];;
+        echo " id jugador: " . $numero [0] . " Posicion: " . $numero[1] . " valor: " . $numero[2] . " potencial titular: " . $numero[3] . " titular: " . $numero[4] . " Numero de goles: " . $numero[6] . " tarjetas amarillas: " . $numero[8] . " tarjetas rojas: " . $numero[10];
         echo "<br>";
     }
    }
