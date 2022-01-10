@@ -66,56 +66,65 @@ function partidosinempates($E1,$E2,$jornada){
     while($final < 1){
         //Elavoración del número aleatorio, tendrán ventaja si el valor es mayor.
         if ( $V1 < $V2 ){  
-            if($diferencia < 100000){
-                $potencial2= 1.15*rand(0,8);
+            if($diferencia < 150000){
+                $potencial2= rand(0,8);
                 $potencial1= rand(0,8);
-                //echo " Se produce la diferencia x1.15 ";
-            }elseif ($diferencia >= 100000 AND $diferencia < 500000) {
+                $aforo= rand(70,100);
+            }elseif ($diferencia >= 150000 AND $diferencia < 500000) {
                 $potencial2= 1.25* rand(0,8);
                 $potencial1= rand(0,8);
+                $aforo = rand(60,95);
                 //echo " Se produce la diferencia x1.25 ";
             }elseif ($diferencia >= 500000 AND $diferencia <=1000000) {
                 $potencial2= 1.5*rand(0,8);
                 $potencial1= rand(0,8);
+                $aforo = rand(60,90);
                 //echo " Se produce la diferencia x1.5 ";
             }elseif ($diferencia >=1000000){
-                $potencial2= 1.8* rand(0,8);
+                $potencial2= 1.75* rand(0,8);
                 $potencial1= rand(0,8);
-                //echo " Se produce la diferencia x1.8 limitado";
+                $aforo = rand(65,100);
+                //echo " Se produce la diferencia x1.75";
             }               
         }elseif( $V1 > $V2){
-            if($diferencia < 100000){
+            if($diferencia < 150000){
+                $potencial1= rand(0,8);
+                $potencial2= rand(0,8);
+                $aforo= rand(70,100);                
+            }elseif ($diferencia >= 150000 AND $diferencia <500000) {
                 $potencial1= 1.25* rand(0,8);
                 $potencial2= rand(0,8);
-                //echo " Se produce la diferencia x1.15 ";
-            }elseif ($diferencia >= 100000 AND $diferencia <500000) {
-                $potencial1= 1.25* rand(0,8);
-                $potencial2= rand(0,8);
+                $aforo = rand(60,95);
                 //echo " Se produce la diferencia x1.25 ";
             }
             elseif ($diferencia >= 500000 AND $diferencia <=1000000) {
                 $potencial1= 1.5* rand(0,8);
                 $potencial2= rand(0,8);
+                $aforo = rand(60,90);
                 //echo " Se produce la diferencia x1.5 ";
             }elseif ($diferencia >=1000000){
-                $potencial1= 1.8* rand(0,8);
+                $potencial1= 1.75* rand(0,8);
                 $potencial2= rand(0,8);
-                //echo " Se produce la diferencia x1.8";
+                $aforo = rand(65,100);
+                //echo " Se produce la diferencia x1.75";
             }           
         }elseif($V1 == $V2){
             $potencial2= rand(0,8);
             $potencial1= rand(0,8);
+            $aforo = rand(70,100);
         };
         //Ventaja Local
-        if($jornada%2==0){
-            $potencial2=$potencial2*1.15;
-            //echo " local el de la derecha";
-        }else{
-            $potencial1=$potencial1*1.15;
-            //echo " local el de la izquierda";
-
-
+        if ($aforo > 80){
+            if($jornada%2==0){
+                $potencial2=$potencial2*1.15;
+                //echo " local el de la derecha";
+            }else{
+                $potencial1=$potencial1*1.15;
+                //echo " local el de la izquierda";
+            }
         }
+        //convirtiendo la variable aforo en varchar
+        $aforo = "$aforo%";
         //Asignación del equipo ganador
         if ($potencial1 < $potencial2){
             $gol1=($potencial1/2.5);
@@ -126,11 +135,11 @@ function partidosinempates($E1,$E2,$jornada){
                 $gol2++;
             }
             if($jornada%2==0){
-                elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada);
+                elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
             
                 //echo " local el de la derecha";
             }else{
-                elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada);
+                elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
                 //echo " local el de la izquierda";
             }
             echo " Gana Equipo $E2 con un $potencial2  con goles: $gol2<br>";
@@ -145,11 +154,11 @@ function partidosinempates($E1,$E2,$jornada){
                 $gol1++;
             }
             if($jornada%2==0){
-                elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada);
+                elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
             
                 //echo " local el de la derecha";
             }else{
-                elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada);
+                elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
                 //echo " local el de la izquierda";
             }
             echo " Gana Equipo $E1 con un $potencial1 con goles: $gol1<br>";

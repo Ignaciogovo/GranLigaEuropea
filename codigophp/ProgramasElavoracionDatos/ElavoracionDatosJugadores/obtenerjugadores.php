@@ -26,7 +26,7 @@
     }
     return($array);
    }
-   function asignacionSistema(){
+   function Sistemasequipo(){
        $sistema = rand (0,3);
            switch ($sistema){
                case 0:
@@ -52,7 +52,7 @@
            }
            return $sistema;
    }
-   function asignacionTarjetas(){
+   function tarjetas(){
        $amarillas = rand(0,4);
        $rojas = rand(0,2);
        $tarjetas = array($amarillas,$rojas);
@@ -91,10 +91,10 @@
         case 5:
             $multiplicador= array(1,30,35,45);
         break;
-        case 3:
+        case 7:
             $multiplicador= array(0.1,0.4,0.3,0.3);
         break;
-        case 3:
+        case 9:
             $multiplicador= array(0.1,0.2,0.1,0.1);
         break;
     }
@@ -145,9 +145,17 @@
         $array=ordenarasignacion($array,$opcion);
         return($array);
     }
+
+
+    //Asignación de estadisticas
+
+
+
+
+    //Asignación de titulares.
     function asignacionTitular($array){
         $array=mejorapotencial($array,3);
-        $sistema=asignacionSistema();
+        $sistema=Sistemasequipo();
         for ($i=0; $i <count($array); $i++){
             $numero = $array[$i];
             //Portero
@@ -188,19 +196,60 @@
     }
    // Asignación de goles 
    function asignargol($array,$goles){
-    $gol=1;
-    for ($i=0; $i <$goles; $i++)
-    {
-     $numero = $array[0];
-     $numero[3]=$numero[3]+1;  //El valor del key 3(Numero de goles) aumenta segun el valor del potencial del key 2
-     echo "<br>";
-     echo $numero[2];
-     $numero[2]=$numero[2]-3;    //Cada vez que se le asigna un gol, el valor del potencial del key 2 disminuye (-3).
-     $array[0]= array_replace($array[0],$numero);
-     $array=ordenarasignacion($array,2);
+        $array=mejorapotencial($array,5);
+        for ($i=0; $i <$goles; $i++)
+        {
+        $numero = $array[0];
+        $numero[6]=$numero[6]+1;  //El valor del key 6(Numero de goles) aumenta segun el valor del potencial del key 5
+        echo "<br>";
+        echo $numero[5];
+        $numero[5]=$numero[5]-3;    //Cada vez que se le asigna un gol, el valor del potencial del key 5 disminuye (-3).
+        $array[0]= array_replace($array[0],$numero);
+        $array=ordenarasignacion($array,5);
+        }
+        return $array;
     }
-    return $array;
-}
+    //Asignación de tarjetas.
+    function asignarTarjetas($array){
+        $tarjetas = tarjetas();
+        $array = mejorapotencial($array,7);
+        for ($i=0; $i <$tarjetas[0]; $i++)
+        {
+        $numero = $array[0];
+        $numero[8]=$numero[8]+1;  //El valor del key 8(tarjetas amarilla) aumenta segun el valor del potencial del key 7
+        echo "<br>";
+        echo $numero[7];
+        $numero[7]=$numero[7]-3;    //Cada vez que se le asigna una tarjeta, el valor del potencial del key 7 disminuye (-3).
+        $array[0]= array_replace($array[0],$numero);
+        $array=ordenarasignacion($array,7);
+        }
+        for ($i=0; $i <$tarjetas[1]; $i++)
+        {
+        $numero = $array[0];
+        $numero[10]=$numero[10]+1;  //El valor del key 10(tarjetas roja) aumenta segun el valor del potencial del key 9
+        echo "<br>";
+        echo $numero[9];
+        $numero[9]=$numero[9]-3;    //Cada vez que se le asigna una tarjeta, el valor del potencial del key 9 disminuye (-3).
+        $array[0]= array_replace($array[0],$numero);
+        $array=ordenarasignacion($array,9);
+        }
+        return($array);
+    }
+    //Funcion de prueba para centralizar la asingacion de estadisticas.
+    function asignacionestadisticas($array,$limite,$potencial,$valor){
+        for ($i=0; $i <$limite; $i++)
+        {
+        $numero = $array[0];
+        $numero[$valor]=$numero[$valor]+1;  //El valor del key 10(tarjetas roja) aumenta segun el valor del potencial del key 9
+        echo "<br>";
+        echo $numero[$potencial];
+        $numero[$potencial]=$numero[$potencial]-3;    //Cada vez que se le asigna una tarjeta, el valor del potencial del key 9 disminuye (-3).
+        $array[0]= array_replace($array[0],$numero);
+        $array=ordenarasignacion($array,$potencial);
+        }
+    }
+
+
 
 
 
@@ -243,5 +292,5 @@
         echo "<br>";
     }
    }
-   $sistema = asignacionSistema();
+   $sistema = Sistemasequipo();
 ?>
