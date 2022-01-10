@@ -52,6 +52,13 @@
            }
            return $sistema;
    }
+   function asignacionTarjetas(){
+       $amarillas = rand(0,4);
+       $rojas = rand(0,2);
+       $tarjetas = array($amarillas,$rojas);
+       return $tarjetas;
+
+   }
    function asignacionesprobabilidades($array){
    for ($i=0; $i <count($array); $i++)
    {
@@ -67,9 +74,9 @@
     array_push($array[$i],$titular); //Key que asigna el la titularidad.                KEY 4
     array_push($array[$i],$pgol); //Key que asigna el potenicial de gol.                KEY 5
     array_push($array[$i],$gol); //Key que asigna el numero de goles (Por ahora 0)      KEY 6
-    array_push($array[$i],$pamarilla); //Key que asigna el potenicial de titularidad.   KEY 7
-    array_push($array[$i],$amarilla);  //key que asigna el número de goles del jugador. KEY 8
-    array_push($array[$i],$proja); //Key que asigna el potenicial de titularidad.       KEY 9
+    array_push($array[$i],$pamarilla); //Key que asigna el potenicial de amarillas.     KEY 7
+    array_push($array[$i],$amarilla);  //key que asigna el número de amarillas.         KEY 8
+    array_push($array[$i],$proja); //Key que asigna el potenicial de roja.              KEY 9
     array_push($array[$i],$roja);  //key que asigna el número de goles del jugador.     KEY 10
    }
    $array=asignacionTitular($array);
@@ -77,7 +84,20 @@
    } 
    function mejorapotencial($array,$opcion){ // se mejora el número asignado según su valor;
     //multiplicadores
-    $multiplicador= array(20,30,30,30);
+    switch ($opcion){
+        case 3:
+            $multiplicador= array(20,30,30,30);
+        break;
+        case 5:
+            $multiplicador= array(1,30,35,45);
+        break;
+        case 3:
+            $multiplicador= array(0.1,0.4,0.3,0.3);
+        break;
+        case 3:
+            $multiplicador= array(0.1,0.2,0.1,0.1);
+        break;
+    }
     for ($i=0; $i <count($array); $i++){
         $numero = $array[$i];
         //Portero
@@ -177,7 +197,7 @@
      echo $numero[2];
      $numero[2]=$numero[2]-3;    //Cada vez que se le asigna un gol, el valor del potencial del key 2 disminuye (-3).
      $array[0]= array_replace($array[0],$numero);
-     $array=ordenarasignacion($array);
+     $array=ordenarasignacion($array,2);
     }
     return $array;
 }
