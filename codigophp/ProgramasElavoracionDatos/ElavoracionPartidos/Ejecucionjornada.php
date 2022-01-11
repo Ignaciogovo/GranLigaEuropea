@@ -1,6 +1,6 @@
 <?php
     echo "Inicio Jornada";
-    include('function.php');
+    include('functionClub.php');
     $array1= array(2);
     $v1=3;
     while ($v1<9){

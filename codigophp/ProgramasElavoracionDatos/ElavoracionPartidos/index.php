@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-        include('function.php');
+        include('functionClub.php');
        $n_jornada2=calculoJornada();
         $n_temporada2=calculoTemporada();
         echo "<h1>Inicio de la jornada $n_jornada2 de la temporada $n_temporada2</h1>";

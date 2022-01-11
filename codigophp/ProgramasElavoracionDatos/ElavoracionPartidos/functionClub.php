@@ -33,6 +33,13 @@ function calculoTemporada(){
         }
     return $temporada;
 }
+function calculoPartido(){
+    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    $sentencia = $conexion->query("select id from prueba_partidos order by id desc");
+    $datos = $sentencia->fetchAll(PDO::FETCH_OBJ);
+    $id_partido = $datos[0]->id;   //Obtencion del id a partir de un array de objetos¿?
+    return $id_partido;
+}
 //FUNCIONES PARA INTROUDCIR DATOS  EN LA BASE A PARTIR DE LO OBTENIDO.
 function creacionTemporada($temporada){
     include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
@@ -55,6 +62,12 @@ function desplazamiento(){ // Desplazamiento de dos arrays. el ultimo valor del 
     $first = array_shift($array2);
         array_unshift($array1, $first);
         array_push($array2,$last);
+}
+//Conexión con funciones de jugadores
+function jugadores($club,$goles){
+    include('functionJugadores.php');
+    $id_partido = calculoPartido();
+    EjecutarEstadisticas($club,$goles,$id_partido);
 }
 //FUNCIONES PARA LA ELAVORACIÓN DEL PARTIDO
 function partidosinempates($E1,$E2,$jornada){
@@ -244,9 +257,13 @@ function partido($E1,$E2,$jornada){
             }
             if($jornada%2==0){
                 elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
+                // jugadores($E1,$gol1);
+                // jugadores($E2,$gol2);
             
             }else{
                 elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
+                // jugadores($E1,$gol1);
+                // jugadores($E2,$gol2);
             }
             echo " Gana Equipo $E2 con un $potencial2  con goles: $gol2<br>";
             echo " Pierde Equipo $E1 con un $potencial1 con goles: $gol1<br>";
@@ -260,11 +277,12 @@ function partido($E1,$E2,$jornada){
             }
             if($jornada%2==0){
                 elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
-            
-                //echo " local el de la derecha";
+                // jugadores($E1,$gol1);
+                // jugadores($E2,$gol2);
             }else{
                 elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
-                //echo " local el de la izquierda";
+                // jugadores($E1,$gol1);
+                // jugadores($E2,$gol2);
             }
             echo " Gana Equipo $E1 con un $potencial1 con goles: $gol1<br>";
             echo " Pierde Equipo $E2 con un $potencial2 con goles: $gol2<br>";
@@ -275,11 +293,12 @@ function partido($E1,$E2,$jornada){
             $gol2=round($gol2,0);
             if($jornada%2==0){
                 elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
-            
-                //echo " local el de la derecha";
+                // jugadores($E1,$gol1);
+                // jugadores($E2,$gol2);
             }else{
                 elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
-                //echo " local el de la izquierda";
+                // jugadores($E1,$gol1);
+                // jugadores($E2,$gol2);
             }
             echo "Se produce un empate";
         }

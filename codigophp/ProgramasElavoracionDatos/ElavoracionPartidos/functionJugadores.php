@@ -10,6 +10,9 @@
     $v =$jugadores->fetchAll();;
     return $v;
    }
+   //Funciones necesarias para el partido
+
+   //Ordena el array a partir de los valores dados.
    function ordenarasignacion($array,$key){   //Ordena De mayor a menor el valor de la key que se pida.
     for ($i=0; $i <count($array); $i++)
     {
@@ -26,35 +29,36 @@
     }
     return($array);
    }
+   //Indica el sistema de juego
    function Sistemasequipo(){
        $sistema = rand (0,3);
            switch ($sistema){
                case 0:
                     //sistema 4-4-2
-                    echo "4-4-2";
                     $sistema = array(1,4,4,2);
                 break;
                 case 1:
                   //sistema 4-4-2   //se repite de nuevo el sistema 4-4-2 para darle mayor probabilidad al 4-4-2 ya que es el sistema más usado en el futbol.
-                  echo "4-4-2";
                   $sistema = array(1,4,4,2);
                 break;
                 case 2:
                     //sistema 5-3-2
-                    echo "5-3-2";
                     $sistema = array(1,5,3,2);
                 break;
                 case 3:
                     //sistema 4-3-3
-                    echo "4-3-3";
                     $sistema = array(1,4,3,3);
                 break;
            }
            return $sistema;
    }
+   //Número de tarjetas que se jugara en el partido
    function tarjetas(){
        $amarillas = rand(0,4);
-       $rojas = rand(0,2);
+       $rojas = (rand(0,2)*rand(0,3))/2;
+       if ($rojas < 1){
+           $rojas = 0;
+       }
        $tarjetas = array($amarillas,$rojas);
        return $tarjetas;
        echo "tarjetas ";
@@ -93,10 +97,10 @@
             $multiplicador= array(1,30,35,45);
         break;
         case 7:
-            $multiplicador= array(0.1,0.4,0.3,0.3);
+            $multiplicador= array(1,10,5,5);
         break;
         case 9:
-            $multiplicador= array(0.1,0.2,0.1,0.1);
+            $multiplicador= array(1,10,5,5);
         break;
     }
     for ($i=0; $i <count($array); $i++){
@@ -148,7 +152,7 @@
     }
 
 
-    //Asignación de estadisticas
+//Asignación de estadisticas
 
 
 
@@ -202,8 +206,6 @@
         {
         $numero = $array[0];
         $numero[6]=$numero[6]+1;  //El valor del key 6(Numero de goles) aumenta segun el valor del potencial del key 5
-        echo "<br>";
-        echo $numero[5];
         $numero[5]=$numero[5]-3;    //Cada vez que se le asigna un gol, el valor del potencial del key 5 disminuye (-3).
         $array[0]= array_replace($array[0],$numero);
         $array=ordenarasignacion($array,5);
@@ -213,28 +215,39 @@
     //Asignación de tarjetas.
     function asignarTarjetas($array){
         $tarjetas = tarjetas();
+        echo "Tarjetas son: <br>";
+        print_r($tarjetas);
         $array = mejorapotencial($array,7);
         for ($i=0; $i <$tarjetas[0]; $i++)
         {
         $numero = $array[0];
         $numero[8]=$numero[8]+1;  //El valor del key 8(tarjetas amarilla) aumenta segun el valor del potencial del key 7
-        echo "<br>";
-        echo $numero[7];
-        $numero[7]=$numero[7]-3;    //Cada vez que se le asigna una tarjeta, el valor del potencial del key 7 disminuye (-3).
+        $numero[7]=$numero[7]-5;    //Cada vez que se le asigna una tarjeta, el valor del potencial del key 7 disminuye (-3).
         $array[0]= array_replace($array[0],$numero);
         $array=ordenarasignacion($array,7);
-        }
+        } 
+        $array = mejorapotencial($array,9);
         for ($i=0; $i <$tarjetas[1]; $i++)
         {
         $numero = $array[0];
-        $numero[10]=$numero[10]+1;  //El valor del key 10(tarjetas roja) aumenta segun el valor del potencial del key 9
-        echo "<br>";
-        echo $numero[9];
-        $numero[9]=$numero[9]-3;    //Cada vez que se le asigna una tarjeta, el valor del potencial del key 9 disminuye (-3).
-        $array[0]= array_replace($array[0],$numero);
-        $array=ordenarasignacion($array,9);
+        if ($numero[8]<2 and $numero[10]<1){
+            $numero[10]=$numero[10]+1;  //El valor del key 10(tarjetas roja) aumenta segun el valor del potencial del key 9
+            $numero[9]=$numero[9]-5;    //Cada vez que se le asigna una tarjeta, el valor del potencial del key 9 disminuye (-3).
+            $array[0]= array_replace($array[0],$numero);
+            $array=ordenarasignacion($array,9);
+        }else{
+            $numero = $array[1];
+            if ($numero[8]<2 and $numero[10]<2){
+                $numero[10]=$numero[10]+1;  //El valor del key 10(tarjetas roja) aumenta segun el valor del potencial del key 9
+                $numero[9]=$numero[9]-5;    //Cada vez que se le asigna una tarjeta, el valor del potencial del key 9 disminuye (-3).
+                $array[1]= array_replace($array[1],$numero);
+                $array=ordenarasignacion($array,9);
+            }
+        }
+        
         }
         return($array);
+        
     }
     //Funcion de prueba para centralizar la asingacion de estadisticas.
     function asignacionestadisticas($array,$limite,$potencial,$valor){
@@ -249,11 +262,30 @@
         $array=ordenarasignacion($array,$potencial);
         }
     }
-function EjecutarEstadisticas($array,$goles){
+
+//Funcion para la elavoración de datos
+    function elavoracionDatosjugadores($id,$id_partido,$goles,$amarillas,$roja,$titular){
+        include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+        $sentencia = $conexion->prepare("INSERT INTO prueba_Estadisticas_partido(id_jugador,id_partido,goles,amarillas,roja,titularidad) VALUES (?, ?, ?, ?, ?, ?);");
+        $resultado = $sentencia->execute([$id,$id_partido,$goles,$amarillas,$roja,$titular]);
+    }
+
+// Ejecuta todas las funciones para asignacion de datos a los jugadores.
+function EjecutarEstadisticas($club,$goles,$id_partido){
+    $array=obtencionjugadores($club);
     $array=asignacionesprobabilidades($array);
     $array=asignacionTitular($array);
     $array=asignargol($array,$goles);
     $array=asignarTarjetas($array);
+    for ($i=0; $i <count($array); $i++){
+        $numero = $array[$i];
+        $id_jugador = $numero[0];
+        $titular = $numero[4];
+        $gol = $numero[6];
+        $amarillas = $numero[8];
+        $roja = $numero[10];
+        elavoracionDatosjugadores($id_jugador,$id_partido,$gol,$amarillas,$roja,$titular);
+        }
     return $array;
 }
 
@@ -264,13 +296,12 @@ function EjecutarEstadisticas($array,$goles){
 
 ///Pruebas
    $club = 2;
-   $jugadores=obtencionjugadores($club);
-   $jugadores=EjecutarEstadisticas($jugadores,4);
+   $jugadores=EjecutarEstadisticas($club,4,1020);
    echo "<br>";
    echo "<br>";
    echo "<br>";
    echo "<br>";
-   print_r($jugadores);
+   //print_r($jugadores);
    echo "<br>";
    echo "<br>";
    for ($i=0; $i <count($jugadores); $i++){
@@ -298,5 +329,4 @@ function EjecutarEstadisticas($array,$goles){
         echo "<br>";
     }
    }
-   $sistema = Sistemasequipo();
 ?>
