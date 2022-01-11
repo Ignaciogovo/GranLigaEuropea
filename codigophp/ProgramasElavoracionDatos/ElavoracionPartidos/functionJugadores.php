@@ -7,7 +7,7 @@
     ]);
     $jugadores->execute([$club]);
     //$delanteros->execute([$club,$posicion]);
-    $v =$jugadores->fetchAll();;
+    $v =$jugadores->fetchAll();
     return $v;
    }
    //Funciones necesarias para el partido
@@ -61,8 +61,6 @@
        }
        $tarjetas = array($amarillas,$rojas);
        return $tarjetas;
-       echo "tarjetas ";
-       print_r($tarjetas);
 
    }
    function asignacionesprobabilidades($array){
@@ -215,8 +213,6 @@
     //Asignación de tarjetas.
     function asignarTarjetas($array){
         $tarjetas = tarjetas();
-        echo "Tarjetas son: <br>";
-        print_r($tarjetas);
         $array = mejorapotencial($array,7);
         for ($i=0; $i <$tarjetas[0]; $i++)
         {
@@ -286,7 +282,6 @@ function EjecutarEstadisticas($club,$goles,$id_partido){
         $roja = $numero[10];
         elavoracionDatosjugadores($id_jugador,$id_partido,$gol,$amarillas,$roja,$titular);
         }
-    return $array;
 }
 
 
@@ -295,38 +290,38 @@ function EjecutarEstadisticas($club,$goles,$id_partido){
 
 
 ///Pruebas
-   $club = 2;
-   $jugadores=EjecutarEstadisticas($club,4,1020);
-   echo "<br>";
-   echo "<br>";
-   echo "<br>";
-   echo "<br>";
-   //print_r($jugadores);
-   echo "<br>";
-   echo "<br>";
-   for ($i=0; $i <count($jugadores); $i++){
-    $numero = $jugadores[$i];
-    if ($numero[1] == 'Defensa'){
-        echo " id jugador: " . $numero [0] . " Posicion: " . $numero[1] . " valor: " . $numero[2] . " potencial titular: " . $numero[3] . " titular: " . $numero[4] . " Numero de goles: " . $numero[6] . " potencial amarilla: " . $numero[7] ." tarjetas amarillas: " . $numero[8] . " potencial roja: " . $numero[9] . " tarjetas rojas: " . $numero[10];
-        echo "<br>";
-    }
-   }
-   echo "<br>";
-   echo "<br>";
-   for ($i=0; $i <count($jugadores); $i++){
-    $numero = $jugadores[$i];
-    if ($numero[1] == 'Centrocampista'){
-        echo " id jugador: " . $numero [0] . " Posicion: " . $numero[1] . " valor: " . $numero[2] . " potencial titular: " . $numero[3] . " titular: " . $numero[4] . " Numero de goles: " . $numero[6] . " tarjetas amarillas: " . $numero[8] . " tarjetas rojas: " . $numero[10];
-        echo "<br>";
-    }
-   }
-   echo "<br>";
-   echo "<br>";
-   for ($i=0; $i <count($jugadores); $i++){
-    $numero = $jugadores[$i];
-    if ($numero[1] == 'Delantero'){
-        echo " id jugador: " . $numero [0] . " Posicion: " . $numero[1] . " valor: " . $numero[2] . " potencial titular: " . $numero[3] . " titular: " . $numero[4] . " Numero de goles: " . $numero[6] . " tarjetas amarillas: " . $numero[8] . " tarjetas rojas: " . $numero[10];
-        echo "<br>";
-    }
-   }
+// //    $club = 2;
+// //    $jugadores=EjecutarEstadisticas($club,4,1020);
+//    echo "<br>";
+//    echo "<br>";
+//    echo "<br>";
+//    echo "<br>";
+//    //print_r($jugadores);
+//    echo "<br>";
+//    echo "<br>";
+//    for ($i=0; $i <count($jugadores); $i++){
+//     $numero = $jugadores[$i];
+//     if ($numero[1] == 'Defensa'){
+//         echo " id jugador: " . $numero [0] . " Posicion: " . $numero[1] . " valor: " . $numero[2] . " potencial titular: " . $numero[3] . " titular: " . $numero[4] . " Numero de goles: " . $numero[6] . " potencial amarilla: " . $numero[7] ." tarjetas amarillas: " . $numero[8] . " potencial roja: " . $numero[9] . " tarjetas rojas: " . $numero[10];
+//         echo "<br>";
+//     }
+//    }
+//    echo "<br>";
+//    echo "<br>";
+//    for ($i=0; $i <count($jugadores); $i++){
+//     $numero = $jugadores[$i];
+//     if ($numero[1] == 'Centrocampista'){
+//         echo " id jugador: " . $numero [0] . " Posicion: " . $numero[1] . " valor: " . $numero[2] . " potencial titular: " . $numero[3] . " titular: " . $numero[4] . " Numero de goles: " . $numero[6] . " tarjetas amarillas: " . $numero[8] . " tarjetas rojas: " . $numero[10];
+//         echo "<br>";
+//     }
+//    }
+//    echo "<br>";
+//    echo "<br>";
+//    for ($i=0; $i <count($jugadores); $i++){
+//     $numero = $jugadores[$i];
+//     if ($numero[1] == 'Delantero'){
+//         echo " id jugador: " . $numero [0] . " Posicion: " . $numero[1] . " valor: " . $numero[2] . " potencial titular: " . $numero[3] . " titular: " . $numero[4] . " Numero de goles: " . $numero[6] . " tarjetas amarillas: " . $numero[8] . " tarjetas rojas: " . $numero[10];
+//         echo "<br>";
+//     }
+//    }
 ?>

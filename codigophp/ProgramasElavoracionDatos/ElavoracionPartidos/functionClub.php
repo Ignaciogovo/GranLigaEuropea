@@ -65,7 +65,7 @@ function desplazamiento(){ // Desplazamiento de dos arrays. el ultimo valor del 
 }
 //Conexión con funciones de jugadores
 function jugadores($club,$goles){
-    include('functionJugadores.php');
+    include_once('functionJugadores.php');
     $id_partido = calculoPartido();
     EjecutarEstadisticas($club,$goles,$id_partido);
 }
@@ -257,13 +257,13 @@ function partido($E1,$E2,$jornada){
             }
             if($jornada%2==0){
                 elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
-                // jugadores($E1,$gol1);
-                // jugadores($E2,$gol2);
+                jugadores($E1,$gol1);
+                jugadores($E2,$gol2);
             
             }else{
                 elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
-                // jugadores($E1,$gol1);
-                // jugadores($E2,$gol2);
+                jugadores($E1,$gol1);
+                jugadores($E2,$gol2);
             }
             echo " Gana Equipo $E2 con un $potencial2  con goles: $gol2<br>";
             echo " Pierde Equipo $E1 con un $potencial1 con goles: $gol1<br>";
@@ -277,12 +277,12 @@ function partido($E1,$E2,$jornada){
             }
             if($jornada%2==0){
                 elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
-                // jugadores($E1,$gol1);
-                // jugadores($E2,$gol2);
+                jugadores($E1,$gol1);
+                jugadores($E2,$gol2);
             }else{
                 elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
-                // jugadores($E1,$gol1);
-                // jugadores($E2,$gol2);
+                jugadores($E1,$gol1);
+                jugadores($E2,$gol2);
             }
             echo " Gana Equipo $E1 con un $potencial1 con goles: $gol1<br>";
             echo " Pierde Equipo $E2 con un $potencial2 con goles: $gol2<br>";
@@ -293,12 +293,12 @@ function partido($E1,$E2,$jornada){
             $gol2=round($gol2,0);
             if($jornada%2==0){
                 elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
-                // jugadores($E1,$gol1);
-                // jugadores($E2,$gol2);
+                jugadores($E1,$gol1);
+                jugadores($E2,$gol2);
             }else{
                 elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
-                // jugadores($E1,$gol1);
-                // jugadores($E2,$gol2);
+                jugadores($E1,$gol1);
+                jugadores($E2,$gol2);
             }
             echo "Se produce un empate";
         }
