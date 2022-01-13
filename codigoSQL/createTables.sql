@@ -3,6 +3,7 @@
 --partidos(id PK, id_local FK, id_visitante FK,gol_local,gol_visitante,id_arbitro FK,aforo, jornada, temporada FK)
 --temporadas(id PK,fecha_inicio,fecha_final)
 --Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles, amarillas, roja, titularidad)
+--EstadisticasTotales(id_jugador PK FK, goles, amarillas, rojas, partidos_titular)
 --arbitros(id PK, nombre, nacionalidad, edad)
 --clasificacion (id_equipo PK FK, puntos, goles)
 --estadios(nombre, id_equipo PK FK,capacidad)
@@ -14,7 +15,7 @@
 
 --Para servidor SQL
 
- INTEGER NOT NULL IDENTITY(1, 1) PRIMARY KEY
+ --INTEGER NOT NULL IDENTITY(1, 1) PRIMARY KEY
 
 
 CREATE TABLE [club] (
@@ -103,6 +104,17 @@ CREATE TABLE [estadisticasPartido] (
   CONSTRAINT [FK_estadisticasPartido.id_partido]
     FOREIGN KEY ([id_partido])
       REFERENCES [partidos]([id])
+);
+
+CREATE TABLE [estadisticasTotales] (
+  [id_jugador] int NOT NULL PRIMARY KEY,
+  [goles] int,
+  [amarillas] int,
+  [rojas] int,
+  [Partidos_titular] int,
+  CONSTRAINT [FK_estadisticasTotales.id_jugador]
+    FOREIGN KEY ([id_jugador])
+      REFERENCES [jugadores]([id])
 );
 
 CREATE TABLE [clasificacion] (
