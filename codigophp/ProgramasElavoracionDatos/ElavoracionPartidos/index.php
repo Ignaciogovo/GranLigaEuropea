@@ -9,12 +9,22 @@
 <body>
     <?php
         include('functionClub.php');
-       $n_jornada2=calculoJornada();
-        $n_temporada2=calculoTemporada();
-        echo "<h1>Inicio de la jornada $n_jornada2 de la temporada $n_temporada2</h1>";
+       $n_jornada=calculoJornada();
+        $n_temporada=calculoTemporada();
+        if($n_jornada > 30){
+            echo "<h1>Final de la temporada $n_temporada</h1>";
+        }elseif ($n_jornada = 30) {
+            echo "<h1>Jornada 30, la ultima jornada de la temporada $n_temporada</h1>";
+        }else {
+            echo "<h1>Inicio de la jornada $n_jornada de la temporada $n_temporada</h1>";
+        }
     ?>
 <form action="Ejecucionjornada.php" method="post">
         <input type="submit" value="inicio Jornada">
+</form>
+<br>
+<form action="CreacionTemporada.php" method="post">
+        <input type="submit" value="Iniciar Nueva temporada">
 </form>
 
 </body>
