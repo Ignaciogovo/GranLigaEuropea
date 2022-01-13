@@ -49,6 +49,16 @@ CREATE TABLE [prueba_Estadisticas_partido] (
     FOREIGN KEY ([id_partido])
       REFERENCES [prueba_partidos]([id])
 );
+CREATE TABLE [prueba_estadisticasTotales] (
+  [id_jugador] int NOT NULL PRIMARY KEY,
+  [goles] int,
+  [amarillas] int,
+  [rojas] int,
+  [Partidos_titular] int,
+  CONSTRAINT [FK_prueba_estadisticasTotales.id_jugador]
+    FOREIGN KEY ([id_jugador])
+      REFERENCES [jugadores]([id])
+);
 CREATE TABLE [prueba_clasificacion] (
   [id_club] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
   [puntos] int,
@@ -78,3 +88,17 @@ VALUES
   (14,0,0,0),
   (15,0,0,0),
   (16,0,0,0);
+
+
+
+  --prueba_estadisticasTotales
+ set @i = 1;
+  declare @jugador as int;
+  while  @i<= @a
+  begin
+  select @jugador = id from jugadores where id = @i;
+  INSERT INTO [prueba_estadisticasTotales] (id_jugador,goles,amarillas,rojas,Partidos_titular)
+  VALUES
+  (@jugador,0,0,0,0);
+  set @i= @i +1;
+  end

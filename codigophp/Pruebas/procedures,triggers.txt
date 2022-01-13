@@ -1,3 +1,11 @@
+--CLASIFICACION
+
+
+
+
+
+
+
 CREATE OR ALTER PROCEDURE actualizarprueba_clasificacion @id_ganador int, @id_perdedor int, @golesganador int, @golesperdedor int
 as
 update prueba_clasificacion set puntos=puntos+3, golesAfavor=golesAfavor+@golesganador, golesEncontra=golesEncontra+@golesperdedor where id_club=@id_ganador;
@@ -104,5 +112,45 @@ where id_club=@id_local;
 update prueba_clasificacion 
 set puntos=puntos+1,golesAfavor=golesAfavor+@golvisitante, golesEncontra=golesEncontra+@golocal
 where id_club=@id_visitante;
+end
+go
+
+
+
+
+
+
+
+
+--prueba_estadisticasTotales
+
+
+
+CREATE OR ALTER PROCEDURE actualizarprueba_Estadisticas @id_jugador int, @goles int, @amarillas int, @rojas int, @Partidos_titular int
+as
+begin
+update prueba_estadisticasTotales 
+set goles=goles+@goles, amarillas=amarillas+@amarillas, rojas=rojas+@rojas, Partidos_titular=Partidos_titular+@Partidos_titular
+where id_jugador=@id_jugador;
+end
+go
+
+CREATE OR ALTER TRIGGER triggeractualizacion_Estadisticas
+ON prueba_Estadisticas_partido
+for insert
+as
+begin
+--declaracion variables
+declare @jugador as int;
+declare @goles as int;
+declare @amarillas as int;
+declare @rojas as int;
+declare @titular as int;
+select @jugador = id_jugador from inserted;
+select @goles = goles from inserted;
+select @amarillas = amarillas from inserted;
+select @rojas = roja from inserted;
+select @titular = titularidad from inserted;
+exec actualizarprueba_Estadisticas @jugador,@goles,@amarillas,@rojas,@titular;
 end
 go

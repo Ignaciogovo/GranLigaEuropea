@@ -10,6 +10,7 @@ begin
 delete from prueba_Estadisticas_partido where id_partido = @t;
 set @t = @t+1;
 end
+go
 --Datos partido
 declare @i as int;
 set @i = 1;
@@ -21,6 +22,20 @@ delete from prueba_clasificacion where id_club = @i;
 delete from prueba_partidos where jornada = @i;
 set @i = @i+1;
 end
+go
+--Datos estadisticas_locales
+ declare @a as int;
+  select @a = max(id) from jugadores;
+  declare @i as int;
+  set @i = 1;
+  declare @jugador as int;
+  while  @i<= @a
+  begin
+  select @jugador = id from jugadores where id = @i;
+  delete from prueba_estadisticasTotales where id_jugador = @jugador;
+  set @i= @i +1;
+  end
+
 --Regeneari�n datos clasificacion
 INSERT INTO [prueba_clasificacion] (id_club,puntos,golesAfavor,golesEncontra)
 VALUES
@@ -34,6 +49,7 @@ VALUES
   (8,0,0,0),
   (9,0,0,0),
   (10,0,0,0);
+  go
 INSERT INTO [prueba_clasificacion] (id_club,puntos,golesAfavor,golesEncontra)
 VALUES
   (11,0,0,0),
@@ -43,4 +59,20 @@ VALUES
   (15,0,0,0),
   (16,0,0,0);
 
+go
+   --prueba_estadisticasTotales
+  declare @a as int;
+  select @a = max(id) from jugadores;
+  declare @i as int;
+  set @i = 1;
+  declare @jugador as int;
+  while  @i<= @a
+  begin
+  select @jugador = id from jugadores where id = @i;
+  INSERT INTO [prueba_estadisticasTotales] (id_jugador,goles,amarillas,rojas,Partidos_titular)
+  VALUES
+  (@jugador,0,0,0,0);
+  set @i= @i +1;
+  end
+  go
 
