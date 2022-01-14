@@ -24,8 +24,17 @@ function calculoJornada(){
     return $jornada;
 }
 function calculoTemporada(){
-    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    include_once("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->query("select temporada from prueba_partidos order by id desc");
+    $temporadas = $sentencia->fetchAll(PDO::FETCH_OBJ);
+    $temporada = $temporadas[0]->temporada;   //Obtencion de la temporada a partir de un array de objetos¿?
+        if(empty($temporada)){
+            $temporada=1;
+        }
+    return $temporada;
+}function calculotablaTemporada(){
+    include_once("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    $sentencia = $conexion->query("select max(id) from prueba_temporadas");
     $temporadas = $sentencia->fetchAll(PDO::FETCH_OBJ);
     $temporada = $temporadas[0]->temporada;   //Obtencion de la temporada a partir de un array de objetos¿?
         if(empty($temporada)){
@@ -34,15 +43,21 @@ function calculoTemporada(){
     return $temporada;
 }
 function calculoPartido(){
-    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    include_once("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->query("select id from prueba_partidos order by id desc");
     $datos = $sentencia->fetchAll(PDO::FETCH_OBJ);
     $id_partido = $datos[0]->id;   //Obtencion del id a partir de un array de objetos¿?
     return $id_partido;
 }
 //FUNCIONES PARA INTROUDCIR DATOS  EN LA BASE A PARTIR DE LO OBTENIDO.
+function finalizarTemporada($temporada){
+    include_once("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    $sentencia = $conexion->prepare("update prueba_temporadas set fecha_final=? where id=?;");
+    $fecha_final = date("Y-m-d H:i:s"); //Formato DATETIME de sql.
+    $resultado = $sentencia->execute([$fecha_final,$temporada]);
+}
 function creacionTemporada($temporada){
-    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    include_once("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->prepare("INSERT INTO prueba_temporadas(id, Fecha_inicio) VALUES (?, ?);");
     $fecha_inicio = date("Y-m-d H:i:s"); //Formato DATETIME de sql.
     $resultado = $sentencia->execute([$temporada, $fecha_inicio]);
