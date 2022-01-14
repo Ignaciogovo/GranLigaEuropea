@@ -8,4 +8,4 @@
 
 
  Modelo relacional: 
-![ Modelo relacional](liga/codigoSQL/ModeloRelacionalVersion8.png)
+![ Modelo relacional](https://github.com/Pollitodetroya/LigaInventada/blob/master/codigoSQL/ModeloRelacionalVersion8.png)
