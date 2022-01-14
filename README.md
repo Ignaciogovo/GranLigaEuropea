@@ -8,4 +8,4 @@
 
 
  Modelo relacional: 
-![ Modelo relacional](C:/xampp/htdocs/liga/codigoSQL/ModeloRelacionalVersion8.png)
+![ Modelo relacional](liga/codigoSQL/ModeloRelacionalVersion8.png)
