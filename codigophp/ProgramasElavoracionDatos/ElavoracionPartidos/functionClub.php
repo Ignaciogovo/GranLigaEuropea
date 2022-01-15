@@ -12,7 +12,7 @@ function calculovalor($E){
         return $v;
     }
 function calculoJornada(){
-    error_reporting(0); //para desactivar los errores
+    //error_reporting(0); //para desactivar los errores
     include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->query("select jornada from prueba_partidos order by id desc");
     $jornadas = $sentencia->fetchAll(PDO::FETCH_OBJ);
@@ -24,7 +24,7 @@ function calculoJornada(){
     return $jornada;
 }
 function calculoTemporada(){
-    include_once("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->query("select temporada from prueba_partidos order by id desc");
     $temporadas = $sentencia->fetchAll(PDO::FETCH_OBJ);
     $temporada = $temporadas[0]->temporada;   //Obtencion de la temporada a partir de un array de objetos¿?
@@ -33,17 +33,17 @@ function calculoTemporada(){
         }
     return $temporada;
 }function calculotablaTemporada(){
-    include_once("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->query("select max(id) from prueba_temporadas");
-    $temporadas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-    $temporada = $temporadas[0]->temporada;   //Obtencion de la temporada a partir de un array de objetos¿?
+    $temporadas = $sentencia->fetch();
+    $temporada = $temporadas[0];   //Obtencion de la temporada a partir de un array de objetos¿?
         if(empty($temporada)){
             $temporada=1;
         }
     return $temporada;
 }
 function calculoPartido(){
-    include_once("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->query("select id from prueba_partidos order by id desc");
     $datos = $sentencia->fetchAll(PDO::FETCH_OBJ);
     $id_partido = $datos[0]->id;   //Obtencion del id a partir de un array de objetos¿?
@@ -51,13 +51,13 @@ function calculoPartido(){
 }
 //FUNCIONES PARA INTROUDCIR DATOS  EN LA BASE A PARTIR DE LO OBTENIDO.
 function finalizarTemporada($temporada){
-    include_once("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->prepare("update prueba_temporadas set fecha_final=? where id=?;");
     $fecha_final = date("Y-m-d H:i:s"); //Formato DATETIME de sql.
     $resultado = $sentencia->execute([$fecha_final,$temporada]);
 }
 function creacionTemporada($temporada){
-    include_once("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->prepare("INSERT INTO prueba_temporadas(id, Fecha_inicio) VALUES (?, ?);");
     $fecha_inicio = date("Y-m-d H:i:s"); //Formato DATETIME de sql.
     $resultado = $sentencia->execute([$temporada, $fecha_inicio]);
@@ -66,7 +66,7 @@ function elavoracionDatospartido($id_local,$id_visitante,$goles_local,$goles_vis
     include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
     $sentencia = $conexion->prepare("INSERT INTO prueba_partidos(id_local,id_visitante,goles_local,goles_visitante,id_arbitro,aforo,jornada,temporada) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
     $id_arbitro = rand(1,15);
-    $temporada = calculoTemporada();
+    $temporada = calculotablaTemporada();
     $resultado = $sentencia->execute([$id_local,$id_visitante,$goles_local,$goles_visitante,$id_arbitro,$aforo,$jornada,$temporada]);
 }
 // FUNCIONES PARA EL DESPLAZAMIENTO DE LOS ARRAYS QUE ORGANIZAN LAS JORNADAS.

@@ -1,6 +1,11 @@
 <?php
     include('functionClub.php');
-    $jornada=calculoJornada();
+        $jornada=calculoJornada();
+        $n_temporada=calculoTemporada();
+        $temporadatabla = calculotablaTemporada();
+        if ($n_temporada != $temporadatabla){
+            $jornada = 1;
+        }
     if ($jornada > 30){
         echo "Debe esperar a una nueva temporada";
     }else{
@@ -21,5 +26,9 @@
        
         planificacionjornadasParaliga($jornada,$array1,$array2);
     }
-    echo "<a href='index.php'>Vuelta al inicio</a>";   
+    echo "<a href='index.php'>Vuelta al inicio</a>";
+    if ($jornada == 30){
+        $temporada = calculoTemporada();
+        finalizarTemporada($temporada);
+    }   
 ?>
