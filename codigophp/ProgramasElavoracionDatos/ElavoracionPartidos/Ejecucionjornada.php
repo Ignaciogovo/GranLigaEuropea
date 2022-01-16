@@ -3,14 +3,18 @@
         $jornada=calculoJornada();
         $n_temporada=calculoTemporada();
         $temporadatabla = calculotablaTemporada();
-        if ($n_temporada != $temporadatabla){
+        if ($n_temporada != $temporadatabla){ 
+            //Cada vez que se crea una nueva temporada volvemos a la jornada 1 de la temporada x, Asi lo comprobamos.
             $jornada = 1;
         }
-    if ($jornada > 30){
+    if ($jornada > 30){ 
+        //Condicion al final de la temporada para no hacer más partidos
         echo "Debe esperar a una nueva temporada";
     }elseif ($jornada == 1 and $temporadatabla == 0){
-        echo "<h1>Debe iniciar la temporada número 1</h1>";
+         // Condición para la temporada 1.
+        echo "<h1>Debe iniciar la temporada 1</h1>";
     }else{
+         //Inicios de jornadas
         echo "Inicio Jornada";
         $array1= array(2);
         $v1=3;
@@ -30,6 +34,7 @@
     }
     echo "<a href='index.php'>Vuelta al inicio</a>";
     if ($jornada == 30){
+         //Cuando se ejecuta la ultima jornada cerramos la temporada
         $temporada = calculoTemporada();
         finalizarTemporada($temporada);
     }   

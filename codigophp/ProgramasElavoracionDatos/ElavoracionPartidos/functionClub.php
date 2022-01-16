@@ -85,6 +85,9 @@ function jugadores($club,$goles){
     EjecutarEstadisticas($club,$goles,$id_partido);
 }
 //FUNCIONES PARA LA ELAVORACIÓN DEL PARTIDO
+
+
+//Funcion en desuso
 function partidosinempates($E1,$E2,$jornada){
     $V1=calculovalor($E1);
     $V2=calculovalor($E2);
@@ -162,13 +165,10 @@ function partidosinempates($E1,$E2,$jornada){
             if($gol1==$gol2){
                 $gol2++;
             }
-            if($jornada%2==0){
+            if($jornada%2==0){ //local el de la derecha
                 elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
-            
-                //echo " local el de la derecha";
-            }else{
+            }else{ //local el de la izquierda
                 elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
-                //echo " local el de la izquierda";
             }
             echo " Gana Equipo $E2 con un $potencial2  con goles: $gol2<br>";
             echo " Pierde Equipo $E1 con un $potencial1 con goles: $gol1<br>";
@@ -181,13 +181,10 @@ function partidosinempates($E1,$E2,$jornada){
             if($gol1==$gol2){
                 $gol1++;
             }
-            if($jornada%2==0){
+            if($jornada%2==0){ //local el de la derecha
                 elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
-            
-                //echo " local el de la derecha";
-            }else{
+                        }else{ //local el de la izquierda
                 elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
-                //echo " local el de la izquierda";
             }
             echo " Gana Equipo $E1 con un $potencial1 con goles: $gol1<br>";
             echo " Pierde Equipo $E2 con un $potencial2 con goles: $gol2<br>";
@@ -251,12 +248,10 @@ function partido($E1,$E2,$jornada){
         };
         //Ventaja Local
         if ($aforo > 80){
-            if($jornada%2==0){
+            if($jornada%2==0){ //local el de la derecha
                 $potencial2=$potencial2*1.15;
-                //echo " local el de la derecha";
-            }else{
+            }else{ //local el de la izquierda
                 $potencial1=$potencial1*1.15;
-                //echo " local el de la izquierda";
             }
         }
         //convirtiendo la variable aforo en varchar
@@ -270,12 +265,12 @@ function partido($E1,$E2,$jornada){
             if($gol1==$gol2){
                 $gol2++;
             }
-            if($jornada%2==0){
+            if($jornada%2==0){ //local el de la derecha
                 elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
                 jugadores($E1,$gol1);
                 jugadores($E2,$gol2);
             
-            }else{
+            }else{ //local el de la izquierda
                 elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
                 jugadores($E1,$gol1);
                 jugadores($E2,$gol2);
@@ -290,11 +285,11 @@ function partido($E1,$E2,$jornada){
             if($gol1==$gol2){
                 $gol1++;
             }
-            if($jornada%2==0){
+            if($jornada%2==0){ //local el de la derecha
                 elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
                 jugadores($E1,$gol1);
                 jugadores($E2,$gol2);
-            }else{
+            }else{ //local el de la izquierda
                 elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
                 jugadores($E1,$gol1);
                 jugadores($E2,$gol2);
@@ -306,11 +301,11 @@ function partido($E1,$E2,$jornada){
             $gol2=($potencial2/2.5);
             $gol1=round($gol1,0);
             $gol2=round($gol2,0);
-            if($jornada%2==0){
+            if($jornada%2==0){ //local el de la derecha
                 elavoracionDatospartido($E2,$E1,$gol2,$gol1,$jornada,$aforo);
                 jugadores($E1,$gol1);
                 jugadores($E2,$gol2);
-            }else{
+            }else{ //local el de la izquierda
                 elavoracionDatospartido($E1,$E2,$gol1,$gol2,$jornada,$aforo);
                 jugadores($E1,$gol1);
                 jugadores($E2,$gol2);
@@ -320,7 +315,7 @@ function partido($E1,$E2,$jornada){
         echo "se produce un aforo de: $aforo";
     
 }
-
+ //Funcion que ejecuta cada partido y organiza la jornada.
 function planificacionjornadasParaliga($jornada,$array1,$array2){
     $tiempo = 1;
     while ($tiempo <$jornada){ //Bucle para escoger la jornada. Cuando la variable $tiempo sea igual a la variable $jornada termina bucle con los equipos.
