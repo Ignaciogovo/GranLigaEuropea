@@ -1,7 +1,7 @@
 prueba_partidos(id PK, id_local FK, id_visitante FK,goles_local,goles_visitante,id_arbitro FK,jornada, temporada FK)
 prueba_temporadas(id PK,fecha_inicio,fecha_final)
 prueba_Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles, amarillas, roja, titularidad)
-
+prueba_ClasificacionTemporadas(id PK, id_club FK, puntos, golesAfavor,golesEncontra, temporada FK)
 
 
 CREATE TABLE prueba_temporadas (
@@ -67,6 +67,20 @@ CREATE TABLE [prueba_clasificacion] (
   CONSTRAINT [FK_pruebaclasificacion.id_club]
     FOREIGN KEY ([id_club])
       REFERENCES [club]([id])
+);
+CREATE TABLE [prueba_clasificacionTemporada] (
+  [id] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+  [id_club] int NOT NULL,
+  [puntos] int,
+  [golesAfavor] int,
+  [golesEncontra] int,
+  [temporada] int,
+  CONSTRAINT [FK_prueba_clasificacionTemporada.id_club]
+    FOREIGN KEY ([id_club])
+      REFERENCES [club]([id]),
+    CONSTRAINT [FK_prueba_clasificacionTemporada.temporada]
+      FOREIGN KEY (temporada) 
+      REFERENCES prueba_temporadas(id)
 );
 INSERT INTO [prueba_clasificacion] (id_club,puntos,golesAfavor,golesEncontra)
 VALUES

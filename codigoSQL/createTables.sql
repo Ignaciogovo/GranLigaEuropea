@@ -6,6 +6,7 @@
 --EstadisticasTotales(id_jugador PK FK, goles, amarillas, rojas, partidos_titular)
 --arbitros(id PK, nombre, nacionalidad, edad)
 --clasificacion (id_equipo PK FK, puntos, goles)
+--ClasificacionTemporadas(id PK, id_club FK, puntos, golesAfavor,golesEncontra, temporada FK)
 --estadios(nombre, id_equipo PK FK,capacidad)
 
 --Modificaciones:
@@ -126,7 +127,20 @@ CREATE TABLE [clasificacion] (
     FOREIGN KEY ([id_club])
       REFERENCES [club]([id])
 );
-
+CREATE TABLE [clasificacionTemporada] (
+  [id] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+  [id_club] int NOT NULL,
+  [puntos] int,
+  [golesAfavor] int,
+  [golesEncontra] int,
+  [temporada] int,
+  CONSTRAINT [FK_clasificacionTemporada.id_club]
+    FOREIGN KEY ([id_club])
+      REFERENCES [club]([id]),
+    CONSTRAINT [FK_clasificacionTemporada.temporada]
+      FOREIGN KEY (temporada) 
+      REFERENCES Temporada(id)
+);
 CREATE TABLE [estadisticasTotales] (
   [id] int,
   [id_jugador] int,

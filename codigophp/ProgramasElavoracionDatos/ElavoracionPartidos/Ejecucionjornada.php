@@ -8,6 +8,8 @@
         }
     if ($jornada > 30){
         echo "Debe esperar a una nueva temporada";
+    }elseif ($jornada == 1 and $temporadatabla == 0){
+        echo "<h1>Debe iniciar la temporada número 1</h1>";
     }else{
         echo "Inicio Jornada";
         $array1= array(2);

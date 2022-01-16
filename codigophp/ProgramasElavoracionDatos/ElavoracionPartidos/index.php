@@ -20,6 +20,9 @@
             echo "<h1>Final de la temporada $n_temporada</h1>";
         }elseif ($n_jornada == 30) {
             echo "<h1>Jornada 30, la ultima jornada de la temporada $n_temporada</h1>";
+        }elseif ($n_jornada == 1 and $temporadatabla == 0){
+            echo "<h1>Debe iniciar la temporada número 1</h1>";
+
         }else {
             echo "<h1>Inicio de la jornada $n_jornada de la temporada $n_temporada</h1>";
         }

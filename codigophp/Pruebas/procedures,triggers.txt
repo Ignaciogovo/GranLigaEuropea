@@ -154,3 +154,81 @@ select @titular = titularidad from inserted;
 exec actualizarprueba_Estadisticas @jugador,@goles,@amarillas,@rojas,@titular;
 end
 go
+
+
+
+
+
+
+
+
+
+
+--CLASIFICACION POR TEMPORADA
+
+CREATE OR ALTER PROCEDURE insertar_clasificacion @temporada int
+as
+declare @id_club as int;
+declare @golesAfavor as int;
+declare @golesEncontra as int;
+declare @puntos as int;
+declare @i as int;
+set @i = 1;
+while @i <=16
+begin
+set @id_club = @i;
+select  @puntos = puntos from prueba_clasificacion where id_club = @i;
+select  @golesAfavor = golesAfavor from prueba_clasificacion where id_club = @i;
+select  @golesEncontra = golesEncontra from prueba_clasificacion where id_club = @i;
+insert into prueba_clasificacionTemporada (id_club, puntos, golesAfavor, golesEncontra, Temporada)
+VALUES (@id_club,@puntos,@golesAfavor, @golesEncontra,@temporada);
+set @i = @i + 1;
+end;
+go
+
+CREATE OR ALTER PROCEDURE reinicioClasificacion
+as
+begin
+delete from prueba_clasificacion;
+INSERT INTO [prueba_clasificacion] (id_club,puntos,golesAfavor,golesEncontra)
+VALUES
+  (1,0,0,0),
+  (2,0,0,0),
+  (3,0,0,0),
+  (4,0,0,0),
+  (5,0,0,0),
+  (6,0,0,0),
+  (7,0,0,0),
+  (8,0,0,0),
+  (9,0,0,0),
+  (10,0,0,0);
+INSERT INTO [prueba_clasificacion] (id_club,puntos,golesAfavor,golesEncontra)
+VALUES
+  (11,0,0,0),
+  (12,0,0,0),
+  (13,0,0,0),
+  (14,0,0,0),
+  (15,0,0,0),
+  (16,0,0,0);
+end
+go
+
+
+
+
+
+CREATE OR ALTER TRIGGER pruebafinalTemporada
+on prueba_temporadas
+for insert
+as
+begin
+declare @temporada as int;
+select @temporada = id from inserted;
+set @temporada = @temporada - 1;					--Para coger los datos de la temporada terminada
+if @temporada <> 0 									--Si es 0 no se insertan datos en la CLASIFICACION
+begin
+exec insertar_clasificacion @temporada;
+end;
+exec reinicioClasificacion;
+end
+go
