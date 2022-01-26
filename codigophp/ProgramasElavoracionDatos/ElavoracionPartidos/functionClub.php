@@ -193,8 +193,10 @@ function partidosinempates($E1,$E2,$jornada){
     }
 }
 function partido($E1,$E2,$jornada){
-    $V1=calculovalor($E1);
+    //Se calcula el valor medio de cada equipo
+    $V1=calculovalor($E1); 
     $V2=calculovalor($E2);
+    //Se calcula la diferencia entre los valores de los equipos.
     $diferencia=$V2-$V1;
     $diferencia = abs($diferencia); //Valor absoluto.
         //Elavoración del número aleatorio, tendrán ventaja si el valor es mayor.

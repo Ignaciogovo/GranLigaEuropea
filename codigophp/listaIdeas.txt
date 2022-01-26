@@ -1,0 +1,29 @@
+Hecho:
+    -1A cada equipo le toca un número al azar.
+
+    -Cada equipo tiene un valor aleatorio del 1 al 10, ese número se le multiplica por el número que represente su valor
+    El número que sea mayor gana y se divide por 2'1 para saber la cantidad de goles por equipo
+    El eqipo local recibe una bonificación.
+
+
+    -Tabla estadios incluyendo capacidad, si esa capacidad supera un cupo el equipo local recibe una bonificación
+    Los jugadores tendrán un número según su valor y se le multiplicara a un número aleatorio para saber las estadisticas
+
+
+
+
+
+
+
+
+Pendiente:
+    -Explicación configuración del xampp
+    -Añadir asistencias a las estadisticas
+    -añadir nombre de los equipos a las estadisticas de cada jornada.
+    -Crear una interfaz para el calendario de partidos.
+    -Modificar el calendario cada temporada de forma automatica (Probar con desordenar array)
+    -Optimizar base de datos
+    -Añadir estadísticas con consultas a la página
+    -Migración de la base de datos.
+    -Automatización y uso de Python
+    -Bot para estadisticas twitter.
