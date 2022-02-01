@@ -1,5 +1,5 @@
 <?php
-//FUNCIONES PARA SACAR DATOS DE LA BASE.
+//FUNCIONES PARA SACAR DATOS DE LA BBDD.
 function calculovalor($E){
     include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
         $consulta="select (convert(int,ValorTotal)/nJugadores) as valorm from club where id=?";
@@ -37,7 +37,7 @@ function calculoTemporada(){
     $sentencia = $conexion->query("select max(id) from prueba_temporadas");
     $temporadas = $sentencia->fetch();
     $temporada = $temporadas[0];   //Obtencion de la temporada a partir de un array de objetos¿?
-        if(empty($temporada)){
+        if(empty($temporada)){  //Si no existe valor para temporada, es igual a 0
             $temporada=0;
         }
     return $temporada;
@@ -48,6 +48,14 @@ function calculoPartido(){
     $datos = $sentencia->fetchAll(PDO::FETCH_OBJ);
     $id_partido = $datos[0]->id;   //Obtencion del id a partir de un array de objetos¿?
     return $id_partido;
+}
+function calculoEquipo($id){
+    include("C:/xampp/htdocs/ProyectoLiga/conexion.php");
+    $sentencia = $conexion->prepare("SELECT nombre FROM club WHERE id = ?;");
+    $sentencia->execute([$id]);
+    $equipo = $sentencia->fetch();
+    $equipo = $equipo[0];
+    return $equipo;
 }
 //FUNCIONES PARA INTROUDCIR DATOS  EN LA BASE A PARTIR DE LO OBTENIDO.
 function finalizarTemporada($temporada){
@@ -85,8 +93,12 @@ function jugadores($club,$goles){
     EjecutarEstadisticas($club,$goles,$id_partido);
 }
 //FUNCIONES PARA LA ELAVORACIÓN DEL PARTIDO
-
-
+//funcion versus hace un equipo de los equipos que se enfrentan;
+function versus($E1,$E2){
+    $c1 = calculoEquipo($E1);
+    $c2 = calculoEquipo($E2);
+    echo " $c1 VS $c2 ->";
+}
 //Funcion en desuso
 function partidosinempates($E1,$E2,$jornada){
     $V1=calculovalor($E1);
@@ -258,6 +270,9 @@ function partido($E1,$E2,$jornada){
         }
         //convirtiendo la variable aforo en varchar
         $aforo = "$aforo%";
+        //Sacando los nombres de los equipos
+        $c1=calculoEquipo($E1);
+        $c2=calculoEquipo($E2);
         //Asignación del equipo ganador
         if ($potencial1 < $potencial2){
             $gol1=($potencial1/2.5);
@@ -277,8 +292,8 @@ function partido($E1,$E2,$jornada){
                 jugadores($E1,$gol1);
                 jugadores($E2,$gol2);
             }
-            echo " Gana Equipo $E2 con un $potencial2  con goles: $gol2<br>";
-            echo " Pierde Equipo $E1 con un $potencial1 con goles: $gol1<br>";
+            echo " Gana Equipo $c2 con un $potencial2  con goles: $gol2<br>";
+            echo " Pierde Equipo $c1 con un $potencial1 con goles: $gol1<br>";
         }elseif ($potencial1 > $potencial2){
             $gol1=($potencial1/2.5);
             $gol2=($potencial2/2.5);
@@ -296,8 +311,8 @@ function partido($E1,$E2,$jornada){
                 jugadores($E1,$gol1);
                 jugadores($E2,$gol2);
             }
-            echo " Gana Equipo $E1 con un $potencial1 con goles: $gol1<br>";
-            echo " Pierde Equipo $E2 con un $potencial2 con goles: $gol2<br>";
+            echo " Gana Equipo $c1 con un $potencial1 con goles: $gol1<br>";
+            echo " Pierde Equipo $c2 con un $potencial2 con goles: $gol2<br>";
         }elseif($potencial1=$potencial2){
             $gol1=($potencial1/2.5);
             $gol2=($potencial2/2.5);
@@ -337,15 +352,15 @@ function planificacionjornadasParaliga($jornada,$array1,$array2){
             echo "<FONT SIZE=2>Local vs visitante</font>";
             echo "<br>";
         }
-        $v2 = 0;
-        echo 1 . " --vs-- " . $array2[$v2]; // Para que el equipo 1 siempre esté fijo, fuera del bucle de orden de los partidos.
-        partido(1,$array2[$v2],$jornada);
+        $sumatorio = 0;
+        versus(1, $array2[$sumatorio]); // Para que el equipo 1 siempre esté fijo, fuera del bucle de orden de los partidos.
+        partido(1,$array2[$sumatorio],$jornada);
         echo "<br>";
-        while ( $v2 < 7){  //Bucle para orden de los partidos.
-        echo $array1[$v2] . " --vs-- " . $array2[$v2+1];
-        partido($array1[$v2],$array2[$v2+1],$jornada);
+        while ( $sumatorio < 7){  //Bucle para orden de los partidos.
+        versus($array1[$sumatorio], $array2[$sumatorio+1]);
+        partido($array1[$sumatorio],$array2[$sumatorio+1],$jornada);
         echo "<br>";
-        $v2++;
+        $sumatorio++;
     }
 }
 

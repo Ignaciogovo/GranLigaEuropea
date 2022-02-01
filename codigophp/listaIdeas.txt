@@ -17,6 +17,7 @@ Hecho:
 
 
 Pendiente:
+    -Pasar codigo a mysql
     -Explicación configuración del xampp
     -Añadir asistencias a las estadisticas
     -añadir nombre de los equipos a las estadisticas de cada jornada.
@@ -25,5 +26,5 @@ Pendiente:
     -Optimizar base de datos
     -Añadir estadísticas con consultas a la página
     -Migración de la base de datos.
-    -Automatización y uso de Python
+    -Automatización con tareas programadas (CRON); y uso de Python
     -Bot para estadisticas twitter.
