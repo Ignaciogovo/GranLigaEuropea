@@ -1,6 +1,6 @@
 prueba_partidos(id PK, id_local FK, id_visitante FK,goles_local,goles_visitante,id_arbitro FK,jornada, temporada FK)
 prueba_temporadas(id PK,fecha_inicio,fecha_final)
-prueba_Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles, amarillas, roja, titularidad)
+prueba_Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles,asistencias amarillas, roja, titularidad)
 prueba_ClasificacionTemporadas(id PK, id_club FK, puntos, golesAfavor,golesEncontra, temporada FK)
 
 
@@ -39,6 +39,7 @@ CREATE TABLE [prueba_Estadisticas_partido] (
   [id_jugador] int,
   [id_partido] int,
   [goles] int,
+  [asistencias] int,
   [amarillas] int,
   [roja] int,
   [titularidad] varchar(100),
@@ -52,6 +53,7 @@ CREATE TABLE [prueba_Estadisticas_partido] (
 CREATE TABLE [prueba_estadisticasTotales] (
   [id_jugador] int NOT NULL PRIMARY KEY,
   [goles] int,
+  [asistencias] int,
   [amarillas] int,
   [rojas] int,
   [Partidos_titular] int,
@@ -60,7 +62,7 @@ CREATE TABLE [prueba_estadisticasTotales] (
       REFERENCES [jugadores]([id])
 );
 CREATE TABLE [prueba_clasificacion] (
-  [id_club] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+  [id_club] int NOT NULL PRIMARY KEY,
   [puntos] int,
   [golesAfavor] int,
   [golesEncontra] int,
@@ -106,13 +108,16 @@ VALUES
 
 
   --prueba_estadisticasTotales
+  declare @a int;
+  declare @i int;
  set @i = 1;
+ select @a = max(id) from jugadores
   declare @jugador as int;
   while  @i<= @a
   begin
   select @jugador = id from jugadores where id = @i;
-  INSERT INTO [prueba_estadisticasTotales] (id_jugador,goles,amarillas,rojas,Partidos_titular)
+  INSERT INTO [prueba_estadisticasTotales] (id_jugador,goles,asistencias,amarillas,rojas,Partidos_titular)
   VALUES
-  (@jugador,0,0,0,0);
+  (@jugador,0,0,0,0,0);
   set @i= @i +1;
   end

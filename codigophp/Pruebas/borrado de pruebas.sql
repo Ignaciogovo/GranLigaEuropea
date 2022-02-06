@@ -1,12 +1,13 @@
 --Borrado de los datos
-
 --Datos de estadisticas partido
 delete from prueba_Estadisticas_partido
+DBCC CHECKIDENT (prueba_Estadisticas_partido, RESEED, 0) -- Para reiniciar el contador identity
 --Datos partido
 delete from prueba_clasificacion;;
 delete from prueba_partidos;
 --Datos estadisticas_locales
   delete from prueba_estadisticasTotales;
+  DBCC CHECKIDENT (estadisticasTotales, RESEED, 0)
  -- Temporadas
  delete from prueba_Temporadas
 
@@ -43,9 +44,9 @@ go
   while  @i<= @a
   begin
   select @jugador = id from jugadores where id = @i;
-  INSERT INTO [prueba_estadisticasTotales] (id_jugador,goles,amarillas,rojas,Partidos_titular)
+  INSERT INTO [prueba_estadisticasTotales] (id_jugador,goles,asistencias,amarillas,rojas,Partidos_titular)
   VALUES
-  (@jugador,0,0,0,0);
+  (@jugador,0,0,0,0,0);
   set @i= @i +1;
   end
   go

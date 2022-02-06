@@ -25,11 +25,11 @@ VALUES
   ('Limón F.C','Barcelona');     
 INSERT INTO [club] (nombre,ciudad)
 VALUES
-  ('Los Plebeyos','Barcelona');   
-  ('Semen Padang','Bilbao'),   
+  ('Los Plebeyos','Barcelona'),   
+  ('Seten club','Bilbao'),   
   ('War Hawks','Sevilla'),
-  ('Field Warriors','Oviedo');
+  ('Field Warriors','Oviedo'),
   ('The Gladiators','Santander'),   
-  ('Llanfairpwllgwyngyll FC','Palma'),
-  ('Rico Pollo','Madrid');
+  ('alemanes FC','Palma'),
+  ('Rayo pollo','Madrid');
 

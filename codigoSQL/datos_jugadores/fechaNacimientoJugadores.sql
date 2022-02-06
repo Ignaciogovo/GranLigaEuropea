@@ -1,4 +1,4 @@
-ALTER TABLE jugadores ADD fechaNacimento date;
+ALTER TABLE jugadores ADD fechaNacimiento date;
 ALTER TABLE jugadores DROP COLUMN edad;
 
 

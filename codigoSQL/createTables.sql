@@ -2,8 +2,8 @@
 --Jugadores(id PK, nombre, id_club FK, posicion, peso, Altura, Nacionalidad,edad, valor)
 --partidos(id PK, id_local FK, id_visitante FK,gol_local,gol_visitante,id_arbitro FK,aforo, jornada, temporada FK)
 --temporadas(id PK,fecha_inicio,fecha_final)
---Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles, amarillas, roja, titularidad)
---EstadisticasTotales(id_jugador PK FK, goles, amarillas, rojas, partidos_titular)
+--Estadisticas_partido(id PK, id_jugador FK, id_partido FK,goles,asistencias, amarillas, roja, titularidad)
+--EstadisticasTotales(id_jugador PK FK, goles,asistencias, amarillas, rojas, partidos_titular)
 --arbitros(id PK, nombre, nacionalidad, edad)
 --clasificacion (id_equipo PK FK, puntos, goles)
 --ClasificacionTemporadas(id PK, id_club FK, puntos, golesAfavor,golesEncontra, temporada FK)
@@ -40,8 +40,8 @@ GO
 CREATE TABLE [arbitros] (
   [id] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
   [nombre] varchar(100),
-  [nacionalidad] varchar(100),
-  [edad] int
+    [Comunidad] VARCHAR(100) NULL,
+    [FechaNacimiento] date NULL,
 );
 
 
@@ -96,6 +96,7 @@ CREATE TABLE [estadisticasPartido] (
   [id_jugador] int,
   [id_partido] int,
   [goles] int,
+  [asistencias] int,
   [amarillas] int,
   [roja] int,
   [titularidad] varchar(100),
@@ -110,6 +111,7 @@ CREATE TABLE [estadisticasPartido] (
 CREATE TABLE [estadisticasTotales] (
   [id_jugador] int NOT NULL PRIMARY KEY,
   [goles] int,
+  [asistencias] int,
   [amarillas] int,
   [rojas] int,
   [Partidos_titular] int,
@@ -141,6 +143,7 @@ CREATE TABLE [clasificacionTemporada] (
       FOREIGN KEY (temporada) 
       REFERENCES Temporada(id)
 );
+-- no en uso
 CREATE TABLE [estadisticasTotales] (
   [id] int,
   [id_jugador] int,
