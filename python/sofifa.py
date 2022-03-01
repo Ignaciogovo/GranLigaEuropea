@@ -58,19 +58,12 @@ def listajugadores(get_url):
     page = requests.get(get_url) # Optenemos la pagina
     soup = BeautifulSoup(page.content,'html.parser')
     lista = soup.find("tbody", class_="list")
-    DiccJugadores = {}
-    count = 0
     for a in lista.find_all("a"):
         if a.find("div", class_="ellipsis") == None: #Si un hijo del enlace no tiene una clase ellipsis se continua el for
             continue
         else:
-            nombre_jugadores = a.find("div", class_="ellipsis")
-            jugadores=(nombre_jugadores.text) # Cogemos solo el texto de la etiqueta span
-            link = a.get('href') #Sacamos el link interno de la pagina
-            DiccJugadores[jugadores]=link
-            print(jugadores)
+            link = a.get('href') #Sacamos el link interno de la pagina del jugador
             sacardatosJugadores("https://sofifa.com"+link)
-    # print(DiccJugadores)
 
 def sacardatosJugadores(get_url):
     page = requests.get(get_url) # Optenemos la pagina
@@ -147,7 +140,6 @@ def convertirValor (cadena):
 
 def convertirPosiciones (cadena):
     sinespacios = cadena.replace(" ", "")
-    print(sinespacios)
     for key in posiciones: #Iteramos las posiciones
         valores = posiciones.get(key)
         valores = tuple(valores) # Volvemos a convertir cada valor de las posiciones en tuplas
@@ -159,7 +151,7 @@ def convertirPosiciones (cadena):
 
 
 #Datos de las posiciones
-portero= ("GK")
+portero= ("GK","0")
 defensa =("RB","RB","CB","LB")
 centrocampista=("RM","CD","CM","LM","CA")
 delantero = ("RW","ST","CF","LW")
