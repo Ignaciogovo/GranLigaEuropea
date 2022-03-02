@@ -1,5 +1,7 @@
 from selenium import webdriver
 import pandas as pd
+from os import remove
+from os import path
 from selenium.webdriver.support.ui import Select # Permite seleccionar valores dentro de una lista desplegable.
 from selenium.webdriver.chrome.options import Options #Permite opciones a la hora de hacer la ejecucion.
 from selenium.webdriver.common.by import By
@@ -34,10 +36,10 @@ def busquedajugadores(nombre_equipo):
     soup = BeautifulSoup(page.content,'html.parser')
     #Si no sale ningun equipo en la lista se ejecuta este if:
     if soup.find("td", class_="col-name-wide") == None:
-        nombre_equipo = nombre_equipo[:4] #Acortamos el nombre del equipo para reducir errores en la diferencia de escritura
+        nombre_equipo2 = nombre_equipo[:4] #Acortamos el nombre del equipo para reducir errores en la diferencia de escritura
         # Volvemos a Buscar el equipo
         busquedaEquipo = driver.find_element(By.NAME,'keyword')
-        busquedaEquipo.send_keys(nombre_equipo)
+        busquedaEquipo.send_keys(nombre_equipo2)
         busquedaEquipo.send_keys(Keys.ENTER)
         time.sleep(2)
         # volvemos a sacar la url actual:
@@ -48,13 +50,18 @@ def busquedajugadores(nombre_equipo):
     listaEquipos = soup.find("td", class_="col-name-wide")
     urlPrimerequipo = listaEquipos.find("a") #Buscamos el primer enlace de la lista de equipos:
     link = urlPrimerequipo.get('href') #Sacamos el link interno de la pagina
-    listajugadores("https://sofifa.com"+link)
+    archivo = str(nombre_equipo+'.csv')
+    archivo = archivo.replace(" ","")
+    # print(archivo)
+    # if path.exists(archivo):
+    #     remove(archivo)
+    listajugadores("https://sofifa.com"+link,archivo)
 
 
 
 
 
-def listajugadores(get_url):
+def listajugadores(get_url,archivo):
     page = requests.get(get_url) # Optenemos la pagina
     soup = BeautifulSoup(page.content,'html.parser')
     lista = soup.find("tbody", class_="list")
@@ -63,25 +70,27 @@ def listajugadores(get_url):
             continue
         else:
             link = a.get('href') #Sacamos el link interno de la pagina del jugador
-            sacardatosJugadores("https://sofifa.com"+link)
+            Ddatos=sacardatosJugadores("https://sofifa.com"+link)
+            print(Ddatos)
+            df = pd.DataFrame(Ddatos)
+            df.to_csv(archivo, index=None, mode="a")
 
 def sacardatosJugadores(get_url):
     page = requests.get(get_url) # Optenemos la pagina
     soup = BeautifulSoup(page.content,'html.parser')
     datos = soup.find("div", class_="info")
     #Buscamos el nombre:
-    nombre = datos.find("h1")
-    print("Nombre:")
-    print(nombre.text)
+    nombre = datos.find("h1").text
     #Buscamos el pais:
     pais = datos.find("a")
     pais = pais.get("title")
-    print("Pais:")
-    print(pais)
     #Sacamos datos variados:
     datosindi=datos.find("div")
-    print("Datos:")
-    diferenciardatos(datosindi.text)
+    posicion = diferenciarPosicion(datosindi.text)
+    fecha=diferenciarfecha(datosindi.text)
+    cm = diferenciarCm(datosindi.text)
+    kg = diferenciarKg(datosindi.text)
+    #Buscamos el valor de mercado:
     sacarvalor= soup.find("section", class_="card spacing")
     #Buscamos el valor economico entre las otras estadisticas:
     for i in sacarvalor.find_all("div", class_="block-quarter"):
@@ -89,22 +98,47 @@ def sacardatosJugadores(get_url):
             valor = i.find("div").text
             valor=valor.replace("Value","").replace("€","") #Eliminamos los datos no numericos del valor
     valor=convertirValor(valor)
-    print("El valor es: "+str(valor))
-#Sacar datos individuales de la cadena de texto:
-def diferenciardatos(cadena):
+    Ldatos=[nombre,pais,posicion,valor,fecha,cm,kg]
+    # Ddatos = {
+    #     "Nombre" : nombre,
+    #     "Pais" : pais,
+    #     "Posicion" : posicion,
+    #     "Fecha" : fecha,
+    #     "Cm" : cm,
+    #     "Kg" : kg,
+    #     "Valor" : valor
+    # }
+    return Ldatos
+
+#Funciones para sacar datos individuales de la cadena de texto:
+
+def diferenciarPosicion(cadena):
     sinespacios = cadena.replace(" ", "")#Elimina los espacios
     posicion=sinespacios[:2] #Sacamos los dos primeros caracteres de la cadena de texto
     posicion=str(convertirPosiciones(posicion))
-    print("Posicion: "+posicion)
-    #Sacamos la fecha de nacimiento:
+    return posicion
+
+def diferenciarfecha(cadena):
     parentesis1 = cadena.find("(")
     parentesis2 = cadena.find(")")
     fecha = cadena[parentesis1+1:parentesis2]
-    print(fecha)
     fecha = convertirFechas(fecha)
-    print("La fecha de nacimiento: "+str(fecha))
+    return str(fecha)
+
+def diferenciarCm(cadena):
+    cadena = cadena.replace(" ", "")
+    cm=cadena.find("cm")
+    parentesis = cadena.find(")")
+    return cadena[parentesis+1:cm]
+
+def diferenciarKg(cadena):
+    cadena = cadena.replace(" ", "")
+    cm=cadena.find("cm")
+    kg = cadena.find("kg")
+    return cadena[cm+2:kg]
 
 
+# Conversiones de los datos para que sean más leibles
 # Convertimos las fechas para que sea legible en sql
 def convertirFechas (cadena):
     sinespacios = cadena.replace(" ", "")
