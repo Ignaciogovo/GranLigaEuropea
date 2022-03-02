@@ -1,7 +1,6 @@
 from selenium import webdriver
-import pandas as pd
-from os import remove
-from os import path
+import pandas as pd #Usado para crear archivos
+from os import remove #Usado para eliminar archivos
 from selenium.webdriver.support.ui import Select # Permite seleccionar valores dentro de una lista desplegable.
 from selenium.webdriver.chrome.options import Options #Permite opciones a la hora de hacer la ejecucion.
 from selenium.webdriver.common.by import By
@@ -18,12 +17,13 @@ def busquedajugadores(nombre_equipo):
     opciones.add_argument("--headless") # Permite hacer el script en segundo plano.
     driver = webdriver.Chrome(chrome_options=opciones, executable_path=path)
     driver.get(website)
-    #Aceptamos las cookies
-    Cookiess = driver.find_element(By.CLASS_NAME,'banner_continueBtn--3KNKl')
-    Cookiess.click()
-    time.sleep(2)
-    Cookiess2 = driver.find_element(By.CLASS_NAME,'button_button--lgX0P.details_save--1ja7w')
-    Cookiess2.click()
+    #Aceptamos las cookies (No hace falta, solo era para cuando estaba visible)
+    # Cookiess = driver.find_element(By.CLASS_NAME,'banner_continueBtn--3KNKl')
+    # Cookiess.click()
+    # time.sleep(2)
+    # Cookiess2 = driver.find_element(By.CLASS_NAME,'button_button--lgX0P.details_save--1ja7w')
+    # Cookiess2.click()
+
     #Buscamos al equipo
     busquedaEquipo = driver.find_element(By.NAME,'keyword')
     busquedaEquipo.send_keys(nombre_equipo)
@@ -50,11 +50,13 @@ def busquedajugadores(nombre_equipo):
     listaEquipos = soup.find("td", class_="col-name-wide")
     urlPrimerequipo = listaEquipos.find("a") #Buscamos el primer enlace de la lista de equipos:
     link = urlPrimerequipo.get('href') #Sacamos el link interno de la pagina
-    archivo = str(nombre_equipo+'.csv')
+    archivo = str("C:\\xampp\\htdocs\\ProyectoLiga\\csv\\"+nombre_equipo+'.csv')
     archivo = archivo.replace(" ","")
-    # print(archivo)
-    # if path.exists(archivo):
-    #     remove(archivo)
+    #Eliminamos el archivo si ya esta creado (Para empezar de 0 la escritura)
+    try:
+        remove(archivo)
+    except OSError as e:
+        print(f"Error:{ e.strerror}")
     listajugadores("https://sofifa.com"+link,archivo)
 
 
