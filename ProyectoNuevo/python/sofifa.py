@@ -1,6 +1,4 @@
 from selenium import webdriver
-import pandas as pd #Usado para crear archivos
-from os import remove #Usado para eliminar archivos
 from selenium.webdriver.support.ui import Select # Permite seleccionar valores dentro de una lista desplegable.
 from selenium.webdriver.chrome.options import Options #Permite opciones a la hora de hacer la ejecucion.
 from selenium.webdriver.common.by import By
@@ -9,8 +7,9 @@ import time
 from bs4 import BeautifulSoup
 import requests
 from datetime import date
+import conexionsql
 #Esta función busca a los jugadores a partir del nombre del equipo.
-def busquedajugadores(nombre_equipo):
+def busquedajugadores(nombre_equipo,pais):
     website = 'https://sofifa.com/teams'
     path = 'C:\driversChrome\chromedriver.exe'
     opciones = Options()
@@ -31,10 +30,10 @@ def busquedajugadores(nombre_equipo):
     time.sleep(2)
     #Sacamos la url actual para usar beatiful soup
     url_equipos = driver.current_url
-    #Usamos beatiful soup
+    # Usamos beatiful soup
     page = requests.get(url_equipos) # Optenemos la pagina
     soup = BeautifulSoup(page.content,'html.parser')
-    #Si no sale ningun equipo en la lista se ejecuta este if:
+    # Si no sale ningun equipo en la lista se ejecuta este if:
     if soup.find("td", class_="col-name-wide") == None:
         nombre_equipo2 = nombre_equipo[:4] #Acortamos el nombre del equipo para reducir errores en la diferencia de escritura
         # Volvemos a Buscar el equipo
@@ -50,20 +49,19 @@ def busquedajugadores(nombre_equipo):
     listaEquipos = soup.find("td", class_="col-name-wide")
     urlPrimerequipo = listaEquipos.find("a") #Buscamos el primer enlace de la lista de equipos:
     link = urlPrimerequipo.get('href') #Sacamos el link interno de la pagina
-    archivo = str("C:\\xampp\\htdocs\\ProyectoLiga\\csv\\"+nombre_equipo+'.csv')
-    archivo = archivo.replace(" ","")
     #Eliminamos el archivo si ya esta creado (Para empezar de 0 la escritura)
-    try:
-        remove(archivo)
-    except OSError as e:
-        print(f"Error:{ e.strerror}")
-    listajugadores("https://sofifa.com"+link,archivo)
+    equipoNombre=nombre_equipo.strip()
+    print(equipoNombre)
+    conexionsql.insertarclub(equipoNombre,pais)
+    time.sleep(1)
+    id_equipo = conexionsql.SelectClub(equipoNombre)
+    listajugadores("https://sofifa.com"+link,id_equipo)
 
 
 
 
 
-def listajugadores(get_url,archivo):
+def listajugadores(get_url,id_equipo):
     page = requests.get(get_url) # Optenemos la pagina
     soup = BeautifulSoup(page.content,'html.parser')
     lista = soup.find("tbody", class_="list")
@@ -72,12 +70,10 @@ def listajugadores(get_url,archivo):
             continue
         else:
             link = a.get('href') #Sacamos el link interno de la pagina del jugador
-            Ddatos=sacardatosJugadores("https://sofifa.com"+link)
-            print(Ddatos)
-            df = pd.DataFrame(Ddatos)
-            df.to_csv(archivo, index=None, mode="a")
+            sacardatosJugadores("https://sofifa.com"+link,id_equipo)
+            # print(Ddatos)
 
-def sacardatosJugadores(get_url):
+def sacardatosJugadores(get_url,id_equipo):
     page = requests.get(get_url) # Optenemos la pagina
     soup = BeautifulSoup(page.content,'html.parser')
     datos = soup.find("div", class_="info")
@@ -100,7 +96,8 @@ def sacardatosJugadores(get_url):
             valor = i.find("div").text
             valor=valor.replace("Value","").replace("€","") #Eliminamos los datos no numericos del valor
     valor=convertirValor(valor)
-    Ldatos=[nombre,pais,posicion,valor,fecha,cm,kg]
+    Ldatos=(nombre,id_equipo,posicion,int(kg),int(cm),pais,int(valor),fecha)
+    # print(Ldatos)
     # Ddatos = {
     #     "Nombre" : nombre,
     #     "Pais" : pais,
@@ -110,7 +107,8 @@ def sacardatosJugadores(get_url):
     #     "Kg" : kg,
     #     "Valor" : valor
     # }
-    return Ldatos
+    conexionsql.insertarjugador(Ldatos)
+    # return Ldatos
 
 #Funciones para sacar datos individuales de la cadena de texto:
 

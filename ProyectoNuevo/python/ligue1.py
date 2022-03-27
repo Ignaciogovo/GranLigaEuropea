@@ -9,6 +9,7 @@ soup = BeautifulSoup(page.content,'html.parser')
 prueba = soup.find_all("span", class_="GeneralStats-clubName desktop-item")
 equipos = list()
 count = 0
+pais = "Francia"
 for i in prueba:
     if count == 20:
         break
@@ -16,4 +17,4 @@ for i in prueba:
     equipos.append(i.text) # Cogemos solo el texto de la etiqueta span
 for i in range(0,3):
     print("puesto: %d equipo: %s" % (i+1, equipos[i]))
-    sofifa.busquedajugadores(equipos[i])
+    sofifa.busquedajugadores(equipos[i],pais)
