@@ -11,15 +11,21 @@ def EjecucionBundesliga():
     prueba = soup.find_all("td", class_="team")
     equipos = list()
     count = 0
-    print(prueba)
+    pais = "Alemania"
     for i in prueba:
         if count == 20:
             break
         count +=1
-        equipos.append(i.text) # Cogemos solo el texto de la etiqueta span
-    for i in range(0,20):
+        Sininiciales= (i.text)[3:]
+        Sininiciales ='' .join(unique_list(Sininiciales.split()))
+        equipos.append(Sininiciales) # Cogemos solo el texto de la etiqueta span
+    for i in range(0,10):
         print("puesto: %d equipo: %s" % (i+1, equipos[i]))
-        # sofifa.busquedajugadores(equipos[i])
+        sofifa.busquedajugadores(equipos[i],pais)
 
-
-EjecucionBundesliga()
+#Eliminar palabras repetidas
+# Obtenido desde: https://foroayuda.es/como-eliminar-palabras-duplicadas-de-la-cadena-en-el-ejemplo-de-codigo-de-python/
+def unique_list(l):
+    ulist = []
+    [ulist.append(x) for x in l if x not in ulist]
+    return ulist

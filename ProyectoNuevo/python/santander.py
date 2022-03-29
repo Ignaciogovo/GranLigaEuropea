@@ -10,6 +10,7 @@ def EjecucionSantander():
     prueba = soup.find_all("div", class_="styled__ShieldContainer-lo8ov8-0 bkblFd shield-desktop")
     equipos = list()
     count = 0
+    pais = "España"
     for i in prueba:
         if count == 20:
             break
@@ -17,4 +18,4 @@ def EjecucionSantander():
         equipos.append(i.text) # Cogemos solo el texto de la etiqueta span
     for i in range(0,3):
         print("puesto: %d equipo: %s" % (i+1, equipos[i]))
-        sofifa.busquedajugadores(equipos[i])
+        sofifa.busquedajugadores(equipos[i],pais)

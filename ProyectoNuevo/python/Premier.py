@@ -12,6 +12,7 @@ def EjecucionPremier():
     prueba = soup.find_all("span", class_="long")
     equipos = list()
     count = 0
+    pais = "Inglaterra"
     for i in prueba:
         if count == 20:
             break
@@ -19,4 +20,4 @@ def EjecucionPremier():
         equipos.append(i.text) # Cogemos solo el texto de la etiqueta span
     for i in range(0,20):
         print("puesto: %d equipo: %s" % (i+1, equipos[i]))
-        sofifa.busquedajugadores(equipos[i])
+        sofifa.busquedajugadores(equipos[i],pais)
