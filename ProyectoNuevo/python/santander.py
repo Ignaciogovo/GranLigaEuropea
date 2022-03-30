@@ -16,6 +16,12 @@ def EjecucionSantander():
             break
         count +=1
         equipos.append(i.text) # Cogemos solo el texto de la etiqueta span
-    for i in range(0,3):
-        print("puesto: %d equipo: %s" % (i+1, equipos[i]))
-        sofifa.busquedajugadores(equipos[i],pais)
+    for i in range(0,10):
+        if equipos[i] in fundadores:
+            continue
+        else:
+            print("puesto: %d equipo: %s" % (i+1, equipos[i]))
+            sofifa.busquedajugadores(equipos[i],pais)
+            break
+
+fundadores = ["Real Madrid","FC Barcelona","Atlético de Madrid"]

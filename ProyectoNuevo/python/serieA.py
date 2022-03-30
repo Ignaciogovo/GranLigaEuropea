@@ -16,11 +16,18 @@ def EjecucionSerieA():
             break
         count +=1
         equipo = i.text
-        if equipo == "Nápoles":
-            equipo = "Napoli"
-        if equipo == " Inter de Milán ":
+        # Quitamos los espacios Al principio y al final
+        equipo = equipo.strip()
+        # Personalizamos algunos nombre de los equipos para evitar posibles problemas en el scraping 
+        if equipo == "Inter de Milán":
             equipo = "Inter"
         equipos.append(equipo) # Cogemos solo el texto de la etiqueta span
     for i in range(0,10):
-        print("puesto: %d equipo: %s" % (i+1, equipos[i]))
-        sofifa.busquedajugadores(equipos[i],pais)
+        if equipos[i] in fundadores:
+            continue
+        else:
+            print("puesto: %d equipo: %s" % (i+1, equipos[i]))
+            sofifa.busquedajugadores(equipos[i],pais)
+            break
+
+fundadores = ["Milán","Inter","Juventus"]

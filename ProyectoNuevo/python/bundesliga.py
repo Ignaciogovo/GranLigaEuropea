@@ -20,8 +20,12 @@ def EjecucionBundesliga():
         Sininiciales ='' .join(unique_list(Sininiciales.split()))
         equipos.append(Sininiciales) # Cogemos solo el texto de la etiqueta span
     for i in range(0,10):
-        print("puesto: %d equipo: %s" % (i+1, equipos[i]))
-        sofifa.busquedajugadores(equipos[i],pais)
+        if equipos[i] in fundadores:
+            continue
+        else:
+            print("puesto: %d equipo: %s" % (i+1, equipos[i]))
+            sofifa.busquedajugadores(equipos[i],pais)
+            break
 
 #Eliminar palabras repetidas
 # Obtenido desde: https://foroayuda.es/como-eliminar-palabras-duplicadas-de-la-cadena-en-el-ejemplo-de-codigo-de-python/
@@ -29,3 +33,6 @@ def unique_list(l):
     ulist = []
     [ulist.append(x) for x in l if x not in ulist]
     return ulist
+
+
+fundadores = ["Bayern","Dortmund"]

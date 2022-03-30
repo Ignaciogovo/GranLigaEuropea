@@ -1,12 +1,7 @@
-Barcelona --> https://sofifa.com/team/241/fc-barcelona/
-Real Madrid --> https://sofifa.com/team/243/real-madrid-cf/
-Atletico --> https://sofifa.com/team/240/atletico-de-madrid/
-Manchester united --> https://sofifa.com/team/11/manchester-united/
-Manchester city --> https://sofifa.com/team/10/manchester-city/
-liverpool --> https://sofifa.com/team/9/liverpool/
-Arsenal --> https://sofifa.com/team/1/arsenal/
-chelsea --> https://sofifa.com/team/5/chelsea/
-tottemham  --> https://sofifa.com/team/18/tottenham-hotspur/
+Santander:
+    Barcelona --> https://sofifa.com/team/241/fc-barcelona/
+    Real Madrid --> https://sofifa.com/team/243/real-madrid-cf/
+    Atletico --> https://sofifa.com/team/240/atletico-de-madrid/
 juventus --> https://sofifa.com/team/45/juventus/
 Inter --> https://sofifa.com/team/44/inter/
 Milan --> https://sofifa.com/team/47/ac-milan/
@@ -14,7 +9,13 @@ Bayern --> https://sofifa.com/team/21/fc-bayern-munchen/
 Borusia dortmund --> https://sofifa.com/team/22/borussia-dortmund/
 Paris saint-germain --> https://sofifa.com/team/73/paris-saint-germain/
 
-
+Premier:
+    tottemham  --> https://sofifa.com/team/18/tottenham-hotspur/
+    chelsea --> https://sofifa.com/team/5/chelsea/
+    liverpool --> https://sofifa.com/team/9/liverpool/
+    Manchester united --> https://sofifa.com/team/11/manchester-united/
+    Manchester city --> https://sofifa.com/team/10/manchester-city/
+    Arsenal --> https://sofifa.com/team/1/arsenal/
 
 5 invitados por temporada:
 1 invitado por liga

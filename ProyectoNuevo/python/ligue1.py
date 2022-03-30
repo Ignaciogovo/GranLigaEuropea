@@ -17,5 +17,12 @@ def EjecucionLigue1():
         count +=1
         equipos.append(i.text) # Cogemos solo el texto de la etiqueta span
     for i in range(0,3):
-        print("puesto: %d equipo: %s" % (i+1, equipos[i]))
-        sofifa.busquedajugadores(equipos[i],pais)
+        if equipos[i] == fundador:
+            continue
+        else:
+            print("puesto: %d equipo: %s" % (i+1, equipos[i]))
+            sofifa.busquedajugadores(equipos[i],pais)
+            break
+
+
+fundador = "PARIS SAINT-GERMAIN"
