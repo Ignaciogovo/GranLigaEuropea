@@ -1,5 +1,4 @@
 # Abre conexion con la base de datos
-import pymysql
 import sys
 sys.path.append('ProyectoLiga')
 import conexionpython as cp

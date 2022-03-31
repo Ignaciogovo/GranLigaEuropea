@@ -49,19 +49,22 @@ def busquedajugadores(nombre_equipo,pais):
     listaEquipos = soup.find("td", class_="col-name-wide")
     urlPrimerequipo = listaEquipos.find("a") #Buscamos el primer enlace de la lista de equipos:
     link = urlPrimerequipo.get('href') #Sacamos el link interno de la pagina
-    #Eliminamos el archivo si ya esta creado (Para empezar de 0 la escritura)
+    #Eliminamos espacios al principio y al final
     equipoNombre=nombre_equipo.strip()
+    IngresoDatos("https://sofifa.com"+link,equipoNombre,pais)
+
+
+
+
+
+def IngresoDatos(get_url,equipoNombre,pais):
+    # Ingresamos el club 
     print(equipoNombre)
     conexionsql.insertarclub(equipoNombre,pais)
-    time.sleep(1)
+    # time.sleep(1)
+    # Obtenemos el id de ese club:
     id_equipo = conexionsql.SelectClub(equipoNombre)
-    listajugadores("https://sofifa.com"+link,id_equipo)
-
-
-
-
-
-def listajugadores(get_url,id_equipo):
+    # Usamos la url para obtener los datos de los jugadores de cada club
     page = requests.get(get_url) # Optenemos la pagina
     soup = BeautifulSoup(page.content,'html.parser')
     lista = soup.find("tbody", class_="list")
@@ -82,7 +85,7 @@ def sacardatosJugadores(get_url,id_equipo):
     #Buscamos el pais:
     pais = datos.find("a")
     pais = pais.get("title")
-    #Sacamos datos variados:
+    #Sacamos Posicion,fecha,cm y kg a partir de funciones creadas:
     datosindi=datos.find("div")
     posicion = diferenciarPosicion(datosindi.text)
     fecha=diferenciarfecha(datosindi.text)
@@ -97,18 +100,7 @@ def sacardatosJugadores(get_url,id_equipo):
             valor=valor.replace("Value","").replace("€","") #Eliminamos los datos no numericos del valor
     valor=convertirValor(valor)
     Ldatos=(nombre,id_equipo,posicion,int(kg),int(cm),pais,int(valor),fecha)
-    # print(Ldatos)
-    # Ddatos = {
-    #     "Nombre" : nombre,
-    #     "Pais" : pais,
-    #     "Posicion" : posicion,
-    #     "Fecha" : fecha,
-    #     "Cm" : cm,
-    #     "Kg" : kg,
-    #     "Valor" : valor
-    # }
     conexionsql.insertarjugador(Ldatos)
-    # return Ldatos
 
 #Funciones para sacar datos individuales de la cadena de texto:
 
@@ -139,7 +131,7 @@ def diferenciarKg(cadena):
 
 
 # Conversiones de los datos para que sean más leibles
-# Convertimos las fechas para que sea legible en sql
+    # Convertimos las fechas para que sea legible en sql
 def convertirFechas (cadena):
     sinespacios = cadena.replace(" ", "")
         #Sacamos el dia
@@ -178,7 +170,7 @@ def convertirPosiciones (cadena):
         valores = posiciones.get(key)
         valores = tuple(valores) # Volvemos a convertir cada valor de las posiciones en tuplas
         for k in valores:
-            if sinespacios == k: # Comparamos la cadena con las posiciones en las tuplas
+            if sinespacios == k: # Comparamos la cadena con las posiciones más especificas en las tuplas
                 return(key)
 
 
