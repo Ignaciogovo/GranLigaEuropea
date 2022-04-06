@@ -18,4 +18,4 @@
 
 
  Modelo relacional: 
-![ Modelo relacional](https://github.com/Pollitodetroya/LigaInventada/blob/master/codigoSQL/ModeloRelacionalVersion8.png)
+![ Modelo relacional](https://github.com/Pollitodetroya/LigaInventada/blob/master/ProyectoAnticuado/codigoSQL/ModeloRelacionalVersion8.png)
