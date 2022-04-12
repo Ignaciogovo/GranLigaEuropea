@@ -52,6 +52,7 @@ def busquedajugadores(nombre_equipo,pais):
     #Eliminamos espacios al principio y al final
     equipoNombre=nombre_equipo.strip()
     IngresoDatos("https://sofifa.com"+link,equipoNombre,pais)
+    
 
 
 
@@ -73,8 +74,10 @@ def IngresoDatos(get_url,equipoNombre,pais):
             continue
         else:
             link = a.get('href') #Sacamos el link interno de la pagina del jugador
+            # Sacamos e insertamos datos jugadores
             sacardatosJugadores("https://sofifa.com"+link,id_equipo)
-            # print(Ddatos)
+    # Actualizados datos del equipo
+    conexionsql.updateclub(id_equipo)
 
 def sacardatosJugadores(get_url,id_equipo):
     page = requests.get(get_url) # Optenemos la pagina

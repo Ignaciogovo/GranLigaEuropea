@@ -1,7 +1,11 @@
 # Abre conexion con la base de datos
 import sys
+from turtle import update
+
+from colorama import Cursor
 sys.path.append('ProyectoLiga')
 import conexionpython as cp
+# Insertar clubes
 def insertarclub(nombre,pais):
 	db = cp.bbddliga()
 	##################################################
@@ -21,6 +25,7 @@ def insertarclub(nombre,pais):
 	# desconecta del servidor
 	db.close()
 
+# Insertar Jugadores
 def insertarjugador(datos_jugadores):
 	# print(datos_jugadores)
 	db = cp.bbddliga()
@@ -41,7 +46,7 @@ def insertarjugador(datos_jugadores):
 	# desconecta del servidor
 	db.close()
 
-
+# Seleccionar club a partir del nombre
 def SelectClub(nombre):
 	db = cp.bbddliga()
 	# prepare a cursor object using cursor() method
@@ -50,4 +55,17 @@ def SelectClub(nombre):
 	cursor.execute(sql,nombre)
 	dato = cursor.fetchone()
 	id_club = dato[0]
+	db.close()
 	return(id_club)
+
+
+# Actualizar datos club
+def updateclub(id_club):
+	db = cp.bbddliga()
+	cursor = db.cursor()
+	sql="call ActualizarValoresCLUB(%s);"
+	cursor.execute(sql,id_club)
+	# Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registro actualizado")
+	db.close()
