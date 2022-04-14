@@ -4,8 +4,8 @@
         global $array2;
         $last = array_pop($array1);
         $first = array_shift($array2);
-            array_unshift($array1, $first);
-            array_push($array2,$last);
+        array_unshift($array1, $first);
+        array_push($array2,$last);
     }
     function planificacionjornadas($participantes,$mitad,$array1,$array2){
         $tiempo = 1;

@@ -10,14 +10,14 @@
 --estadios(nombre, id_equipo PK FK,capacidad)
 
 
+USE liga;
 DROP TABLE IF EXISTS club;
 CREATE TABLE club (
   id int unsigned NOT NULL auto_increment,
   nombre varchar(100) UNIQUE,
   pais varchar(100),
   nJugadores int,
-  nExtranjeros int,
-  ValorTotal varchar(100),
+  ValorTotal int,
   PRIMARY KEY (id)
 ) AUTO_INCREMENT=1;
 

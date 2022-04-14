@@ -14,4 +14,4 @@ begin
         where id = numclub;
 end //
 DELIMITER ;
-call ActualizarValoresCLUB(8);
+--call ActualizarValoresCLUB(8);
