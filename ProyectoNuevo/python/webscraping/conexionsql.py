@@ -46,6 +46,23 @@ def insertarjugador(datos_jugadores):
 	# desconecta del servidor
 	db.close()
 
+# Actualizar datos club
+def updateclub(id_club):
+	db = cp.bbddliga()
+	cursor = db.cursor()
+	sql="call ActualizarValoresCLUB(%s);"
+	cursor.execute(sql,id_club)
+	# Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registro actualizado")
+	db.close()
+
+
+
+
+# Consultas
+
+
 # Seleccionar club a partir del nombre
 def SelectClub(nombre):
 	db = cp.bbddliga()
@@ -58,14 +75,13 @@ def SelectClub(nombre):
 	db.close()
 	return(id_club)
 
-
-# Actualizar datos club
-def updateclub(id_club):
+def selectValorClub(id_club):
 	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
 	cursor = db.cursor()
-	sql="call ActualizarValoresCLUB(%s);"
+	sql = "select ValorTotal from club where id = %s"
 	cursor.execute(sql,id_club)
-	# Commit your changes in the database
-	db.commit()
-	print(cursor.rowcount, "registro actualizado")
+	dato = cursor.fetchone()
+	ValorTotal = int(dato[0])
 	db.close()
+	return(ValorTotal)
