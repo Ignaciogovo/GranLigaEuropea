@@ -29,5 +29,7 @@ def Calendario():
         print(fila1)
         print(fila2)
 # Calendario()
+def definirequipos():
+    print(1)
 
 

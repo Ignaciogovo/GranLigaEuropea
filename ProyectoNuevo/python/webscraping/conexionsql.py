@@ -15,7 +15,7 @@ def insertarclub(nombre,pais):
 	# ejecuta el SQL query usando el metodo execute().
 
 	#INSERT:
-	sql = "INSERT INTO club(nombre, pais) VALUES (%s,%s)"
+	sql = "INSERT INTO club(nombre, pais, activo) VALUES (%s,%s,1)" # --> Activo indica que este equipo va a participar este año 
 	valores = (nombre,pais)
 	cursor.execute(sql,valores)
 
@@ -85,3 +85,16 @@ def selectValorClub(id_club):
 	ValorTotal = int(dato[0])
 	db.close()
 	return(ValorTotal)
+
+# Devuelve en una lista el id de los equipos que van a jugar la temporada
+def selectActivoClub():
+	db = cp.bbddliga()
+	cursor = db.cursor()
+	sql = "select id from club where activo = 1"
+	cursor.execute(sql)
+	datos = cursor.fetchall()
+	db.close()
+	clubes = []
+	for row in datos:
+		clubes.append(row[0])
+	return(clubes)
