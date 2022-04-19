@@ -79,7 +79,7 @@ def selectValorClub(id_club):
 	db = cp.bbddliga()
 	# prepare a cursor object using cursor() method
 	cursor = db.cursor()
-	sql = "select ValorTotal from club where id = %s"
+	sql = "select ValorTotal from club where id = %s;"
 	cursor.execute(sql,id_club)
 	dato = cursor.fetchone()
 	ValorTotal = int(dato[0])
@@ -90,7 +90,7 @@ def selectValorClub(id_club):
 def selectActivoClub():
 	db = cp.bbddliga()
 	cursor = db.cursor()
-	sql = "select id from club where activo = 1"
+	sql = "select id from club where activo = 1;"
 	cursor.execute(sql)
 	datos = cursor.fetchall()
 	db.close()
