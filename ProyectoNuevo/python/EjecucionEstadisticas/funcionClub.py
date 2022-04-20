@@ -4,14 +4,53 @@ sys.path.append('ProyectoLiga\ProyectoLigaInventada\ProyectoNuevo\python\webscra
 import conexionsql as cs
 import random as ra
 
-def partido(e1,e2):
+def partido(e1,e2,jornada):
     v1 = cs.selectValorClub(e1)
     v2 = cs.selectValorClub(e2)
     diff = v1-v2
     diff = abs(diff)
-    print(diff)
+    #Asignacion equipo ganador
+    potenciales=calculoPotenciales(v1,v2,diff,jornada)
+    potencial1 = potenciales["potencial1"]
+    print(potencial1)
+    potencial2 = potenciales["potencial2"]
+    print(potencial2)
+    aforo = potenciales["aforo"]
+    if potencial1 < potencial2:
+        #Ganador segundo equipo:
+        #Asignacion de goles
+        gol1 = int(round(potencial1/2.5,0))
+        gol2 = int(round(potencial2/2.5,0))
+        if gol1 == gol2:
+            gol2=gol2+1
+        print("Gana segundo equipo con:")
+        print(gol2, "Goles")
+        print("Pierde primer equipo con:")
+        print(gol1, "Goles")
+        print("El aforo ha sido de:", aforo, "%")
+    elif potencial1 > potencial2:
+        #Ganador primer equipo:
+        #Asignacion de goles
+        gol1 = int(round(potencial1/2.5,0))
+        gol2 = int(round(potencial2/2.5,0))
+        if gol1 == gol2:
+            gol1=gol1+1
+        print("Gana primer equipo con:")
+        print(gol1, "Goles")
+        print("Pierde segundo equipo con:")
+        print(gol2, "Goles")
+        print("El aforo ha sido de:", aforo, "%")
+    elif potencial1==potencial2:
+        # Empate:
+        gol1 = int(round(potencial1/2.5,0))
+        gol2 = gol1
+        print("Empate a ", gol2, "Goles")
+        print("El aforo ha sido de:", aforo, "%")
+
+
+# Calcula el potencial de victoria de cada equipo
+def calculoPotenciales(v1,v2,diff,jornada):
     if v1 < v2:
-        print("Mayor potencial " ,e2)
         if diff < 150000000:
             potencial2= ra.randrange(9)
             potencial1= ra.randrange(9)
@@ -42,7 +81,6 @@ def partido(e1,e2):
             print("Mayor potencial")
 
     elif v1 > v2:
-        print("Mayor potencial " ,e1)
         if diff < 150000000:
             potencial1= ra.randrange(9)
             potencial2= ra.randrange(9)
@@ -73,13 +111,26 @@ def partido(e1,e2):
         potencial1= ra.randrange(9)
         potencial2= ra.randrange(9)
         aforo = ra.randrange(70,100)
-
+    # Ventaja local
+    if aforo >=80:
+        if jornada%2==0:
+            potencial2=potencial2*1.15
+        else:
+            potencial1=potencial1*1.15
+    # Incluir datos obtenidos en un diccionario
+    datos = {}
+    datos["potencial1"] =potencial1
+    datos["potencial2"] = potencial2
+    datos["aforo"] = aforo
+    return(datos)
 
 # for i in range(1,19):
     # partido(i,i+1)
 
 
-partido(6,9)
+partido(6,9,1)
+partido(6,11,12)
+
 
 
 
