@@ -128,8 +128,8 @@ def calculoPotenciales(v1,v2,diff,jornada):
     # partido(i,i+1)
 
 
-partido(6,9,1)
-partido(6,11,12)
+# partido(6,9,1)
+# partido(6,11,12)
 
 
 

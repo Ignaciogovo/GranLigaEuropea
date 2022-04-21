@@ -1,5 +1,9 @@
 from numpy import append
-def Calendario():
+import sys
+sys.path.append('ProyectoLiga\ProyectoLigaInventada\ProyectoNuevo\python\webscraping')
+import conexionsql as cs
+import funcionClub as fc
+def CalendarioNoconectado():
     # Escogemos un valor predeterminado para el numero de equipos
     numero=1
     # Definimos las listas donde se guardaran los equipos
@@ -29,7 +33,39 @@ def Calendario():
         print(fila1)
         print(fila2)
 # Calendario()
-def definirequipos():
-    print(1)
+
+
+
+def calendario(jornada):
+     # Definimos las listas donde se guardaran los equipos
+    fila1 =[]
+    fila2 = []
+    equipos=cs.selectActivoClub()
+    if len(equipos)%2==0:
+        mitad = int(len(equipos)/2)
+        fila1.extend(equipos[:mitad])
+        fila2.extend(equipos[int(mitad):int(mitad+mitad)])
+        # print("Fila 1")
+        # print(fila1)
+        # print("Fila 2")
+        # print(fila2)
+        for i in range(0,jornada):
+
+            print("jornada" ,i+1)
+            jornada = i
+            # print(fila1)
+            # print(fila2)
+            for t in range(0,len(fila1)):
+                print(fila1[t], " VS ", fila2[t])
+                fc.partido(fila1[t],fila2[t],jornada)
+            last=fila1.pop()
+            first=fila2.pop(0)
+            fila2.append(last)
+            fila1.insert(1,first)
+    else:
+        print("El número de equipos no es par")
+    
+
+calendario(1)
 
 
