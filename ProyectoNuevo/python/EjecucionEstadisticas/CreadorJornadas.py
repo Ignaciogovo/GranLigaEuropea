@@ -50,22 +50,21 @@ def calendario(jornada):
         # print("Fila 2")
         # print(fila2)
         for i in range(0,jornada):
-
-            print("jornada" ,i+1)
-            jornada = i
+            if jornada == 1:
+                break
             # print(fila1)
             # print(fila2)
-            for t in range(0,len(fila1)):
-                print(fila1[t], " VS ", fila2[t])
-                fc.partido(fila1[t],fila2[t],jornada)
             last=fila1.pop()
             first=fila2.pop(0)
             fila2.append(last)
             fila1.insert(1,first)
+        for t in range(0,len(fila1)):
+            print("jornada" ,jornada)
+            print(fila1[t], " VS ", fila2[t])
+            fc.partido(fila1[t],fila2[t],jornada)
     else:
         print("El número de equipos no es par")
     
 
-calendario(1)
 
 

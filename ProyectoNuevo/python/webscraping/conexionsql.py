@@ -1,14 +1,17 @@
 # Abre conexion con la base de datos
+import re
 import sys
 from turtle import update
 
 from colorama import Cursor
 sys.path.append('ProyectoLiga')
 import conexionpython as cp
+
+
+###Insert y updates:
 # Insertar clubes
 def insertarclub(nombre,pais):
 	db = cp.bbddliga()
-	##################################################
 	# prepare a cursor object using cursor() method
 	cursor = db.cursor()
 
@@ -29,8 +32,6 @@ def insertarclub(nombre,pais):
 def insertarjugador(datos_jugadores):
 	# print(datos_jugadores)
 	db = cp.bbddliga()
-	##################################################
-
 	# prepare a cursor object using cursor() method
 	cursor = db.cursor()
 
@@ -45,7 +46,44 @@ def insertarjugador(datos_jugadores):
 	print(cursor.rowcount, "registro insertado")
 	# desconecta del servidor
 	db.close()
+# Insertar arbitros:
+def insertarAbitros(arbitro):
+	# print(datos_jugadores)
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
 
+	# ejecuta el SQL query usando el metodo execute().
+
+	#INSERT:
+	sql = "INSERT INTO arbitros(nombre) VALUES (%s)"
+	cursor.execute(sql,arbitro)
+
+	   # Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registro insertado")
+	# desconecta del servidor
+	db.close()
+
+
+
+#Insertar partidos
+def insertarPartidos(datos_partido):
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+
+	# ejecuta el SQL query usando el metodo execute().
+
+	#INSERT:
+	sql = "INSERT INTO partidos(id_local,id_visitante,goles_local,goles_visitante,id_arbitro,aforo,jornada,temporada) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+	cursor.execute(sql,datos_partido)
+
+	   # Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registro insertado")
+	# desconecta del servidor
+	db.close()
 # Actualizar datos club
 def updateclub(id_club):
 	db = cp.bbddliga()
@@ -98,3 +136,29 @@ def selectActivoClub():
 	for row in datos:
 		clubes.append(row[0])
 	return(clubes)
+
+def selectJornada():
+	db = cp.bbddliga()
+	cursor = db.cursor()
+	sql = "select jornada from partidos order by jornada desc;"
+	cursor.execute(sql)
+	dato = cursor.fetchone()
+	if dato:
+		jornada = int(dato[0])
+	else:
+		jornada = 0
+	db.close()
+	return int(jornada)+1
+
+def selectTemporada():
+	db = cp.bbddliga()
+	cursor = db.cursor()
+	sql = "select temporada from partidos order by temporada desc;"
+	cursor.execute(sql)
+	dato = cursor.fetchone()
+	if dato:
+		temporada = int(dato[0])
+	else:
+		temporada = 1
+	db.close()
+	return int(temporada)

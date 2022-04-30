@@ -6,6 +6,8 @@ import santander
 import bundesliga
 import serieA
 import ligue1
+from arbitros import EjecucionArbitros
+from time import sleep
 #Premier:
 def inglaterra():
     pais = "Inglaterra"
@@ -135,7 +137,13 @@ def francia():
 
 
 inglaterra()
+sleep(1)
 españa()
+sleep(1)
 italia()
+sleep(1)
 alemania()
+sleep(1)
 francia()
+sleep(1)
+EjecucionArbitros()

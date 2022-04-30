@@ -35,3 +35,41 @@ CREATE TABLE jugadores (
    PRIMARY KEY (id),
   FOREIGN KEY (id_club) REFERENCES club(id)
 )AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS arbitros;
+CREATE TABLE arbitros(
+id int not null auto_increment primary key,
+nombre varchar(120)
+)AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS temporada;
+CREATE TABLE temporada(
+id int not null auto_increment primary key,
+fecha_inicio DATE,
+fecha_final DATE
+)AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS partidos;
+CREATE TABLE partidos(
+id int not null auto_increment primary key,
+id_local int unsigned,
+id_visitante int unsigned,
+goles_local int,
+goles_visitante int,
+id_arbitro int,
+aforo varchar(10),
+jornada int,
+temporada int,
+  CONSTRAINT FK_partidos_id_arbitro
+    FOREIGN KEY (id_arbitro)
+      REFERENCES arbitros(id),
+  CONSTRAINT FK_partidos_ID_LOCAL
+    FOREIGN KEY (id_local)
+      REFERENCES club(id),
+  CONSTRAINT FK_partidos_id_visitante
+    FOREIGN KEY (id_visitante)
+      REFERENCES club(id),
+  CONSTRAINT FK_partidos_temporada
+      FOREIGN KEY (temporada) 
+      REFERENCES temporada(id)
+)
