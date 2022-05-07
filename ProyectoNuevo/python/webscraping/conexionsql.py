@@ -2,6 +2,7 @@
 import re
 import sys
 from turtle import update
+from datetime import date
 
 from colorama import Cursor
 sys.path.append('ProyectoLiga')
@@ -84,6 +85,28 @@ def insertarPartidos(datos_partido):
 	print(cursor.rowcount, "registro insertado")
 	# desconecta del servidor
 	db.close()
+
+
+	
+#Insertar Temporada
+def insertarTemporada():
+	fecha_inicio = date.today()
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+
+	# ejecuta el SQL query usando el metodo execute().
+
+	#INSERT:
+	sql = "INSERT INTO temporada(fecha_inicio) VALUES (%s)"
+	cursor.execute(sql,fecha_inicio)
+
+	   # Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registro insertado")
+	# desconecta del servidor
+	db.close()
+
 # Actualizar datos club
 def updateclub(id_club):
 	db = cp.bbddliga()
@@ -95,6 +118,16 @@ def updateclub(id_club):
 	print(cursor.rowcount, "registro actualizado")
 	db.close()
 
+def updateclasificacion(id_local,gol_local,id_visitante, gol_visitante):
+	datos =  [id_local,gol_local,id_visitante, gol_visitante]
+	db = cp.bbddliga()
+	cursor = db.cursor()
+	sql="call actualizarClasificacion(%s,%s,%s,%s);"
+	cursor.execute(sql,datos)
+	# Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registro actualizado")
+	db.close()
 
 
 
@@ -123,7 +156,22 @@ def selectValorClub(id_club):
 	ValorTotal = int(dato[0])
 	db.close()
 	return(ValorTotal)
-
+def selectJugadores(id_club):
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+	sql = "select id,posicion, valor from jugadores where id_club = %s order by valor desc;"
+	cursor.execute(sql,id_club)
+	datos = cursor.fetchall()
+	db.close()
+	jugadores = []
+	for row in datos:
+		jugador = {}
+		jugador["id"]=row[0]
+		jugador["posicion"] = row[1]
+		jugador["valor"] = row[2]
+		jugadores.append(jugador)
+	return(jugadores)
 # Devuelve en una lista el id de los equipos que van a jugar la temporada
 def selectActivoClub():
 	db = cp.bbddliga()
@@ -162,3 +210,5 @@ def selectTemporada():
 		temporada = 1
 	db.close()
 	return int(temporada)
+
+

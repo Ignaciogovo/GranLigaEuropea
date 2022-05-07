@@ -73,3 +73,16 @@ temporada int,
       FOREIGN KEY (temporada) 
       REFERENCES temporada(id)
 )
+DROP TABLE IF EXISTS clasificacion;
+CREATE TABLE clasificacion(
+id_club int unsigned primary key,
+puntos INT DEFAULT 0,
+golesAfavor INT DEFAULT 0,
+golesEncontra INT DEFAULT 0,
+partidosGanados INT DEFAULT 0,
+partidosEmpatados  INT DEFAULT 0,
+partidosPerdidos INT DEFAULT 0,
+  CONSTRAINT FK_clasificacion_ID_club
+    FOREIGN KEY (id_club)
+      REFERENCES club(id)
+);

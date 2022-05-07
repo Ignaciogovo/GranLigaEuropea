@@ -33,9 +33,11 @@ def partido(e1,e2,jornada):
         if jornada%2==0:
             datos_partidos= [e2,e1,gol2,gol1,arbitro,(str(aforo) + '%'),jornada,temporada]
             cs.insertarPartidos(datos_partidos)
+            cs.updateclasificacion(e2,gol2,e1, gol1)
         else:
             datos_partidos= [e1,e2,gol1,gol2,arbitro,(str(aforo) + '%'),jornada,temporada]
             cs.insertarPartidos(datos_partidos)
+            cs.updateclasificacion(e1,gol1,e2,gol2)
     elif potencial1 > potencial2:
         #Ganador primer equipo:
         #Asignacion de goles
@@ -51,9 +53,11 @@ def partido(e1,e2,jornada):
         if jornada%2==0:
             datos_partidos= [e2,e1,gol2,gol1,arbitro,(str(aforo) + '%'),jornada,temporada]
             cs.insertarPartidos(datos_partidos)
+            cs.updateclasificacion(e2,gol2,e1, gol1)
         else:
             datos_partidos= [e1,e2,gol1,gol2,arbitro,(str(aforo) + '%'),jornada,temporada]
             cs.insertarPartidos(datos_partidos)
+            cs.updateclasificacion(e1,gol1,e2,gol2)
     elif potencial1==potencial2:
         # Empate:
         gol1 = int(round(potencial1/2.5,0))
@@ -63,9 +67,11 @@ def partido(e1,e2,jornada):
         if jornada%2==0:
             datos_partidos= [e2,e1,gol2,gol1,arbitro,(str(aforo) + '%'),jornada,temporada]
             cs.insertarPartidos(datos_partidos)
+            cs.updateclasificacion(e2,gol2,e1, gol1)
         else:
             datos_partidos= [e1,e2,gol1,gol2,arbitro,(str(aforo) + '%'),jornada,temporada]
             cs.insertarPartidos(datos_partidos)
+            cs.updateclasificacion(e1,gol1,e2,gol2)
 
 # Calcula el potencial de victoria de cada equipo
 def calculoPotenciales(v1,v2,diff,jornada):

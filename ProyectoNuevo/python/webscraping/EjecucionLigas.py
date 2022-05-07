@@ -8,6 +8,7 @@ import serieA
 import ligue1
 from arbitros import EjecucionArbitros
 from time import sleep
+from conexionsql import insertarTemporada
 #Premier:
 def inglaterra():
     pais = "Inglaterra"
@@ -147,3 +148,6 @@ sleep(1)
 francia()
 sleep(1)
 EjecucionArbitros()
+insertarTemporada()
+
+# 12:21 minutos
