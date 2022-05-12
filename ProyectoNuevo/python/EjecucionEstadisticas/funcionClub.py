@@ -3,6 +3,7 @@ import sys
 sys.path.append('ProyectoLiga\ProyectoLigaInventada\ProyectoNuevo\python\webscraping')
 import conexionsql as cs
 import random as ra
+import funcionJugadores as fj
 
 def partido(e1,e2,jornada):
     v1 = cs.selectValorClub(e1)
@@ -33,10 +34,14 @@ def partido(e1,e2,jornada):
         if jornada%2==0:
             datos_partidos= [e2,e1,gol2,gol1,arbitro,(str(aforo) + '%'),jornada,temporada]
             cs.insertarPartidos(datos_partidos)
+            fj.ejecucionEstadisticas(e1,gol1)
+            fj.ejecucionEstadisticas(e2,gol2)
             cs.updateclasificacion(e2,gol2,e1, gol1)
         else:
             datos_partidos= [e1,e2,gol1,gol2,arbitro,(str(aforo) + '%'),jornada,temporada]
             cs.insertarPartidos(datos_partidos)
+            fj.ejecucionEstadisticas(e1,gol1)
+            fj.ejecucionEstadisticas(e2,gol2)
             cs.updateclasificacion(e1,gol1,e2,gol2)
     elif potencial1 > potencial2:
         #Ganador primer equipo:
@@ -53,24 +58,30 @@ def partido(e1,e2,jornada):
         if jornada%2==0:
             datos_partidos= [e2,e1,gol2,gol1,arbitro,(str(aforo) + '%'),jornada,temporada]
             cs.insertarPartidos(datos_partidos)
+            fj.ejecucionEstadisticas(e1,gol1)
+            fj.ejecucionEstadisticas(e2,gol2)
             cs.updateclasificacion(e2,gol2,e1, gol1)
         else:
             datos_partidos= [e1,e2,gol1,gol2,arbitro,(str(aforo) + '%'),jornada,temporada]
             cs.insertarPartidos(datos_partidos)
+            fj.ejecucionEstadisticas(e1,gol1)
+            fj.ejecucionEstadisticas(e2,gol2)
             cs.updateclasificacion(e1,gol1,e2,gol2)
     elif potencial1==potencial2:
         # Empate:
         gol1 = int(round(potencial1/2.5,0))
         gol2 = gol1
-        print("Empate a ", gol2, "Goles")
-        print("El aforo ha sido de:", aforo, "%")
         if jornada%2==0:
             datos_partidos= [e2,e1,gol2,gol1,arbitro,(str(aforo) + '%'),jornada,temporada]
             cs.insertarPartidos(datos_partidos)
+            fj.ejecucionEstadisticas(e1,gol1)
+            fj.ejecucionEstadisticas(e2,gol2)
             cs.updateclasificacion(e2,gol2,e1, gol1)
         else:
             datos_partidos= [e1,e2,gol1,gol2,arbitro,(str(aforo) + '%'),jornada,temporada]
             cs.insertarPartidos(datos_partidos)
+            fj.ejecucionEstadisticas(e1,gol1)
+            fj.ejecucionEstadisticas(e2,gol2)
             cs.updateclasificacion(e1,gol1,e2,gol2)
 
 # Calcula el potencial de victoria de cada equipo

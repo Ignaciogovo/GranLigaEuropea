@@ -7,8 +7,7 @@ from time import sleep
 #     jornada = cs.selectJornada()
 #     cj.calendario(jornada) 
 
+
+jornada = cs.selectJornada()
 sleep(2)
-for i in range(20):
-    jornada = cs.selectJornada()
-    sleep(2)
-    cj.calendario(jornada) 
+cj.calendario(jornada) 

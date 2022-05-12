@@ -86,3 +86,20 @@ partidosPerdidos INT DEFAULT 0,
     FOREIGN KEY (id_club)
       REFERENCES club(id)
 );
+DROP TABLE IF EXISTS estadisticas_partido;
+CREATE TABLE estadisticas_partido(
+id int PRIMARY KEY auto_increment,
+id_jugador int unsigned not null,
+id_partido int not null,
+goles INT DEFAULT 0,
+asistencias INT DEFAULT 0,
+amarillas INT DEFAULT 0,
+rojas INT DEFAULT 0,
+titular int DEFAULT 0,
+  CONSTRAINT FK_estadisticas_partido_id_jugador
+    FOREIGN KEY (id_jugador)
+      REFERENCES jugadores(id),
+  CONSTRAINT FK_estadisticas_partido_id_partido
+    FOREIGN KEY (id_partido)
+      REFERENCES partidos(id)
+)AUTO_INCREMENT=1;

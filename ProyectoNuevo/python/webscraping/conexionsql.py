@@ -85,6 +85,24 @@ def insertarPartidos(datos_partido):
 	print(cursor.rowcount, "registro insertado")
 	# desconecta del servidor
 	db.close()
+#Insertar Estadisticas partidos
+def insertarEstadisticasPartidos(estadisticas_partido):
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+
+	# ejecuta el SQL query usando el metodo execute().
+
+	#INSERT:
+	sql = "INSERT INTO estadisticas_partido(id_jugador,id_partido,goles,asistencias,amarillas,rojas,titular) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+	cursor.execute(sql,estadisticas_partido)
+
+	   # Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registro insertado")
+	# desconecta del servidor
+	db.close()
+
 
 
 	
@@ -211,4 +229,16 @@ def selectTemporada():
 	db.close()
 	return int(temporada)
 
+def selectPartido():
+	db = cp.bbddliga()
+	cursor = db.cursor()
+	sql = "select id from partidos order by id desc;"
+	cursor.execute(sql)
+	dato = cursor.fetchone()
+	if dato:
+		partido = int(dato[0])
+	else:
+		partido = 1
+	db.close()
+	return int(partido)
 

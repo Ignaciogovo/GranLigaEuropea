@@ -32,14 +32,14 @@ def sistemasEquipo():
 # Calculo total de tarjetas de un equipo
 def tarjetasTotales():
     amarillas = ra.randrange(0,5)
-    rojas=(ra.randrange(0,3)*ra.randrange(0,4))/2
+    rojas=int((ra.randrange(0,3)*ra.randrange(0,4))/2)
     if rojas < 1:
         rojas = 0
     tarjetas=[amarillas,rojas]
     return(tarjetas)
 
 def asignarProbabilidades(jugadores):
-    for i in range(0,len(jugadores)):
+    for i in range(0,len(jugadores)):    
         ptitular = ra.randrange(0,11)
         pgol = ra.randrange(0,11)
         pamarilla = ra.randrange(0,11)
@@ -157,7 +157,6 @@ def asignacionGoles(jugadores,goles):
         jugadores[0] = jugador
         if (ra.randint(0,1)==1):
             jugadores2 = jugadores.pop(0) # Eliminamos el jugador que ha marcado gol
-            print("Se genera una asistencia gol:",jugadores2)
             jugadores = asignacionAsistencias(jugadores)
             jugadores.append(jugadores2)
         jugadores = ordenarJugadores(jugadores,"pgol")
@@ -172,25 +171,57 @@ def asignacionAsistencias(jugadores):
         jugadores[0] = jugador
         return(jugadores)
 
+def asignacionTarjetas(jugadores):
+    jugadores = mejorarPotencial(jugadores,"proja")
+    jugadores = mejorarPotencial(jugadores,"pamarilla")
+    tarjetas=tarjetasTotales()
+    amarillas = tarjetas[0]
+    rojas = tarjetas[1]
+    print(tarjetas)
+    for i in range(0,amarillas):
+        jugador = jugadores[0]
+        # Condicion si jugador tiene 2 amarillas
+        if jugador["amarilla"]>=2:
+            i = i-1
+            jugador["pamarilla"] = 0
+            jugadores=ordenarJugadores(jugadores,"pamarilla")
+            continue
+        jugador["amarilla"] = jugador["amarilla"]+1
+        jugador["pamarilla"] = jugador["pamarilla"]-4
+        jugadores[0] = jugador
+        jugadores=ordenarJugadores(jugadores,"pamarilla")
+    for i in range(0,rojas):
+        jugador = jugadores[0]
+        # Condicion si jugador tiene 2 amarillas
+        if jugador["roja"]>=2:
+            i = i-1
+            jugador["proja"] = 0
+            jugadores=ordenarJugadores(jugadores,"proja")
+            continue
+        jugador["roja"] = jugador["roja"]+1
+        jugador["proja"] = jugador["proja"]-4
+        jugadores[0] = jugador
+        jugadores=ordenarJugadores(jugadores,"proja")
+    return(jugadores)
 
+def insertarEstadisticas(jugadores):
+    id_partido = cs.selectPartido()
+    for i in jugadores:
+        jugador = i
+        id = jugador["id"]
+        titular = jugador["titular"]
+        gol = jugador["gol"]
+        asis = jugador["asis"]
+        rojas = jugador["roja"]
+        amarilla = jugador["amarilla"]
+        datos = [id,id_partido,gol,asis,rojas,amarilla,titular]
+        cs.insertarEstadisticasPartidos(datos)
 
-
-jugadores=cs.selectJugadores(2)
-jugadores = asignarProbabilidades(jugadores)
-jugadores = asignacionTitular(jugadores)
-jugadores = asignacionGoles(jugadores,5)
-jugadores = ordenarJugadores(jugadores,"gol")
-# print(jugadores)
-
-
-for i in jugadores:
-    jugador = i
-    id = jugador["id"]
-    posicion = jugador["posicion"]
-    pgol = jugador["pgol"]
-    titular = jugador["titular"]
-    gol = jugador["gol"]
-    pasis = jugador["pasis"]
-    asis = jugador["asis"]
-
-    print("Jugador: ", id," Posicion: ", posicion, " pgol: ", pgol, " gol: ",gol," titular: ", titular, " asis: ", asis)
+def ejecucionEstadisticas(club,gol):
+    jugadores=cs.selectJugadores(club)
+    jugadores = asignarProbabilidades(jugadores)
+    jugadores = asignacionTitular(jugadores)
+    jugadores = asignacionGoles(jugadores,gol)
+    jugadores = asignacionTarjetas(jugadores)
+    jugadores = ordenarJugadores(jugadores,"titular")
+    insertarEstadisticas(jugadores)
