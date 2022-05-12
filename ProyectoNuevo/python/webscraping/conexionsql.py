@@ -3,7 +3,6 @@ import re
 import sys
 from turtle import update
 from datetime import date
-
 from colorama import Cursor
 sys.path.append('ProyectoLiga')
 import conexionpython as cp

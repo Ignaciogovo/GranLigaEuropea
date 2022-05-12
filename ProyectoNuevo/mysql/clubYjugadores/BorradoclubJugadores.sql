@@ -7,7 +7,9 @@ from jugadores inner join club
 on jugadores.id_club=club.id 
 order by valor desc;
 
-
+-- Borrar estadisticas partido
+delete from estadisticas_partido where id > 0 ;
+alter table estadisticas_partido AUTO_INCREMENT=1;
 -- Borrar jugadores
 delete from jugadores where id_club > 0 ;
 alter table jugadores AUTO_INCREMENT=1;

@@ -60,7 +60,6 @@ def busquedajugadores(nombre_equipo,pais):
 
 def IngresoDatos(get_url,equipoNombre,pais):
     # Ingresamos el club 
-    print(equipoNombre)
     conexionsql.insertarclub(equipoNombre,pais)
     # time.sleep(1)
     # Obtenemos el id de ese club:
@@ -108,8 +107,8 @@ def sacardatosJugadores(get_url,id_equipo):
 #Funciones para sacar datos individuales de la cadena de texto:
 
 def diferenciarPosicion(cadena):
-    sinespacios = cadena.replace(" ", "")#Elimina los espacios
-    posicion=sinespacios[:3] #Sacamos los dos primeros caracteres de la cadena de texto
+    sinespacios = cadena.lstrip()#Elimina los espacios de la izquierda
+    posicion=sinespacios[:3] #Sacamos los tres primeros caracteres de la cadena de texto
     posicion = posicion.replace(" ", "")#Elimina los espacios
     posicion=str(convertirPosiciones(posicion))
     return posicion
