@@ -109,7 +109,8 @@ def sacardatosJugadores(get_url,id_equipo):
 
 def diferenciarPosicion(cadena):
     sinespacios = cadena.replace(" ", "")#Elimina los espacios
-    posicion=sinespacios[:2] #Sacamos los dos primeros caracteres de la cadena de texto
+    posicion=sinespacios[:3] #Sacamos los dos primeros caracteres de la cadena de texto
+    posicion = posicion.replace(" ", "")#Elimina los espacios
     posicion=str(convertirPosiciones(posicion))
     return posicion
 
@@ -181,9 +182,9 @@ def convertirPosiciones (cadena):
 
 #Datos de las posiciones
 portero= ("GK","0")
-defensa =("RB","RB","CB","LB")
-centrocampista=("RM","CD","CM","LM","CA")
-delantero = ("RW","ST","CF","LW")
+defensa =("RB","RB","CB","LB","LWB","RWB")
+centrocampista=("RM","CD","CM","LM","CAM","LAM","RAM","CDM","RDM","LDM")
+delantero = ("RW","ST","CF","LW","LS","RS","LF","RF")
 posiciones={
     "Portero" : portero,
     "Defensa" : defensa,
