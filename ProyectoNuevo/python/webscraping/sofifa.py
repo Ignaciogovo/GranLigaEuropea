@@ -7,6 +7,8 @@ import time
 from bs4 import BeautifulSoup
 import requests
 from datetime import date
+import sys
+sys.path.append('ProyectoLiga\ProyectoLigaInventada\ProyectoNuevo\python\EjecucionEstadisticas')
 import conexionsql
 #Esta función busca a los jugadores a partir del nombre del equipo.
 def busquedajugadores(nombre_equipo,pais):

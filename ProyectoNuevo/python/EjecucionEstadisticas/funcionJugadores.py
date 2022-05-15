@@ -1,8 +1,3 @@
-from cgi import print_arguments
-import sys
-
-from pandas import array
-sys.path.append('ProyectoLiga\ProyectoLigaInventada\ProyectoNuevo\python\webscraping')
 import conexionsql as cs
 import random as ra
 

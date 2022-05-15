@@ -163,6 +163,16 @@ def SelectClub(nombre):
 	db.close()
 	return(id_club)
 
+def selectNombreClub(id_club)
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+	sql = "select nombre from club where id = %s;"
+	cursor.execute(sql,id_club)
+	dato = cursor.fetchone()
+	nombre = dato[0]
+	db.close()
+	return(nombre)
 def selectValorClub(id_club):
 	db = cp.bbddliga()
 	# prepare a cursor object using cursor() method

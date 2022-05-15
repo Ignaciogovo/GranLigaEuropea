@@ -1,6 +1,3 @@
-from numpy import append
-import sys
-sys.path.append('ProyectoLiga\ProyectoLigaInventada\ProyectoNuevo\python\webscraping')
 import conexionsql as cs
 import funcionClub as fc
 def CalendarioNoconectado():

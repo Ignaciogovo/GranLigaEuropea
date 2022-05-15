@@ -1,7 +1,5 @@
-from cgi import print_arguments
-import sys
-sys.path.append('ProyectoLiga\ProyectoLigaInventada\ProyectoNuevo\python\webscraping')
 import conexionsql as cs
+import conexiontwitter as ct
 import random as ra
 import funcionJugadores as fj
 
@@ -26,23 +24,28 @@ def partido(e1,e2,jornada):
         gol2 = int(round(potencial2/2.5,0))
         if gol1 == gol2:
             gol2=gol2+1
-        # print("Gana segundo equipo con:")
-        # print(gol2, "Goles")
-        # print("Pierde primer equipo con:")
-        # print(gol1, "Goles")
-        # print("El aforo ha sido de:", aforo, "%")
-        if jornada%2==0:
+        if jornada%2==0: #Local e2
             datos_partidos= [e2,e1,gol2,gol1,arbitro,(str(aforo) + '%'),jornada,temporada]
+            #Insertamos resultado del partido
             cs.insertarPartidos(datos_partidos)
+            # ejecutamos las estadisticas de los jugadores
             fj.ejecucionEstadisticas(e1,gol1)
             fj.ejecucionEstadisticas(e2,gol2)
+            # Actualizamos Clasificacion
             cs.updateclasificacion(e2,gol2,e1, gol1)
-        else:
+            # Twittear resultado de partido
+            ct.twittearPartido(e2,e1,gol2,gol1)
+        else: #Local e1
             datos_partidos= [e1,e2,gol1,gol2,arbitro,(str(aforo) + '%'),jornada,temporada]
+            #Insertamos resultado del partido
             cs.insertarPartidos(datos_partidos)
+            # ejecutamos las estadisticas de los jugadores
             fj.ejecucionEstadisticas(e1,gol1)
             fj.ejecucionEstadisticas(e2,gol2)
+            # Actualizamos Clasificacion
             cs.updateclasificacion(e1,gol1,e2,gol2)
+            # Twittear resultado de partido
+            ct.twittearPartido(e1,e2,gol1,gol2)
     elif potencial1 > potencial2:
         #Ganador primer equipo:
         #Asignacion de goles
@@ -50,39 +53,54 @@ def partido(e1,e2,jornada):
         gol2 = int(round(potencial2/2.5,0))
         if gol1 == gol2:
             gol1=gol1+1
-        # print("Gana primer equipo con:")
-        # print(gol1, "Goles")
-        # print("Pierde segundo equipo con:")
-        # print(gol2, "Goles")
-        # print("El aforo ha sido de:", aforo, "%")
-        if jornada%2==0:
+        if jornada%2==0: #Local e2
             datos_partidos= [e2,e1,gol2,gol1,arbitro,(str(aforo) + '%'),jornada,temporada]
+            #Insertamos resultado del partido
             cs.insertarPartidos(datos_partidos)
+            # ejecutamos las estadisticas de los jugadores
             fj.ejecucionEstadisticas(e1,gol1)
             fj.ejecucionEstadisticas(e2,gol2)
+            # Actualizamos Clasificacion
             cs.updateclasificacion(e2,gol2,e1, gol1)
-        else:
+            # Twittear resultado de partido
+            ct.twittearPartido(e2,e1,gol2,gol1)
+        else: #Local e1
             datos_partidos= [e1,e2,gol1,gol2,arbitro,(str(aforo) + '%'),jornada,temporada]
+            #Insertamos resultado del partido
             cs.insertarPartidos(datos_partidos)
+            # ejecutamos las estadisticas de los jugadores
             fj.ejecucionEstadisticas(e1,gol1)
             fj.ejecucionEstadisticas(e2,gol2)
+            # Actualizamos Clasificacion
             cs.updateclasificacion(e1,gol1,e2,gol2)
+            # Twittear resultado de partido
+            ct.twittearPartido(e1,e2,gol1,gol2)
     elif potencial1==potencial2:
         # Empate:
         gol1 = int(round(potencial1/2.5,0))
         gol2 = gol1
-        if jornada%2==0:
+        if jornada%2==0: #Local e2
             datos_partidos= [e2,e1,gol2,gol1,arbitro,(str(aforo) + '%'),jornada,temporada]
+            #Insertamos resultado del partido
             cs.insertarPartidos(datos_partidos)
+            # ejecutamos las estadisticas de los jugadores
             fj.ejecucionEstadisticas(e1,gol1)
             fj.ejecucionEstadisticas(e2,gol2)
+            # Actualizamos Clasificacion
             cs.updateclasificacion(e2,gol2,e1, gol1)
-        else:
+            # Twittear resultado de partido
+            ct.twittearPartido(e2,e1,gol2,gol1)
+        else: #Local e1
             datos_partidos= [e1,e2,gol1,gol2,arbitro,(str(aforo) + '%'),jornada,temporada]
+            #Insertamos resultado del partido
             cs.insertarPartidos(datos_partidos)
+            # ejecutamos las estadisticas de los jugadores
             fj.ejecucionEstadisticas(e1,gol1)
             fj.ejecucionEstadisticas(e2,gol2)
+            # Actualizamos Clasificacion
             cs.updateclasificacion(e1,gol1,e2,gol2)
+            # Twittear resultado de partido
+            ct.twittearPartido(e1,e2,gol1,gol2)
 
 # Calcula el potencial de victoria de cada equipo
 def calculoPotenciales(v1,v2,diff,jornada):
@@ -159,22 +177,3 @@ def calculoPotenciales(v1,v2,diff,jornada):
     datos["potencial2"] = potencial2
     datos["aforo"] = aforo
     return(datos)
-
-# for i in range(1,19):
-    # partido(i,i+1)
-
-
-# partido(6,9,1)
-# partido(6,11,12)
-
-
-
-
-
-# #media = sum(prueba)/len(prueba)
-# print (prueba)
- 
-
-
-# Diferencia entre manchester city y marsella : 877.315.000
-# Diferencia entre manchester city y AC Milan : 593.690.000

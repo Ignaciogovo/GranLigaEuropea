@@ -8,6 +8,8 @@ import serieA
 import ligue1
 from arbitros import EjecucionArbitros
 from time import sleep
+import sys
+sys.path.append('ProyectoLiga\ProyectoLigaInventada\ProyectoNuevo\python\EjecucionEstadisticas')
 from conexionsql import insertarTemporada
 #Premier:
 def inglaterra():
