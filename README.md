@@ -1,6 +1,12 @@
-# LigaInventada
- Proyecto durante las navidades para practicar conceptos aprendidos en sql y php.
+# Gran Liga Europea
+Idea: Crear un simulador de una liga inventada con los mejores equipos de fútbol de europa al estilo "la superliga de florentino" con equipos fundadores y los mejores equipos restantes de las grandes ligas.
+
+
+Enfoque:
+ Proyecto durante las navidades para practicar conceptos aprendidos en sql server y php.
  Además de eso, hay una series de recursos que se pueden utilizar de forma independiente, como es La creación de las jornadas.
+ 
+ Actualización: Uso de este proyecto como parte del tfg, nuesvas tecnologias: python, mysql.
  
  
  
@@ -13,6 +19,8 @@
 
 - Implementacion de python en el proyecto a partir de webscraping y otros conceptos.
 - Uso de mysql como sistema de gestión de base de datos.
+- Uso de php para página de estadisticas.
+- Bot de twitter para twittear el resultado de los partidos.
 
 
 
