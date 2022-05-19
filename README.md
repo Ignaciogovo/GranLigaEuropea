@@ -1,4 +1,4 @@
-# LigaInventada
+# Gran Liga Europea
 Idea: Crear un simulador de una liga inventada con los mejores equipos de fútbol de europa al estilo "la superliga de florentino" con equipos fundadores y los mejores equipos restantes de las grandes ligas.
 
 
