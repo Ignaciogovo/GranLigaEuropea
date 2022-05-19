@@ -10,7 +10,7 @@ import conexionpython as cp
 
 ###Insert y updates:
 # Insertar clubes
-def insertarclub(nombre,pais):
+def insertarclub(nombre,pais,id_estadio):
 	db = cp.bbddliga()
 	# prepare a cursor object using cursor() method
 	cursor = db.cursor()
@@ -18,8 +18,8 @@ def insertarclub(nombre,pais):
 	# ejecuta el SQL query usando el metodo execute().
 
 	#INSERT:
-	sql = "INSERT INTO club(nombre, pais, activo) VALUES (%s,%s,1)" # --> Activo indica que este equipo va a participar este año 
-	valores = (nombre,pais)
+	sql = "INSERT INTO club(nombre, pais, activo,id_estadio) VALUES (%s,%s,1,%s) ON DUPLICATE KEY UPDATE activo=1" # --> Activo indica que este equipo va a participar este año 
+	valores = (nombre,pais,id_estadio)
 	cursor.execute(sql,valores)
 
 	   # Commit your changes in the database
@@ -38,7 +38,7 @@ def insertarjugador(datos_jugadores):
 	# ejecuta el SQL query usando el metodo execute().
 
 	#INSERT:
-	sql = "INSERT INTO jugadores(nombre,id_club,posicion,peso,altura,nacionalidad,valor,FechaNacimiento) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+	sql = "INSERT INTO jugadores(nombre,id_club,posicion,peso,altura,nacionalidad,valor,FechaNacimiento,activo) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,1) ON DUPLICATE KEY UPDATE id_club=%s,posicion=%s,peso=%s,altura=%s,nacionalidad=%s,valor=%s, activo = 1"
 	cursor.execute(sql,datos_jugadores)
 
 	   # Commit your changes in the database
@@ -48,7 +48,6 @@ def insertarjugador(datos_jugadores):
 	db.close()
 # Insertar arbitros:
 def insertarAbitros(arbitro):
-	# print(datos_jugadores)
 	db = cp.bbddliga()
 	# prepare a cursor object using cursor() method
 	cursor = db.cursor()
@@ -56,8 +55,8 @@ def insertarAbitros(arbitro):
 	# ejecuta el SQL query usando el metodo execute().
 
 	#INSERT:
-	sql = "INSERT INTO arbitros(nombre) VALUES (%s)"
-	cursor.execute(sql,arbitro)
+	sql = "INSERT INTO arbitros(nombre) VALUES (%s) ON DUPLICATE KEY UPDATE nombre=%s"
+	cursor.execute(sql,(arbitro,arbitro))
 
 	   # Commit your changes in the database
 	db.commit()
@@ -66,6 +65,22 @@ def insertarAbitros(arbitro):
 	db.close()
 
 
+# Insertar Estadios
+def insertarEstadios(estadio):
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+
+	# ejecuta el SQL query usando el metodo execute().
+
+	#INSERT:
+	sql = "INSERT INTO estadios(nombre) VALUES (%s) ON DUPLICATE KEY UPDATE nombre=%s" # cursor.execute("INSERT INTO input_1 (a,b,c,d) VALUES (%s,%s,%s,%s) ON DUPLICATE KEY UPDATE VALUES a=%s,b=%s,c=%s", (item['a'],item['b'],item['c'],item['d'],item['a'],item['b'],item['c']))
+	cursor.execute(sql,(estadio,estadio))
+	   # Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registro insertado")
+	# desconecta del servidor
+	db.close()
 
 #Insertar partidos
 def insertarPartidos(datos_partido):
@@ -162,6 +177,18 @@ def SelectClub(nombre):
 	id_club = dato[0]
 	db.close()
 	return(id_club)
+
+def SelectEstadio(nombre):
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+	sql = "select id from estadios where nombre = %s"
+	cursor.execute(sql,nombre)
+	dato = cursor.fetchone()
+	id_estadio = dato[0]
+	db.close()
+	return(id_estadio)
+
 
 def selectNombreClub(id_club):
 	db = cp.bbddliga()

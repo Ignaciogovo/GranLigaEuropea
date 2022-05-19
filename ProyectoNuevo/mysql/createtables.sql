@@ -11,6 +11,15 @@
 
 
 USE liga;
+DROP TABLE IF EXISTS estadios;
+
+CREATE TABLE estadios(
+id int primary key auto_increment,
+nombre varchar(100) not null,
+ciudad varchar(100) null,
+capacidad int null
+)AUTO_INCREMENT=1; 
+
 DROP TABLE IF EXISTS club;
 CREATE TABLE club (
   id int unsigned NOT NULL auto_increment,
@@ -18,13 +27,17 @@ CREATE TABLE club (
   pais varchar(100),
   nJugadores int,
   ValorTotal int,
-  PRIMARY KEY (id)
+  activo int default 0,
+  id_estadio int NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT FK_estadio FOREIGN KEY (id_estadio) REFERENCES estadios(id)
 ) AUTO_INCREMENT=1;
+
 
 DROP TABLE IF EXISTS jugadores;
 CREATE TABLE jugadores (
   id int unsigned NOT NULL auto_increment,
-  nombre varchar(100),
+  nombre varchar(100) UNIQUE,
   id_club int unsigned,
   posicion varchar(100),
   peso varchar(100),
@@ -32,6 +45,7 @@ CREATE TABLE jugadores (
   nacionalidad varchar(100),
   valor int unsigned,
   FechaNacimiento Date,
+  activo int DEFAULT 0,
    PRIMARY KEY (id),
   FOREIGN KEY (id_club) REFERENCES club(id)
 )AUTO_INCREMENT=1;

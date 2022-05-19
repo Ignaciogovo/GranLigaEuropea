@@ -61,8 +61,9 @@ def busquedajugadores(nombre_equipo,pais):
 
 
 def IngresoDatos(get_url,equipoNombre,pais):
+    id_estadio = sacarEstadio(get_url)
     # Ingresamos el club 
-    conexionsql.insertarclub(equipoNombre,pais)
+    conexionsql.insertarclub(equipoNombre,pais,id_estadio)
     # time.sleep(1)
     # Obtenemos el id de ese club:
     id_equipo = conexionsql.SelectClub(equipoNombre)
@@ -103,7 +104,7 @@ def sacardatosJugadores(get_url,id_equipo):
             valor = i.find("div").text
             valor=valor.replace("Value","").replace("€","") #Eliminamos los datos no numericos del valor
     valor=convertirValor(valor)
-    Ldatos=(nombre,id_equipo,posicion,int(kg),int(cm),pais,int(valor),fecha)
+    Ldatos=(nombre,id_equipo,posicion,int(kg),int(cm),pais,int(valor),fecha,id_equipo,posicion,int(kg),int(cm),pais,int(valor)) # Duplicamos datos para usar on duplicate key update
     conexionsql.insertarjugador(Ldatos)
 
 #Funciones para sacar datos individuales de la cadena de texto:
@@ -179,6 +180,17 @@ def convertirPosiciones (cadena):
                 return(key)
 
 
+
+# Sacamos el sacarEstadio
+def sacarEstadio(get_url):
+    page = requests.get(get_url) # Optenemos la pagina
+    soup = BeautifulSoup(page.content,'html.parser')
+    others = soup.find("div", class_="bp3-card player")
+    estadio = others.find("li", class_="ellipsis")
+    estadio = (estadio.text).replace("Home Stadium", "")
+    conexionsql.insertarEstadios(estadio)
+    id_estadio=conexionsql.SelectEstadio(estadio)
+    return(id_estadio)
 
 
 #Datos de las posiciones
