@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS estadios;
 
 CREATE TABLE estadios(
 id int primary key auto_increment,
-nombre varchar(100) not null,
+nombre varchar(100) not null unique,
 ciudad varchar(100) null,
 capacidad int null
 )AUTO_INCREMENT=1; 
@@ -37,7 +37,7 @@ CREATE TABLE club (
 DROP TABLE IF EXISTS jugadores;
 CREATE TABLE jugadores (
   id int unsigned NOT NULL auto_increment,
-  nombre varchar(100) UNIQUE,
+  nombre  varchar(100) UNIQUE,
   id_club int unsigned,
   posicion varchar(100),
   peso varchar(100),
@@ -53,7 +53,9 @@ CREATE TABLE jugadores (
 DROP TABLE IF EXISTS arbitros;
 CREATE TABLE arbitros(
 id int not null auto_increment primary key,
-nombre varchar(120)
+nombre varchar(120) unique,
+nacionalidad varchar(120) null,
+FechaNacimiento date null
 )AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS temporada;
