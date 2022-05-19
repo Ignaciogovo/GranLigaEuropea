@@ -56,7 +56,7 @@ def asignarProbabilidades(jugadores):
 def mejorarPotencial(jugadores,opcion):
     #Multiplicadores
     if opcion == "ptitular":
-        multiplicador = [15,30,30,30]
+        multiplicador = [10,35,35,35]
     if opcion == "pgol":
         multiplicador = [1,30,35,45]
     if opcion == "pasis":
@@ -172,7 +172,6 @@ def asignacionTarjetas(jugadores):
     tarjetas=tarjetasTotales()
     amarillas = tarjetas[0]
     rojas = tarjetas[1]
-    print(tarjetas)
     for i in range(0,amarillas):
         jugador = jugadores[0]
         # Condicion si jugador tiene 2 amarillas

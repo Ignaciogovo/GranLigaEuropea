@@ -163,7 +163,7 @@ def SelectClub(nombre):
 	db.close()
 	return(id_club)
 
-def selectNombreClub(id_club)
+def selectNombreClub(id_club):
 	db = cp.bbddliga()
 	# prepare a cursor object using cursor() method
 	cursor = db.cursor()

@@ -6,13 +6,16 @@ import funcionJugadores as fj
 def partido(e1,e2,jornada):
     v1 = cs.selectValorClub(e1)
     v2 = cs.selectValorClub(e2)
-    diff = v1-v2
-    diff = abs(diff)
+    diff = abs(v1-v2)
     #Asignacion equipo ganador
     potenciales=calculoPotenciales(v1,v2,diff,jornada)
     potencial1 = potenciales["potencial1"]
     potencial2 = potenciales["potencial2"]
     aforo = potenciales["aforo"]
+    # Asignar un rango para empates
+    diff =abs(potencial1-potencial1)
+    if diff <= 0.5:
+        potencial2 = potencial1
     # Asignacion de arbitro:
     arbitro= ra.randrange(1,9)
     # Temporada
