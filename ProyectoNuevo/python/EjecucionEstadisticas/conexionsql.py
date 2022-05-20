@@ -240,17 +240,21 @@ def selectActivoClub():
 	return(clubes)
 
 def selectJornada():
-	db = cp.bbddliga()
-	cursor = db.cursor()
-	sql = "select jornada from partidos order by jornada desc;"
-	cursor.execute(sql)
-	dato = cursor.fetchone()
-	if dato:
-		jornada = int(dato[0])
-	else:
+	temporada = selectTemporada()
+	if temporada == 0:
 		jornada = 0
-	db.close()
-	return int(jornada)+1
+	else:
+		db = cp.bbddliga()
+		cursor = db.cursor()
+		sql = "select jornada from partidos where id temporada = %s order by jornada desc;"
+		cursor.execute(sql,temporada)
+		dato = cursor.fetchone()
+		if dato:
+			jornada = (int(dato[0])+1)
+		else:
+			jornada = 1
+		db.close()
+	return int(jornada)
 
 def selectTemporada():
 	db = cp.bbddliga()
@@ -261,7 +265,7 @@ def selectTemporada():
 	if dato:
 		temporada = int(dato[0])
 	else:
-		temporada = 1
+		temporada = 0
 	db.close()
 	return int(temporada)
 
@@ -278,3 +282,46 @@ def selectPartido():
 	db.close()
 	return int(partido)
 
+def selectIdPartidoClub(id_club):
+	db = cp.bbddliga()
+	cursor = db.cursor()
+	sql = "select id from partidos where id_local = %s or id_visitante = %s  order by id desc;"
+	cursor.execute(sql,(id_club,id_club))
+	dato = cursor.fetchone()
+	if dato:
+		partido = int(dato[0])
+	else:
+		partido = 0
+	db.close()
+	return int(partido)
+
+def selectRojasAmarillas(id_jugador, id_partido):
+	if id_partido == 0:
+			amarillas = 0
+			rojas = 0 
+	else:
+		db = cp.bbddliga()
+		cursor = db.cursor()
+		sql = "select amarillas,rojas from estadisticas_partido where id_jugador = %s or id_partido = %s  order by id desc;"
+		cursor.execute(sql,(id_jugador,id_partido))
+		dato = cursor.fetchone()
+		if dato:
+			amarillas = int(dato[0])
+			rojas = int(dato[0])
+		else:
+			amarillas = 0
+			rojas = 0
+		db.close()
+	tarjetas = [amarillas,rojas]
+	return (tarjetas)
+
+def SelectClub_Jugadores(id_jugador):
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+	sql = "select id_club from jugadores where id = %s"
+	cursor.execute(sql,id_jugador)
+	dato = cursor.fetchone()
+	id_club = dato[0]
+	db.close()
+	return(id_club)

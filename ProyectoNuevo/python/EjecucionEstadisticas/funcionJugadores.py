@@ -100,6 +100,13 @@ def mejorarPotencial(jugadores,opcion):
             jugador[opcion]=jugador[opcion]*potenciador
             jugadores[i]=jugador
             multiplicador[3]= multiplicador[3]-5
+        if opcion == "ptitular":
+            id_club=cs.SelectClub_Jugadores(jugador["id_jugador"])
+            id_partido = cs.selectIdPartidoClub(id_club)
+            tarjetas = cs.selectRojasAmarillas(id_partido)
+            if tarjetas[0]>1 or tarjetas[1] > 0:
+                jugador[opcion]=0
+                jugadores[i]=jugador
     jugadores = ordenarJugadores(jugadores,opcion)
     return(jugadores)
 
