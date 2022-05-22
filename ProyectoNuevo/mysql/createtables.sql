@@ -98,9 +98,13 @@ golesEncontra INT DEFAULT 0,
 partidosGanados INT DEFAULT 0,
 partidosEmpatados  INT DEFAULT 0,
 partidosPerdidos INT DEFAULT 0,
+temporada int,
   CONSTRAINT FK_clasificacion_ID_club
     FOREIGN KEY (id_club)
       REFERENCES club(id)
+  CONSTRAINT FK_clasificacion_temporada
+    FOREIGN KEY (temporada)
+      REFERENCES temporada(id)
 );
 DROP TABLE IF EXISTS estadisticas_partido;
 CREATE TABLE estadisticas_partido(

@@ -11,6 +11,7 @@ from time import sleep
 import sys
 sys.path.append('ProyectoLiga\ProyectoLigaInventada\ProyectoNuevo\python\EjecucionEstadisticas')
 from conexionsql import insertarTemporada
+from conexionsql import insertarClasificacion
 #Premier:
 def inglaterra():
     pais = "Inglaterra"
@@ -151,5 +152,5 @@ francia()
 sleep(1)
 EjecucionArbitros()
 insertarTemporada()
-
+insertarClasificacion()
 # 12:21 minutos

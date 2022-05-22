@@ -21,8 +21,10 @@ def EjecucionLigue1():
             continue
         else:
             print("puesto: %d equipo: %s" % (i+1, equipos[i]))
-            sofifa.busquedajugadores(equipos[i],pais)
+            equipo = (equipos[i]).title()
+            sofifa.busquedajugadores(equipo,pais)
+
             break
 
-
 fundador = "PARIS SAINT-GERMAIN"
+EjecucionLigue1()

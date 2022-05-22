@@ -1,3 +1,4 @@
+from tempfile import TemporaryDirectory
 import conexionsql as cs
 import conexiontwitter as ct
 import random as ra
@@ -35,7 +36,7 @@ def partido(e1,e2,jornada):
             fj.ejecucionEstadisticas(e1,gol1)
             fj.ejecucionEstadisticas(e2,gol2)
             # Actualizamos Clasificacion
-            cs.updateclasificacion(e2,gol2,e1, gol1)
+            cs.updateclasificacion(e2,gol2,e1, gol1, temporada)
             # Twittear resultado de partido
             ct.twittearPartido(e2,e1,gol2,gol1)
         else: #Local e1
@@ -46,7 +47,7 @@ def partido(e1,e2,jornada):
             fj.ejecucionEstadisticas(e1,gol1)
             fj.ejecucionEstadisticas(e2,gol2)
             # Actualizamos Clasificacion
-            cs.updateclasificacion(e1,gol1,e2,gol2)
+            cs.updateclasificacion(e1,gol1,e2,gol2,temporada)
             # Twittear resultado de partido
             ct.twittearPartido(e1,e2,gol1,gol2)
     elif potencial1 > potencial2:
@@ -64,7 +65,7 @@ def partido(e1,e2,jornada):
             fj.ejecucionEstadisticas(e1,gol1)
             fj.ejecucionEstadisticas(e2,gol2)
             # Actualizamos Clasificacion
-            cs.updateclasificacion(e2,gol2,e1, gol1)
+            cs.updateclasificacion(e2,gol2,e1, gol1, temporada)
             # Twittear resultado de partido
             ct.twittearPartido(e2,e1,gol2,gol1)
         else: #Local e1
@@ -75,7 +76,7 @@ def partido(e1,e2,jornada):
             fj.ejecucionEstadisticas(e1,gol1)
             fj.ejecucionEstadisticas(e2,gol2)
             # Actualizamos Clasificacion
-            cs.updateclasificacion(e1,gol1,e2,gol2)
+            cs.updateclasificacion(e1,gol1,e2,gol2, temporada)
             # Twittear resultado de partido
             ct.twittearPartido(e1,e2,gol1,gol2)
     elif potencial1==potencial2:
@@ -90,7 +91,7 @@ def partido(e1,e2,jornada):
             fj.ejecucionEstadisticas(e1,gol1)
             fj.ejecucionEstadisticas(e2,gol2)
             # Actualizamos Clasificacion
-            cs.updateclasificacion(e2,gol2,e1, gol1)
+            cs.updateclasificacion(e2,gol2,e1, gol1, temporada)
             # Twittear resultado de partido
             ct.twittearPartido(e2,e1,gol2,gol1)
         else: #Local e1
@@ -101,7 +102,7 @@ def partido(e1,e2,jornada):
             fj.ejecucionEstadisticas(e1,gol1)
             fj.ejecucionEstadisticas(e2,gol2)
             # Actualizamos Clasificacion
-            cs.updateclasificacion(e1,gol1,e2,gol2)
+            cs.updateclasificacion(e1,gol1,e2,gol2, temporada)
             # Twittear resultado de partido
             ct.twittearPartido(e1,e2,gol1,gol2)
 

@@ -139,6 +139,23 @@ def insertarTemporada():
 	# desconecta del servidor
 	db.close()
 
+def insertarClasificacion():
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+
+	# ejecuta el SQL query usando el metodo execute().
+
+	#INSERT:
+	sql = "	insert into clasificacion(id_club,temporada) select id,(select max(id) from temporada) as temporada from club;"
+	cursor.execute(sql)
+
+	   # Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registro insertado")
+	# desconecta del servidor
+	db.close()
+
 # Actualizar datos club
 def updateclub(id_club):
 	db = cp.bbddliga()
