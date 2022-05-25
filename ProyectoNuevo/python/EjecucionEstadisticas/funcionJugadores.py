@@ -27,7 +27,7 @@ def sistemasEquipo():
 # Calculo total de tarjetas de un equipo
 def tarjetasTotales():
     amarillas = ra.randrange(0,5)
-    rojas=int((ra.randrange(0,3)*ra.randrange(0,4))/2)
+    rojas=int((ra.randrange(0,3)*ra.randrange(0,4))/3)
     if rojas < 1:
         rojas = 0
     tarjetas=[amarillas,rojas]
@@ -101,9 +101,9 @@ def mejorarPotencial(jugadores,opcion):
             jugadores[i]=jugador
             multiplicador[3]= multiplicador[3]-5
         if opcion == "ptitular":
-            id_club=cs.SelectClub_Jugadores(jugador["id_jugador"])
+            id_club=cs.SelectClub_Jugadores(jugador["id"])
             id_partido = cs.selectIdPartidoClub(id_club)
-            tarjetas = cs.selectRojasAmarillas(id_partido)
+            tarjetas = cs.selectRojasAmarillas(jugador["id"],id_partido)
             if tarjetas[0]>1 or tarjetas[1] > 0:
                 jugador[opcion]=0
                 jugadores[i]=jugador
@@ -185,6 +185,7 @@ def asignacionTarjetas(jugadores):
         if jugador["amarilla"]>=2:
             i = i-1
             jugador["pamarilla"] = 0
+            jugadores[0] = jugador
             jugadores=ordenarJugadores(jugadores,"pamarilla")
             continue
         jugador["amarilla"] = jugador["amarilla"]+1
@@ -193,10 +194,11 @@ def asignacionTarjetas(jugadores):
         jugadores=ordenarJugadores(jugadores,"pamarilla")
     for i in range(0,rojas):
         jugador = jugadores[0]
-        # Condicion si jugador tiene 2 amarillas
-        if jugador["roja"]>=2:
+        # Condicion si jugador tiene 1 roja
+        if jugador["roja"]>=1:
             i = i-1
             jugador["proja"] = 0
+            jugadores[0] = jugador
             jugadores=ordenarJugadores(jugadores,"proja")
             continue
         jugador["roja"] = jugador["roja"]+1
@@ -226,3 +228,12 @@ def ejecucionEstadisticas(club,gol):
     jugadores = asignacionTarjetas(jugadores)
     jugadores = ordenarJugadores(jugadores,"titular")
     insertarEstadisticas(jugadores)
+
+
+
+def comprobaciones(jugadores,opciones):
+    for i in jugadores:
+        jugador = i
+        print("Jugador: ", jugador["id"], " posicion: ", jugador["posicion"])
+        print("Opcion: " ,opciones , " ",jugador[opciones])
+        print("   ")

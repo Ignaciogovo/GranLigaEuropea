@@ -27,4 +27,3 @@ def EjecucionLigue1():
             break
 
 fundador = "PARIS SAINT-GERMAIN"
-EjecucionLigue1()

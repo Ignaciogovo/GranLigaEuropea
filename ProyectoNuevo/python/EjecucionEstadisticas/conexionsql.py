@@ -167,11 +167,11 @@ def updateclub(id_club):
 	print(cursor.rowcount, "registro actualizado")
 	db.close()
 
-def updateclasificacion(id_local,gol_local,id_visitante, gol_visitante):
-	datos =  [id_local,gol_local,id_visitante, gol_visitante]
+def updateclasificacion(id_local,gol_local,id_visitante, gol_visitante,temporada):
+	datos =  [id_local,gol_local,id_visitante, gol_visitante,temporada]
 	db = cp.bbddliga()
 	cursor = db.cursor()
-	sql="call actualizarClasificacion(%s,%s,%s,%s);"
+	sql="call actualizarClasificacion(%s,%s,%s,%s,%s);"
 	cursor.execute(sql,datos)
 	# Commit your changes in the database
 	db.commit()
@@ -231,7 +231,7 @@ def selectJugadores(id_club):
 	db = cp.bbddliga()
 	# prepare a cursor object using cursor() method
 	cursor = db.cursor()
-	sql = "select id,posicion, valor from jugadores where id_club = %s order by valor desc;"
+	sql = "select id,posicion, valor from jugadores where id_club = %s and activo = 1 order by valor desc;"
 	cursor.execute(sql,id_club)
 	datos = cursor.fetchall()
 	db.close()
@@ -263,7 +263,7 @@ def selectJornada():
 	else:
 		db = cp.bbddliga()
 		cursor = db.cursor()
-		sql = "select jornada from partidos where id temporada = %s order by jornada desc;"
+		sql = "select jornada from partidos where temporada = %s order by jornada desc;"
 		cursor.execute(sql,temporada)
 		dato = cursor.fetchone()
 		if dato:
@@ -276,7 +276,7 @@ def selectJornada():
 def selectTemporada():
 	db = cp.bbddliga()
 	cursor = db.cursor()
-	sql = "select temporada from partidos order by temporada desc;"
+	sql = "select id from temporada order by id desc;"
 	cursor.execute(sql)
 	dato = cursor.fetchone()
 	if dato:
@@ -324,7 +324,7 @@ def selectRojasAmarillas(id_jugador, id_partido):
 		dato = cursor.fetchone()
 		if dato:
 			amarillas = int(dato[0])
-			rojas = int(dato[0])
+			rojas = int(dato[1])
 		else:
 			amarillas = 0
 			rojas = 0

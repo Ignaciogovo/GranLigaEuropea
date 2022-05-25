@@ -88,10 +88,11 @@ temporada int,
   CONSTRAINT FK_partidos_temporada
       FOREIGN KEY (temporada) 
       REFERENCES temporada(id)
-)
+);
 DROP TABLE IF EXISTS clasificacion;
 CREATE TABLE clasificacion(
-id_club int unsigned primary key,
+id  int auto_increment primary key,
+id_club int unsigned not null,
 puntos INT DEFAULT 0,
 golesAfavor INT DEFAULT 0,
 golesEncontra INT DEFAULT 0,
@@ -101,11 +102,11 @@ partidosPerdidos INT DEFAULT 0,
 temporada int,
   CONSTRAINT FK_clasificacion_ID_club
     FOREIGN KEY (id_club)
-      REFERENCES club(id)
+      REFERENCES club(id),
   CONSTRAINT FK_clasificacion_temporada
     FOREIGN KEY (temporada)
       REFERENCES temporada(id)
-);
+)AUTO_INCREMENT=1;
 DROP TABLE IF EXISTS estadisticas_partido;
 CREATE TABLE estadisticas_partido(
 id int PRIMARY KEY auto_increment,
