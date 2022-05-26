@@ -14,7 +14,7 @@ def partido(e1,e2,jornada):
     potencial2 = potenciales["potencial2"]
     aforo = potenciales["aforo"]
     # Asignar un rango para empates
-    diff =abs(potencial1-potencial1)
+    diff =abs(potencial1-potencial2)
     if diff <= 0.5:
         potencial2 = potencial1
     # Asignacion de arbitro:

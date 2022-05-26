@@ -1,6 +1,7 @@
 from time import sleep
 import conexionsql as cs
 import funcionClub as fc
+
 def CalendarioNoconectado():
     # Escogemos un valor predeterminado para el numero de equipos
     numero=1
@@ -51,8 +52,8 @@ def calendario(jornada):
             fila2.append(last)
             fila1.insert(1,first)
         for t in range(0,len(fila1)):
-            print("jornada" ,jornada)
-            print(fila1[t], " VS ", fila2[t])
+            # print("jornada" ,jornada)
+            # print(fila1[t], " VS ", fila2[t])
             sleep(2)
             fc.partido(fila1[t],fila2[t],jornada)
     else:

@@ -96,7 +96,7 @@ def insertarPartidos(datos_partido):
 
 	   # Commit your changes in the database
 	db.commit()
-	print(cursor.rowcount, "registro insertado")
+	# print(cursor.rowcount, "registro insertado")
 	# desconecta del servidor
 	db.close()
 #Insertar Estadisticas partidos
@@ -113,7 +113,7 @@ def insertarEstadisticasPartidos(estadisticas_partido):
 
 	   # Commit your changes in the database
 	db.commit()
-	print(cursor.rowcount, "registro insertado")
+	# print(cursor.rowcount, "registro insertado")
 	# desconecta del servidor
 	db.close()
 
@@ -175,7 +175,7 @@ def updateclasificacion(id_local,gol_local,id_visitante, gol_visitante,temporada
 	cursor.execute(sql,datos)
 	# Commit your changes in the database
 	db.commit()
-	print(cursor.rowcount, "registro actualizado")
+	# print(cursor.rowcount, "registro actualizado")
 	db.close()
 
 
@@ -342,3 +342,4 @@ def SelectClub_Jugadores(id_jugador):
 	id_club = dato[0]
 	db.close()
 	return(id_club)
+
