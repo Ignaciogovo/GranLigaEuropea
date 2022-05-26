@@ -2,6 +2,7 @@ import conexionsql as cs
 import random as ra
 
 
+
 def ordenarJugadores(array,key):
     for i in range(0,len(array)):
         for a in range(i+1,len(array)):
@@ -185,11 +186,9 @@ def asignacionTarjetas(jugadores):
         if jugador["amarilla"]>=2:
             i = i-1
             jugador["pamarilla"] = 0
-            jugadores[0] = jugador
-            jugadores=ordenarJugadores(jugadores,"pamarilla")
-            continue
-        jugador["amarilla"] = jugador["amarilla"]+1
-        jugador["pamarilla"] = jugador["pamarilla"]-4
+        else:
+            jugador["amarilla"] = jugador["amarilla"]+1
+            jugador["pamarilla"] = jugador["pamarilla"]-4
         jugadores[0] = jugador
         jugadores=ordenarJugadores(jugadores,"pamarilla")
     for i in range(0,rojas):
@@ -198,11 +197,9 @@ def asignacionTarjetas(jugadores):
         if jugador["roja"]>=1:
             i = i-1
             jugador["proja"] = 0
-            jugadores[0] = jugador
-            jugadores=ordenarJugadores(jugadores,"proja")
-            continue
-        jugador["roja"] = jugador["roja"]+1
-        jugador["proja"] = jugador["proja"]-4
+        else:
+            jugador["roja"] = jugador["roja"]+1
+            jugador["proja"] = jugador["proja"]-4
         jugadores[0] = jugador
         jugadores=ordenarJugadores(jugadores,"proja")
     return(jugadores)
@@ -217,7 +214,7 @@ def insertarEstadisticas(jugadores):
         asis = jugador["asis"]
         rojas = jugador["roja"]
         amarilla = jugador["amarilla"]
-        datos = [id,id_partido,gol,asis,rojas,amarilla,titular]
+        datos = [id,id_partido,gol,asis,amarilla,rojas,titular]
         cs.insertarEstadisticasPartidos(datos)
 
 def ejecucionEstadisticas(club,gol):
