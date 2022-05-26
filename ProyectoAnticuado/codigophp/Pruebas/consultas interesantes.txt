@@ -1,9 +1,0 @@
---clasificacion
-select c.nombre, p.*,(puntos/3) as partidosganados, (golesAfavor-golesEncontra) as diferenciaGoles, (CONVERT(int,c.ValorTotal)/c.nJugadores) as valorMedio, c.ciudad 
-from prueba_clasificacion as p left join club as c 
-on id_club=c.id 
-order by puntos desc,golesAfavor desc;
---derby
-select * from prueba_partidos where (id_visitante=4 and id_local= 12) or (id_visitante=12 and id_local= 4);
---numero de jornadas
-select top 1 jornada from prueba_partidos order by jornada desc;

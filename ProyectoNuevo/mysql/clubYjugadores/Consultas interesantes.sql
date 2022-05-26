@@ -43,3 +43,15 @@ group by partidos.id
 
 SELECT AVG(goles_local+goles_visitante) as mediaGoles, count(id) as total_Partidos 
 FROM partidos;
+
+
+
+
+
+-- Comprobar estadisticas de un jugador por jornada
+
+select estadisticas_partido.*, jornada from estadisticas_partido 
+inner join partidos
+on id_partido = partidos.id
+where id_jugador = 466
+order by jornada desc;

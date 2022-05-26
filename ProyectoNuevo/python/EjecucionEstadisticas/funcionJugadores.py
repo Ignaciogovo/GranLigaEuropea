@@ -2,7 +2,6 @@ import conexionsql as cs
 import random as ra
 
 
-
 def ordenarJugadores(array,key):
     for i in range(0,len(array)):
         for a in range(i+1,len(array)):
@@ -144,7 +143,8 @@ def asignacionTitular(jugadores):
                 jugador["titular"] = 1
                 jugadores[i]=jugador
                 sistema[3] = int(sistema[3]) -1
-    # jugadores = ordenarJugadores(jugadores,"titular")
+    print("------Diferencia------------")
+    jugadores = ordenarJugadores(jugadores,"titular")
     jugadores = jugadores[0:14] # Eliminamos a los jugadores que son suplentes y no van a salir
     return(jugadores)
 
@@ -188,7 +188,7 @@ def asignacionTarjetas(jugadores):
             jugador["pamarilla"] = 0
         else:
             jugador["amarilla"] = jugador["amarilla"]+1
-            jugador["pamarilla"] = jugador["pamarilla"]-4
+            jugador["pamarilla"] = jugador["pamarilla"]-5
         jugadores[0] = jugador
         jugadores=ordenarJugadores(jugadores,"pamarilla")
     for i in range(0,rojas):
@@ -199,7 +199,7 @@ def asignacionTarjetas(jugadores):
             jugador["proja"] = 0
         else:
             jugador["roja"] = jugador["roja"]+1
-            jugador["proja"] = jugador["proja"]-4
+            jugador["proja"] = 0
         jugadores[0] = jugador
         jugadores=ordenarJugadores(jugadores,"proja")
     return(jugadores)
@@ -231,6 +231,6 @@ def ejecucionEstadisticas(club,gol):
 def comprobaciones(jugadores,opciones):
     for i in jugadores:
         jugador = i
-        print("Jugador: ", jugador["id"], " posicion: ", jugador["posicion"])
+        print("Jugador: ", jugador["id"], " posicion: ", jugador["posicion"], "Valor:",jugador["valor"])
         print("Opcion: " ,opciones , " ",jugador[opciones])
         print("   ")

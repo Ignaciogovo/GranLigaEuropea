@@ -298,11 +298,11 @@ def selectPartido():
 		partido = 1
 	db.close()
 	return int(partido)
-
+# Partido anterior a la jornada actual
 def selectIdPartidoClub(id_club):
 	db = cp.bbddliga()
 	cursor = db.cursor()
-	sql = "select id from partidos where id_local = %s or id_visitante = %s  order by id desc;"
+	sql = "select id from partidos where id_local = %s or id_visitante = %s  order by jornada desc limit 1,1;" # limit 1,1 para escoger el penultimo partido(ya que el partido es insertando antes que las estadisticas de los jugadores)
 	cursor.execute(sql,(id_club,id_club))
 	dato = cursor.fetchone()
 	if dato:
@@ -319,7 +319,7 @@ def selectRojasAmarillas(id_jugador, id_partido):
 	else:
 		db = cp.bbddliga()
 		cursor = db.cursor()
-		sql = "select amarillas,rojas from estadisticas_partido where id_jugador = %s or id_partido = %s  order by id desc;"
+		sql = "select amarillas,rojas from estadisticas_partido where id_jugador = %s and id_partido = %s  order by id desc;"
 		cursor.execute(sql,(id_jugador,id_partido))
 		dato = cursor.fetchone()
 		if dato:
@@ -342,4 +342,3 @@ def SelectClub_Jugadores(id_jugador):
 	id_club = dato[0]
 	db.close()
 	return(id_club)
-
