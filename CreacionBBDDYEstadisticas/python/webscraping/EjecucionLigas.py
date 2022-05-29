@@ -9,9 +9,9 @@ import ligue1
 from arbitros import EjecucionArbitros
 from time import sleep
 import sys
-sys.path.append('ProyectoLiga\ProyectoLigaInventada\ProyectoNuevo\python\EjecucionEstadisticas')
-from conexionsql import insertarTemporada
-from conexionsql import insertarClasificacion
+# in the sys.path list
+sys.path.append('.\\')  
+import conexionsql as cs
 #Premier:
 def inglaterra():
     pais = "Inglaterra"
@@ -151,6 +151,6 @@ sleep(1)
 francia()
 sleep(1)
 EjecucionArbitros()
-insertarTemporada()
-insertarClasificacion()
+cs.insertarTemporada()
+cs.insertarClasificacion()
 # 12:21 minutos

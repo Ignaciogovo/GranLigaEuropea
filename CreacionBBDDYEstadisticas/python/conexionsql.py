@@ -1,10 +1,5 @@
 # Abre conexion con la base de datos
-import re
-import sys
-from turtle import update
 from datetime import date
-from colorama import Cursor
-sys.path.append('ProyectoLiga')
 import conexionpython as cp
 
 
@@ -147,12 +142,62 @@ def insertarClasificacion():
 	# ejecuta el SQL query usando el metodo execute().
 
 	#INSERT:
-	sql = "	insert into clasificacion(id_club,temporada) select id,(select max(id) from temporada) as temporada from club;"
+	sql = "	insert into clasificacion(id_club,temporada) select id,(select max(id) from temporada) as temporada from club where activo = 1;"
 	cursor.execute(sql)
 
 	   # Commit your changes in the database
 	db.commit()
 	print(cursor.rowcount, "registro insertado")
+	# desconecta del servidor
+	db.close()
+
+def finalizarTemporada():
+	fecha_final = date.today()
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+
+	# ejecuta el SQL query usando el metodo execute().
+
+	#UPDATE:
+	sql = "UPDATE temporada set fecha_final = %s where id = (select id from(select max(id) from temporada) as tablaTemporal);"
+	cursor.execute(sql,fecha_final)
+
+	   # Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registro actualizado")
+	# desconecta del servidor
+	db.close()
+def AnularActivoClub():
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+
+	# ejecuta el SQL query usando el metodo execute().
+
+	#UPDATE:
+	sql = "UPDATE club set activo = 0 where id > 0;"
+	cursor.execute(sql)
+
+	   # Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registros actualizados")
+	# desconecta del servidor
+	db.close()
+def AnularActivoJugadores():
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+
+	# ejecuta el SQL query usando el metodo execute().
+
+	#UPDATE:
+	sql = "UPDATE jugadores set activo = 0 where id > 0;"
+	cursor.execute(sql)
+
+	   # Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registros actualizados")
 	# desconecta del servidor
 	db.close()
 
@@ -342,3 +387,16 @@ def SelectClub_Jugadores(id_jugador):
 	id_club = dato[0]
 	db.close()
 	return(id_club)
+
+def selectCampeonLiga():
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+	sql = "select nombre from clasificacionview where puesto = 1"
+	cursor.execute(sql)
+	dato = cursor.fetchone()
+	id_club = dato[0]
+	db.close()
+	return(id_club)
+
+

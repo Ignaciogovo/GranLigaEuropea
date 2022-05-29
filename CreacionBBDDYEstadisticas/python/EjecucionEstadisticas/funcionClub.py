@@ -1,4 +1,8 @@
 from tempfile import TemporaryDirectory
+# importing the sys module
+import sys
+# in the sys.path list
+sys.path.append('.\\')        
 import conexionsql as cs
 import conexiontwitter as ct
 import random as ra

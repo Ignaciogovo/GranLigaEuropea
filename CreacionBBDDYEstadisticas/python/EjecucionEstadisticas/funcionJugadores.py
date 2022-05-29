@@ -1,3 +1,7 @@
+# importing the sys module
+import sys
+# in the sys.path list
+sys.path.append('.\\')        
 import conexionsql as cs
 import random as ra
 
@@ -14,7 +18,7 @@ def ordenarJugadores(array,key):
     return(array)
 # Elección del sistema de un equipo
 def sistemasEquipo():
-    sistema = ra.randint(0,3)
+    sistema = ra.randint(0,4)
     if sistema==0:
         sistema = [1,4,4,2]
     if sistema==1:
@@ -22,7 +26,9 @@ def sistemasEquipo():
     if sistema==2:
         sistema = [1,4,3,3]
     if sistema==3:
-        sistema = [1,5,3,2]
+        sistema = [1,5,3,2]   
+    if sistema==4:
+        sistema = [1,4,5,1]
     return(sistema)
 # Calculo total de tarjetas de un equipo
 def tarjetasTotales():
@@ -143,7 +149,6 @@ def asignacionTitular(jugadores):
                 jugador["titular"] = 1
                 jugadores[i]=jugador
                 sistema[3] = int(sistema[3]) -1
-    print("------Diferencia------------")
     jugadores = ordenarJugadores(jugadores,"titular")
     jugadores = jugadores[0:14] # Eliminamos a los jugadores que son suplentes y no van a salir
     return(jugadores)

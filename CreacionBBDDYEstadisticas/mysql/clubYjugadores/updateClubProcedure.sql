@@ -5,12 +5,10 @@ delimiter //
 create procedure ActualizarValoresCLUB( numclub int)
 begin
 	update club set nJugadores = (
-		SELECT count(*) FROM jugadores where id_club = numclub
-		group by id_club
+		SELECT count(*) FROM jugadores where id_club = numclub and activo = 1
         ),
     ValorTotal = (
-		SELECT sum(valor) FROM jugadores where id_club = numclub
-		group by id_club)
+		SELECT sum(valor) FROM jugadores where id_club = numclub and activo = 1)
         where id = numclub;
 end //
 DELIMITER ;
