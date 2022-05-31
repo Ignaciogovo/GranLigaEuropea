@@ -55,3 +55,41 @@ inner join partidos
 on id_partido = partidos.id
 where id_jugador = 466
 order by jornada desc;
+
+
+--  cantidad, club y valor total inner join
+select count(*), club.nombre, sum(valor)  from jugadores inner join club on id_club=club.id
+group by club.nombre
+order by sum(valor) desc;
+
+
+
+
+
+
+
+
+
+
+-- DIferenciar la mejora de potencial en los titulares aforo +80:
+
+	-- +80
+		(select count(*) as total, 'ganados' as termino from ( select *, convert(replace(aforo,'%',''),decimal) as afo from partidosview) ganados
+		where goles_local > goles_visitante and afo >=80
+		union
+		select count(*), 'empatados' as termino from ( select *, convert(replace(aforo,'%',''),decimal) as afo from partidosview) ganados
+		where goles_local = goles_visitante and afo >=80
+		union
+		select count(*), 'perdidos' as termino from ( select *, convert(replace(aforo,'%',''),decimal) as afo from partidosview) ganados
+		where goles_local < goles_visitante and afo >=80);
+
+
+	-- -80
+	(select count(*) as total, 'ganados' as termino from ( select *, convert(replace(aforo,'%',''),decimal) as afo from partidosview) ganados
+	where goles_local > goles_visitante and afo < 80
+	union
+	select count(*), 'empatados' as termino from ( select *, convert(replace(aforo,'%',''),decimal) as afo from partidosview) ganados
+	where goles_local = goles_visitante and afo < 80
+	union
+	select count(*), 'perdidos' as termino from ( select *, convert(replace(aforo,'%',''),decimal) as afo from partidosview) ganados
+	where goles_local < goles_visitante and afo < 80); 

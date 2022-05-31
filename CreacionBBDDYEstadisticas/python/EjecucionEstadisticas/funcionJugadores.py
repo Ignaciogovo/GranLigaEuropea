@@ -6,6 +6,7 @@ import conexionsql as cs
 import random as ra
 
 
+
 def ordenarJugadores(array,key):
     for i in range(0,len(array)):
         for a in range(i+1,len(array)):
@@ -106,6 +107,7 @@ def mejorarPotencial(jugadores,opcion):
             jugador[opcion]=jugador[opcion]*potenciador
             jugadores[i]=jugador
             multiplicador[3]= multiplicador[3]-5
+        # Comprobamos si ha tenido alguna roja o dos amarillas en el anterior partido.
         if opcion == "ptitular":
             id_club=cs.SelectClub_Jugadores(jugador["id"])
             id_partido = cs.selectIdPartidoClub(id_club)
@@ -156,7 +158,11 @@ def asignacionTitular(jugadores):
 
 # Asignar goles
 def asignacionGoles(jugadores,goles):
+    # Ordenamos por valor para mejorar el potencial de asistencias según el valor del jugador
+    jugadores = ordenarJugadores(jugadores,"valor")
     jugadores = mejorarPotencial(jugadores,"pasis")
+    # Ordenamos por valor para mejorar el potencial de gol según el valor del jugador
+    jugadores = ordenarJugadores(jugadores,"valor")
     jugadores = mejorarPotencial(jugadores,"pgol")
     for i in range(0,goles):
         jugador = jugadores[0]
@@ -164,6 +170,7 @@ def asignacionGoles(jugadores,goles):
         jugador["pgol"] = jugador["pgol"]-3
         jugadores[0] = jugador
         if (ra.randint(0,1)==1):
+            
             jugadores2 = jugadores.pop(0) # Eliminamos el jugador que ha marcado gol
             jugadores = asignacionAsistencias(jugadores)
             jugadores.append(jugadores2)
@@ -196,10 +203,11 @@ def asignacionTarjetas(jugadores):
             jugador["pamarilla"] = jugador["pamarilla"]-5
         jugadores[0] = jugador
         jugadores=ordenarJugadores(jugadores,"pamarilla")
+    jugadores=ordenarJugadores(jugadores,"proja")
     for i in range(0,rojas):
         jugador = jugadores[0]
         # Condicion si jugador tiene 1 roja
-        if jugador["roja"]>=1:
+        if jugador["roja"]>=1 or jugador["amarilla"] >=2:
             i = i-1
             jugador["proja"] = 0
         else:
@@ -233,9 +241,11 @@ def ejecucionEstadisticas(club,gol):
 
 
 
-def comprobaciones(jugadores,opciones):
+def comprobaciones(jugadores,opcion,opcion2):
     for i in jugadores:
         jugador = i
         print("Jugador: ", jugador["id"], " posicion: ", jugador["posicion"], "Valor:",jugador["valor"])
-        print("Opcion: " ,opciones , " ",jugador[opciones])
+        print("Opcion: " ,opcion , " ",jugador[opcion])
+        if opcion2 != 0:
+            print("Opcion2 :", opcion2, " ", jugador[opcion2])
         print("   ")
