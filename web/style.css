@@ -1,0 +1,19 @@
+body{
+    font-family: 'Spartan', sans-serif;
+    font-weight: 300;
+}
+a:link, a:visited, a:active{
+    color: var(--light) !important; 
+    text-decoration: none;
+}
+a:hover{
+    color: rgb(236, 236, 16) !important;
+    text-decoration: none;
+}
+.enlace{
+    color: var(--light) !important; 
+    text-decoration: none;
+}
+.tamañofondo{
+    height: 100vh;
+}
