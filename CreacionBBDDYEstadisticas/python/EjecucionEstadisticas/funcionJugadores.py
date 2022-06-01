@@ -68,9 +68,10 @@ def asignarProbabilidades(jugadores,id_club):
         #Comprobamos si ha tenido una roja o dos amarillas en el partido anterior
         tarjetas = cs.selectRojasAmarillas((jugadores[i])["id"],id_partido)
         if tarjetas[0]>1 or tarjetas[1] > 0:
-            eliminacion.append(i)
+            eliminacion.append(jugadores[i])
     for i in range(0,len(eliminacion)):
-        jugadores.pop(i)
+        eliminado = eliminacion[i]
+        jugadores.remove(eliminado)
     return(jugadores)
 
 
