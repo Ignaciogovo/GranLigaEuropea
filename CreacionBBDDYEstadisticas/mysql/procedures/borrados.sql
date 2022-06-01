@@ -6,23 +6,22 @@ select jugadores.nombre, club.nombre, posicion,nacionalidad, valor
 from jugadores inner join club 
 on jugadores.id_club=club.id 
 order by valor desc;
-
--- Borrar estadisticas partido
-delete from estadisticas_partido where id > 0 ;
-alter table estadisticas_partido AUTO_INCREMENT=1;
--- Borrar jugadores
-delete from jugadores where id_club > 0 ;
-alter table jugadores AUTO_INCREMENT=1;
 -- Borrar clasificacion:
 delete  from clasificacion where id_club > 0;
 insert into clasificacion(id_club) select 
 id from club;
+-- Borrar estadisticas partido
+delete from estadisticas_partido where id > 0 ;
+alter table estadisticas_partido AUTO_INCREMENT=1;
 -- Borrar partidos.
 delete  from partidos where id > 0;
 alter table  partidos AUTO_INCREMENT=1;
 -- Borrar Temporadas.
 delete  from temporada where id > 0;
 alter table  temporada AUTO_INCREMENT=1;
+-- Borrar jugadores
+delete from jugadores where id_club > 0 ;
+alter table jugadores AUTO_INCREMENT=1;
 -- Borrar club
 delete from club where id > 0;
 alter table club AUTO_INCREMENT=1;
@@ -30,10 +29,7 @@ alter table club AUTO_INCREMENT=1;
 delete  from arbitros where id > 0;
 alter table  arbitros AUTO_INCREMENT=1;
 
---  cantidad, club y valor total inner join
-select count(*), club.nombre, sum(valor)  from jugadores inner join club on id_club=club.id
-group by club.nombre
-order by sum(valor) desc;
+
 
 
 

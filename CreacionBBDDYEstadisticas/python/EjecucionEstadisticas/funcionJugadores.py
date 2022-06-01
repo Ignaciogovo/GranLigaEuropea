@@ -6,7 +6,6 @@ import conexionsql as cs
 import random as ra
 
 
-
 def ordenarJugadores(array,key):
     for i in range(0,len(array)):
         for a in range(i+1,len(array)):
@@ -18,17 +17,22 @@ def ordenarJugadores(array,key):
                     array[i] = intermedio
     return(array)
 # Elección del sistema de un equipo
-def sistemasEquipo():
+def sistemasEquipo(jugadores):
     sistema = ra.randint(0,4)
-    if sistema==0:
-        sistema = [1,4,4,2]
-    if sistema==1:
+    if sistema==0 or sistema == 1:
         sistema = [1,4,4,2]
     if sistema==2:
         sistema = [1,4,3,3]
     if sistema==3:
         sistema = [1,5,3,2]   
     if sistema==4:
+        sistema = [1,4,5,1]
+# Para evitar problemas con equipos que tienen menos de 3 delanteros:
+    contador = 0
+    for i in range(0,len(jugadores)):
+        if (jugadores[i])["posicion"] == "Delantero":
+            contador=contador+1
+    if contador < 3:
         sistema = [1,4,5,1]
     return(sistema)
 # Calculo total de tarjetas de un equipo
@@ -40,8 +44,12 @@ def tarjetasTotales():
     tarjetas=[amarillas,rojas]
     return(tarjetas)
 
-def asignarProbabilidades(jugadores):
-    for i in range(0,len(jugadores)):    
+def asignarProbabilidades(jugadores,id_club):
+    #Sacamos el id del partido anterior para hacer comprobaciones
+    id_partido = cs.selectIdPartidoClub(id_club)
+    eliminacion = []
+    for i in range(0,len(jugadores)):
+
         ptitular = ra.randrange(0,11)
         pgol = ra.randrange(0,11)
         pamarilla = ra.randrange(0,11)
@@ -57,6 +65,12 @@ def asignarProbabilidades(jugadores):
         (jugadores[i])["amarilla"] = 0
         (jugadores[i])["proja"] = proja
         (jugadores[i])["roja"] = 0
+        #Comprobamos si ha tenido una roja o dos amarillas en el partido anterior
+        tarjetas = cs.selectRojasAmarillas((jugadores[i])["id"],id_partido)
+        if tarjetas[0]>1 or tarjetas[1] > 0:
+            eliminacion.append(i)
+    for i in range(0,len(eliminacion)):
+        jugadores.pop(i)
     return(jugadores)
 
 
@@ -107,14 +121,6 @@ def mejorarPotencial(jugadores,opcion):
             jugador[opcion]=jugador[opcion]*potenciador
             jugadores[i]=jugador
             multiplicador[3]= multiplicador[3]-5
-        # Comprobamos si ha tenido alguna roja o dos amarillas en el anterior partido.
-        if opcion == "ptitular":
-            id_club=cs.SelectClub_Jugadores(jugador["id"])
-            id_partido = cs.selectIdPartidoClub(id_club)
-            tarjetas = cs.selectRojasAmarillas(jugador["id"],id_partido)
-            if tarjetas[0]>1 or tarjetas[1] > 0:
-                jugador[opcion]=0
-                jugadores[i]=jugador
     jugadores = ordenarJugadores(jugadores,opcion)
     return(jugadores)
 
@@ -124,7 +130,7 @@ def mejorarPotencial(jugadores,opcion):
 # Titular:
 def asignacionTitular(jugadores):
     jugadores = mejorarPotencial(jugadores,"ptitular")
-    sistema = sistemasEquipo()
+    sistema = sistemasEquipo(jugadores)
     for i in range(0,len(jugadores)):
         jugador = jugadores[i]
         # Portero
@@ -232,7 +238,7 @@ def insertarEstadisticas(jugadores):
 
 def ejecucionEstadisticas(club,gol):
     jugadores=cs.selectJugadores(club)
-    jugadores = asignarProbabilidades(jugadores)
+    jugadores = asignarProbabilidades(jugadores,club)
     jugadores = asignacionTitular(jugadores)
     jugadores = asignacionGoles(jugadores,gol)
     jugadores = asignacionTarjetas(jugadores)
