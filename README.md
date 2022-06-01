@@ -26,4 +26,4 @@ Enfoque:
 
 
  Modelo relacional: 
-![ Modelo relacional](https://github.com/Pollitodetroya/LigaInventada/blob/master/ProyectoAnticuado/codigoSQL/ModeloRelacionalVersion8.png)
+![ Modelo relacional](https://github.com/Ignaciogovo/GranLigaEuropea/blob/master/CreacionBBDDYEstadisticas/mysql/diagrama.png)
