@@ -22,7 +22,7 @@ def partido(e1,e2,jornada):
     if diff <= 0.5:
         potencial2 = potencial1
     # Asignacion de arbitro:
-    arbitro= ra.randrange(1,9)
+    arbitro= ra.randint(1,9)
     # Temporada
     temporada=  cs.selectTemporada()
     if potencial1 < potencial2:

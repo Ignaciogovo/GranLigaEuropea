@@ -8,7 +8,6 @@ import CreadorJornadas as cj
 from time import sleep
 from datetime import datetime
 
-
 def finalizarTemporada():
     # Finalizamos temporada
     cs.finalizarTemporada()
@@ -22,6 +21,9 @@ if jornada > 0:
     if jornada > 38:
         print("La temporada ha terminado, debes iniciar una temporada")
     else:
+        if jornada == 1:
+            temporada = cs.selectTemporada()
+            print("Comienzo de la temporada", temporada)
         print("Comienzo de jornada: ",jornada)
         now = datetime.now()
         print(now)

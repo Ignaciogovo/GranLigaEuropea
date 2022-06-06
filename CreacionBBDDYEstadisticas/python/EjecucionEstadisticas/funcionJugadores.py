@@ -5,7 +5,6 @@ sys.path.append('.\\')
 import conexionsql as cs
 import random as ra
 
-
 def ordenarJugadores(array,key):
     for i in range(0,len(array)):
         for a in range(i+1,len(array)):
@@ -46,6 +45,7 @@ def tarjetasTotales():
 
 def asignarProbabilidades(jugadores,id_club):
     #Sacamos el id del partido anterior para hacer comprobaciones
+
     id_partido = cs.selectIdPartidoClub(id_club)
     eliminacion = []
     for i in range(0,len(jugadores)):

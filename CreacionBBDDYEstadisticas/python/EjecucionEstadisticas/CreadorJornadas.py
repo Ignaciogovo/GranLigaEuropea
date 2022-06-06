@@ -1,7 +1,9 @@
-from time import sleep
+import sys
+# in the sys.path list
+sys.path.append('.\\')        
 import conexionsql as cs
 import funcionClub as fc
-
+from time import sleep
 def CalendarioNoconectado():
     # Escogemos un valor predeterminado para el numero de equipos
     numero=1
@@ -23,7 +25,7 @@ def CalendarioNoconectado():
     print("jornada" ,1)
     print(fila1)
     print(fila2)
-    for i in range(2,numero2+1):
+    for i in range(2,((numero*2)-2)):
         last=fila1.pop()
         first=fila2.pop(0)
         fila2.append(last)
@@ -44,21 +46,20 @@ def calendario(jornada):
         mitad = int(len(equipos)/2)
         fila1.extend(equipos[:mitad])
         fila2.extend(equipos[int(mitad):int(mitad+mitad)])
-        for i in range(0,jornada):
+        for i in range(1,jornada): 
             if jornada == 1:
                 break
             last=fila1.pop()
             first=fila2.pop(0)
             fila2.append(last)
             fila1.insert(1,first)
+        # print("jornada" ,jornada)
         for t in range(0,len(fila1)):
-            # print("jornada" ,jornada)
             # print(fila1[t], " VS ", fila2[t])
-            sleep(2)
+            sleep(1)
             fc.partido(fila1[t],fila2[t],jornada)
     else:
         print("El número de equipos no es par")
     
-
 
 

@@ -138,8 +138,6 @@ def francia():
 
 
 
-
-
 inglaterra()
 sleep(1)
 españa()

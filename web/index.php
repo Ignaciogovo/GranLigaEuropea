@@ -18,7 +18,7 @@
 ?>
 <body>
     <section class="mb-5">
-        <header class="bg-dark text-light w-100 p-2">
+        <header class="bg-dark text-light p-2 ">
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
                     <!-- <a class="navbar-brand" href="#">Navbar w/ text</a> -->
@@ -28,13 +28,13 @@
                     <div class="collapse navbar-collapse" id="navbarText">
                         <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="active link-warning" aria-current="page" href="#">Calendario</a>
+                                <a class="active link-warning" aria-current="page" href="#">Disabled</a>
                             </li>
                             <li class="nav-item">
-                                <a class="m-3 link-warning" href="#">Clasificación</a>
+                                <a class="m-3 link-warning" href="#clasificacion">Clasificación</a>
                             </li>
                             <li class="nav-item">
-                                <a class="link-warning" href="#">Estadisticas</a>
+                                <a class="link-warning" href="estadisticas.php">Estadisticas</a>
                             </li>
                         </ul>
                     </div>
@@ -45,161 +45,67 @@
                 </div>
             </div>
         </header>
+        <div>
         <div class="container mt-5 mb-5">
+        <h1 class ="m-3" id="clasificacion">Clasificación</h1>
         <div class="row">
-            <div class="col"></div>
             <div class="col">
                 <table class="table table-striped mb-t">
                     <thead>
-                        <tr>
+                        <tr class="p-4">
                             <th scope="col">Puesto</th>
-                            <th scope="col">CLUB</th>
+                            <th scope="col">Club</th>
                             <th scope="col">puntos</th>
-                            <th scope="col">golesAfavor</th>
-                            <th scope="col">GolesEncontra</th>
-                            <th scope="col">golaveraje</th>
-                            <th scope="col">golaveraje</th>
-                            <th scope="col">golaveraje</th>
-                            <th scope="col">golaveraje</th>
-                            <th scope="col">golaveraje</th>
-
+                            <th scope="col">A favor</th>
+                            <th scope="col">En contra</th>
+                            <th scope="col">+-Goles</th>
+                            <th scope="col">Ganados</th>
+                            <th scope="col">Empatados</th>
+                            <th scope="col">Perdidos</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="col">1</th>
-                            <td>Madrid</td>
-                            <td>3</td>
-                            <td>10</td>
-                            <td>12</td>    
-                            <td>12</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">2</th>
-                            <td>Barcelona</td>
-                            <td>7</td>
-                            <td>14</td>
-                            <td>12</td>    
-                            <td>5</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">3</th>
-                            <td> At Madrid</td>
-                            <td>3</td>
-                            <td>13</td>
-                            <td>12</td>    
-                            <td>15</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">4</th>
-                            <td>Manchester</td>
-                            <td>38</td>
-                            <td>45</td>
-                            <td>12</td>    
-                            <td>12</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">4</th>
-                            <td>PSG</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>12</td>    
-                            <td>12</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">3</th>
-                            <td> At Madrid</td>
-                            <td>3</td>
-                            <td>13</td>
-                            <td>12</td>    
-                            <td>15</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">4</th>
-                            <td>Manchester</td>
-                            <td>38</td>
-                            <td>45</td>
-                            <td>12</td>    
-                            <td>12</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">4</th>
-                            <td>PSG</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>12</td>    
-                            <td>12</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">1</th>
-                            <td>Madrid</td>
-                            <td>3</td>
-                            <td>10</td>
-                            <td>12</td>    
-                            <td>12</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">2</th>
-                            <td>Barcelona</td>
-                            <td>7</td>
-                            <td>14</td>
-                            <td>12</td>    
-                            <td>5</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">3</th>
-                            <td> At Madrid</td>
-                            <td>3</td>
-                            <td>13</td>
-                            <td>12</td>    
-                            <td>15</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">4</th>
-                            <td>Manchester</td>
-                            <td>38</td>
-                            <td>45</td>
-                            <td>12</td>    
-                            <td>12</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">4</th>
-                            <td>PSG</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>12</td>    
-                            <td>12</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">3</th>
-                            <td> At Madrid</td>
-                            <td>3</td>
-                            <td>13</td>
-                            <td>12</td>    
-                            <td>15</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">4</th>
-                            <td>Manchester</td>
-                            <td>38</td>
-                            <td>45</td>
-                            <td>12</td>    
-                            <td>12</td>    
-                        </tr>
-                        <tr>
-                            <th scope="col">4</th>
-                            <td>PSG</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>12</td>    
-                            <td>12</td>    
-                        </tr>
-                        </tbody>
+<?php 
+                    include_once("funciones.php");
+                    clasificacion();
+?>
+                    </tbody>
                 </table>
             </div>
-            <div class="col"></div>
         </div>
     </div>
+    <div class="container mt-5 mb-5">
+        <h1 class ="m-3">Máximos goleadores de la temporada</h1>
+        <div class="row">
+            <div class="col">
+                <table class="table table-striped mb-t table-expand-lg">
+                    <thead>
+                        <tr class="p-4">
+                            <th scope="col"></th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Goles</th>
+                            <th scope="col">asistencias</th>
+                            <th scope="col">Amarillas</th>
+                            <th scope="col">Rojas</th>
+                            <th scope="col ">Titular</th>
+                            <th scope="col">Partidos</th>
+                            <th scope="col">Posicion</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Club</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                            include_once("funciones.php");
+                        EstadisticasTotales();
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+        </div>
+
     </section>
     <!-- footer -->
     <footer class="text-center bg-light mt-auto">
@@ -220,7 +126,7 @@
                                 <a href="https://twitter.com/granligaeuropa" class="link-warning">twitter</a>
                             </div>
                             <div class="col-12 col-sm-4 m-auto">
-                                <a href="https://po.ta.to/" class="link-warning">linkedln</a>
+                                <a href="https://www.linkedin.com/in/ignacio-govantes-ojeda-0b1869220/" class="link-warning">linkedln</a>
                             </div>
                         </div>
                     </div>
