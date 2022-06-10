@@ -21,8 +21,8 @@ if jornada > 0:
     if jornada > 38:
         print("La temporada ha terminado, debes iniciar una temporada")
     else:
+        temporada = cs.selectTemporada()
         if jornada == 1:
-            temporada = cs.selectTemporada()
             print("Comienzo de la temporada", temporada)
         print("Comienzo de jornada: ",jornada)
         now = datetime.now()
@@ -36,6 +36,10 @@ if jornada > 0:
             print("Finalización de temporada")
             finalizarTemporada()
             # ct.twittearFinal()
+        # Escritura del nombre de la copia de seguridad para la ejecución del comando en bash
+        # newdata="LJ"+str(jornada)+"T"+str(temporada)+".sql"
+        # with open('\\CreacionBBDDYEstadisticas\\backup\\jornadaTemporada.txt', "w") as myfile:
+        #     myfile.write(newdata)
 else:
     print("Lo siento, la temporada aún no ha Empezado")
     
