@@ -316,6 +316,22 @@ def selectJornada():
 		db.close()
 	return int(jornada)
 
+def selectJornadaSinSuma():
+	temporada = selectTemporada()
+	if temporada == 0:
+		jornada = 0
+	else:
+		db = cp.bbddliga()
+		cursor = db.cursor()
+		sql = "select jornada from partidos where temporada = %s order by jornada desc;"
+		cursor.execute(sql,temporada)
+		dato = cursor.fetchone()
+		if dato:
+			jornada = (int(dato[0]))
+		else:
+			jornada = 1
+		db.close()
+	return int(jornada)
 def selectTemporada():
 	db = cp.bbddliga()
 	cursor = db.cursor()
@@ -399,4 +415,3 @@ def selectCampeonLiga():
 	id_club = dato[0]
 	db.close()
 	return(id_club)
-

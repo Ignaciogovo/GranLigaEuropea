@@ -42,7 +42,7 @@ def partido(e1,e2,jornada):
             # Actualizamos Clasificacion
             cs.updateclasificacion(e2,gol2,e1, gol1, temporada)
             # Twittear resultado de partido
-            # ct.twittearPartido(e2,e1,gol2,gol1)
+            ct.twittearPartido(e2,e1,gol2,gol1)
         else: #Local e1
             datos_partidos= [e1,e2,gol1,gol2,arbitro,(str(aforo) + '%'),jornada,temporada]
             #Insertamos resultado del partido
@@ -53,7 +53,7 @@ def partido(e1,e2,jornada):
             # Actualizamos Clasificacion
             cs.updateclasificacion(e1,gol1,e2,gol2,temporada)
             # Twittear resultado de partido
-            # ct.twittearPartido(e1,e2,gol1,gol2)
+            ct.twittearPartido(e1,e2,gol1,gol2)
     elif potencial1 > potencial2:
         #Ganador primer equipo:
         #Asignacion de goles
@@ -71,7 +71,7 @@ def partido(e1,e2,jornada):
             # Actualizamos Clasificacion
             cs.updateclasificacion(e2,gol2,e1, gol1, temporada)
             # Twittear resultado de partido
-            # ct.twittearPartido(e2,e1,gol2,gol1)
+            ct.twittearPartido(e2,e1,gol2,gol1)
         else: #Local e1
             datos_partidos= [e1,e2,gol1,gol2,arbitro,(str(aforo) + '%'),jornada,temporada]
             #Insertamos resultado del partido
@@ -82,7 +82,7 @@ def partido(e1,e2,jornada):
             # Actualizamos Clasificacion
             cs.updateclasificacion(e1,gol1,e2,gol2, temporada)
             # Twittear resultado de partido
-            # ct.twittearPartido(e1,e2,gol1,gol2)
+            ct.twittearPartido(e1,e2,gol1,gol2)
     elif potencial1==potencial2:
         # Empate:
         gol1 = int(round(potencial1/2.5,0))
@@ -97,7 +97,7 @@ def partido(e1,e2,jornada):
             # Actualizamos Clasificacion
             cs.updateclasificacion(e2,gol2,e1, gol1, temporada)
             # Twittear resultado de partido
-            # ct.twittearPartido(e2,e1,gol2,gol1)
+            ct.twittearPartido(e2,e1,gol2,gol1)
         else: #Local e1
             datos_partidos= [e1,e2,gol1,gol2,arbitro,(str(aforo) + '%'),jornada,temporada]
             #Insertamos resultado del partido
@@ -108,7 +108,7 @@ def partido(e1,e2,jornada):
             # Actualizamos Clasificacion
             cs.updateclasificacion(e1,gol1,e2,gol2, temporada)
             # Twittear resultado de partido
-            # ct.twittearPartido(e1,e2,gol1,gol2)
+            ct.twittearPartido(e1,e2,gol1,gol2)
 
 # Calcula el potencial de victoria de cada equipo
 def calculoPotenciales(v1,v2,diff,jornada):
