@@ -11,6 +11,8 @@
 
 
 USE liga;
+
+-- ESTADIOS
 DROP TABLE IF EXISTS estadios;
 
 CREATE TABLE estadios(
@@ -20,6 +22,8 @@ ciudad varchar(100) null,
 capacidad int null
 )AUTO_INCREMENT=1; 
 
+
+--CLUB
 DROP TABLE IF EXISTS club;
 CREATE TABLE club (
   id int unsigned NOT NULL auto_increment,
@@ -34,6 +38,10 @@ CREATE TABLE club (
 ) AUTO_INCREMENT=1;
 
 
+
+
+
+--JUGADORES
 DROP TABLE IF EXISTS jugadores;
 CREATE TABLE jugadores (
   id int unsigned NOT NULL auto_increment,
@@ -50,6 +58,10 @@ CREATE TABLE jugadores (
   FOREIGN KEY (id_club) REFERENCES club(id)
 )AUTO_INCREMENT=1;
 
+
+
+
+-- ARBITROS
 DROP TABLE IF EXISTS arbitros;
 CREATE TABLE arbitros(
 id int not null auto_increment primary key,
@@ -65,6 +77,11 @@ fecha_inicio DATE,
 fecha_final DATE
 )AUTO_INCREMENT=1;
 
+
+
+
+
+-- PARTIDOS
 DROP TABLE IF EXISTS partidos;
 CREATE TABLE partidos(
 id int not null auto_increment primary key,
@@ -89,6 +106,10 @@ temporada int,
       FOREIGN KEY (temporada) 
       REFERENCES temporada(id)
 );
+
+
+
+-- CLASIFICACION
 DROP TABLE IF EXISTS clasificacion;
 CREATE TABLE clasificacion(
 id  int auto_increment primary key,
@@ -107,6 +128,9 @@ temporada int,
     FOREIGN KEY (temporada)
       REFERENCES temporada(id)
 )AUTO_INCREMENT=1;
+
+
+-- ESTADISTICAS_PARTIDO
 DROP TABLE IF EXISTS estadisticas_partido;
 CREATE TABLE estadisticas_partido(
 id int PRIMARY KEY auto_increment,
@@ -124,3 +148,34 @@ titular int DEFAULT 0,
     FOREIGN KEY (id_partido)
       REFERENCES partidos(id)
 )AUTO_INCREMENT=1;
+
+
+--HISTORICO_CLUB
+drop table historico_club;
+Create table historico_club(
+  id int NOT NULL auto_increment,
+  id_club int unsigned,
+  nombre varchar(100),
+  nJugadores int,
+  ValorTotal int,
+  control_fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) AUTO_INCREMENT=1; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--- UPDATES PARA AÑADIR LA COLUMNA CONTROL_FECHA:
+SELECT CONCAT('ALTER TABLE ', table_name, ' ADD COLUMN control_fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;') AS query
+FROM information_schema.tables
+WHERE table_schema = 'liga' AND table_type = 'BASE TABLE';
