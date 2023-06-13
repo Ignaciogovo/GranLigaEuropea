@@ -40,7 +40,7 @@ def insertarjugador(datos_jugadores):
 	# desconecta del servidor
 	db.close()
 # Insertar arbitros:
-def insertarAbitros(arbitro):
+def insertarAbitros(datos):
 	db = cp.bbddliga()
 	# prepare a cursor object using cursor() method
 	cursor = db.cursor()
@@ -48,8 +48,8 @@ def insertarAbitros(arbitro):
 	# ejecuta el SQL query usando el metodo execute().
 
 	#INSERT:
-	sql = "INSERT INTO arbitros(nombre) VALUES (%s) ON DUPLICATE KEY UPDATE nombre=%s"
-	cursor.execute(sql,(arbitro,arbitro))
+	sql = "INSERT INTO arbitros(nombre,nacionalidad,FechaNacimiento,activo) VALUES (%s,%s,%s,1) ON DUPLICATE KEY UPDATE nombre=%s"
+	cursor.execute(sql,datos)
 
 	   # Commit your changes in the database
 	db.commit()

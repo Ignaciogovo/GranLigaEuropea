@@ -69,7 +69,11 @@ nombre varchar(120) unique,
 nacionalidad varchar(120) null,
 FechaNacimiento date null
 )AUTO_INCREMENT=1;
+alter table arbitros  add column activo int default 0;
 
+
+
+--- Temporada
 DROP TABLE IF EXISTS temporada;
 CREATE TABLE temporada(
 id int not null auto_increment primary key,
