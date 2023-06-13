@@ -9,43 +9,52 @@ import ligue1
 from arbitros import EjecucionArbitros
 from time import sleep
 import sys
+import os
 # in the sys.path list
 sys.path.append('.\\')  
+# Obtén la ruta del directorio padre
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Agrega el directorio padre al sys.path
+sys.path.append(parent_dir)
+
+
+
 import conexionsql as cs
 #Premier:
 def inglaterra():
     pais = "Inglaterra"
         # Inserción CLUBS fundadores:
 
-        #Tottemham
-    url_ = "https://sofifa.com/team/18/tottenham-hotspur/"
-    nombre = "Tottenham Hotspur"
-    sf.IngresoDatos(url_,nombre,pais)
+    #     #Tottemham
+    # url_ = "https://sofifa.com/team/18/tottenham-hotspur/"
+    # nombre = "Tottenham Hotspur"
+    # sf.IngresoDatos(url_,nombre,pais)
 
-        #Chelsea
-    url_ = "https://sofifa.com/team/5/chelsea/"
-    nombre = "Chelsea"
-    sf.IngresoDatos(url_,nombre,pais)
+    #     #Chelsea
+    # url_ = "https://sofifa.com/team/5/chelsea/"
+    # nombre = "Chelsea"
+    # sf.IngresoDatos(url_,nombre,pais)
 
-        #Liverpool
-    url_ = "https://sofifa.com/team/9/liverpool/"
-    nombre = "Liverpool"
-    sf.IngresoDatos(url_,nombre,pais)
+    #     #Liverpool
+    # url_ = "https://sofifa.com/team/9/liverpool/"
+    # nombre = "Liverpool"
+    # sf.IngresoDatos(url_,nombre,pais)
 
-        #Manchester united
-    url_ = "https://sofifa.com/team/11/manchester-united/"
-    nombre = "Manchester United"
-    sf.IngresoDatos(url_,nombre,pais)
+    #     #Manchester united
+    # url_ = "https://sofifa.com/team/11/manchester-united/"
+    # nombre = "Manchester United"
+    # sf.IngresoDatos(url_,nombre,pais)
 
-        #Arsenal
-    url_ = "https://sofifa.com/team/1/arsenal/"
-    nombre = "Arsenal"
-    sf.IngresoDatos(url_,nombre,pais)
+    #     #Arsenal
+    # url_ = "https://sofifa.com/team/1/arsenal/"
+    # nombre = "Arsenal"
+    # sf.IngresoDatos(url_,nombre,pais)
 
-        #Manchester City
-    url_ = "https://sofifa.com/team/10/manchester-city/"
-    nombre = "Manchester City"
-    sf.IngresoDatos(url_,nombre,pais)
+    #     #Manchester City
+    # url_ = "https://sofifa.com/team/10/manchester-city/"
+    # nombre = "Manchester City"
+    # sf.IngresoDatos(url_,nombre,pais)
 
     # Mejor clasificado:
     Premier.EjecucionPremier()
@@ -149,6 +158,6 @@ sleep(1)
 francia()
 sleep(1)
 EjecucionArbitros()
-cs.insertarTemporada()
-cs.insertarClasificacion()
+# cs.insertarTemporada()
+# cs.insertarClasificacion()
 # 12:21 minutos

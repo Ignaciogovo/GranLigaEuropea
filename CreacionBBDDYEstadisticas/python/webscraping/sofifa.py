@@ -1,40 +1,58 @@
+import re
 from selenium import webdriver
-from selenium.webdriver.support.ui import Select # Permite seleccionar valores dentro de una lista desplegable.
-from selenium.webdriver.chrome.options import Options #Permite opciones a la hora de hacer la ejecucion.
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 from bs4 import BeautifulSoup
 import requests
 from datetime import date
 import sys 
-# in the sys.path list
-sys.path.append('.\\')        
+import os
+from fake_useragent import UserAgent
+ua = UserAgent()
+# Obtén la ruta del directorio padre
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Agrega el directorio padre al sys.path
+sys.path.append(parent_dir)
+
+
 import conexionsql
 #Esta función busca a los jugadores a partir del nombre del equipo.
 def busquedajugadores(nombre_equipo,pais):
-    website = 'https://sofifa.com/teams'
-    path = 'C:\driversChrome\chromedriver.exe'
-    opciones = Options()
-    opciones.add_argument("--headless") # Permite hacer el script en segundo plano.
-    driver = webdriver.Chrome(chrome_options=opciones, executable_path=path)
-    driver.get(website)
+    # website = 'https://sofifa.com/teams'
+    # path = 'C:\driversChrome\chromedriver.exe'
+    # opciones = Options()
+    # opciones.add_argument("--headless") # Permite hacer el script en segundo plano.
+    # driver = webdriver.Chrome(chrome_options=opciones, executable_path=path)
+    # driver.get(website)
+    options = Options()
+    # options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver.get('https://sofifa.com/teams')
+
     #Aceptamos las cookies (No hace falta, solo era para cuando estaba visible)
     # Cookiess = driver.find_element(By.CLASS_NAME,'banner_continueBtn--3KNKl')
     # Cookiess.click()
-    # time.sleep(2)
-    # Cookiess2 = driver.find_element(By.CLASS_NAME,'button_button--lgX0P.details_save--1ja7w')
-    # Cookiess2.click()
+    time.sleep(2)
+    Cookiess2 = driver.find_element(By.CLASS_NAME, 'fc-button.fc-cta-consent.fc-primary-button')
+    Cookiess2.click()
 
     #Buscamos al equipo
     busquedaEquipo = driver.find_element(By.NAME,'keyword')
     busquedaEquipo.send_keys(nombre_equipo)
+    time.sleep(3)
     busquedaEquipo.send_keys(Keys.ENTER)
     time.sleep(2)
     #Sacamos la url actual para usar beatiful soup
     url_equipos = driver.current_url
     # Usamos beatiful soup
-    page = requests.get(url_equipos) # Optenemos la pagina
+    page = requests.get(url_equipos, headers=headers) # Optenemos la pagina
     soup = BeautifulSoup(page.content,'html.parser')
     # Si no sale ningun equipo en la lista se ejecuta este if:
     if soup.find("td", class_="col-name-wide") == None:
@@ -64,12 +82,12 @@ def busquedajugadores(nombre_equipo,pais):
 def IngresoDatos(get_url,equipoNombre,pais):
     id_estadio = sacarEstadio(get_url)
     # Ingresamos el club 
-    conexionsql.insertarclub(equipoNombre,pais,id_estadio)
+    # conexionsql.insertarclub(equipoNombre,pais,id_estadio)
     # time.sleep(1)
     # Obtenemos el id de ese club:
-    id_equipo = conexionsql.SelectClub(equipoNombre)
+    id_equipo = 1 #conexionsql.SelectClub(equipoNombre)
     # Usamos la url para obtener los datos de los jugadores de cada club
-    page = requests.get(get_url) # Optenemos la pagina
+    page = requests.get(get_url, headers=headers) # Optenemos la pagina
     soup = BeautifulSoup(page.content,'html.parser')
     lista = soup.find("tbody", class_="list")
     for a in lista.find_all("a"):
@@ -78,12 +96,13 @@ def IngresoDatos(get_url,equipoNombre,pais):
         else:
             link = a.get('href') #Sacamos el link interno de la pagina del jugador
             # Sacamos e insertamos datos jugadores
-            sacardatosJugadores("https://sofifa.com"+link,id_equipo)
+            print("https://sofifa.com"+link,id_equipo)
+            #sacardatosJugadores("https://sofifa.com"+link,id_equipo)
     # Actualizados datos del equipo
     conexionsql.updateclub(id_equipo)
 
 def sacardatosJugadores(get_url,id_equipo):
-    page = requests.get(get_url) # Optenemos la pagina
+    page = requests.get(get_url, headers=headers) # Optenemos la pagina
     soup = BeautifulSoup(page.content,'html.parser')
     datos = soup.find("div", class_="info")
     #Buscamos el nombre:
@@ -184,15 +203,29 @@ def convertirPosiciones (cadena):
 
 # Sacamos el sacarEstadio
 def sacarEstadio(get_url):
-    page = requests.get(get_url) # Optenemos la pagina
+    print(get_url)
+    time.sleep(2)
+    
+    page = requests.get(get_url, headers=headers) # Optenemos la pagina
+
     soup = BeautifulSoup(page.content,'html.parser')
+        # Retraso antes de procesar la respuesta
     others = soup.find("div", class_="bp3-card player")
     estadio = others.find("li", class_="ellipsis")
-    estadio = (estadio.text).replace("Home Stadium", "")
-    conexionsql.insertarEstadios(estadio)
-    id_estadio=conexionsql.SelectEstadio(estadio)
+    print(estadio.text)
+    estadio = replace_ignore_case(estadio.text,"Home Stadium", "")
+    print(estadio)
+    # conexionsql.insertarEstadios(estadio)
+    id_estadio=1 # conexionsql.SelectEstadio(estadio)
     return(id_estadio)
 
+
+def replace_ignore_case(texto,viejo,nuevo):
+    # Compilar un objeto de patrón de expresión regular
+    # utilizando el texto viejo escapado y con coincidencia insensible a mayúsculas y minúsculas --> Escapado que no afecta a las expresiones irregulares
+    patron=re.compile((re.escape(viejo)), re.IGNORECASE)
+    texto_final=patron.sub(nuevo,texto)
+    return(texto_final)
 
 #Datos de las posiciones
 portero= ("GK","0")
@@ -205,3 +238,7 @@ posiciones={
     "Centrocampista" : centrocampista,
     "Delantero" : delantero
 }
+
+
+# HEADERS Para las requests:
+headers = {'User-Agent': ua.chrome}
