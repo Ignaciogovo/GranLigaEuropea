@@ -97,9 +97,9 @@ def IngresoDatos(get_url,equipoNombre,pais):
             link = a.get('href') #Sacamos el link interno de la pagina del jugador
             # Sacamos e insertamos datos jugadores
             print("https://sofifa.com"+link,id_equipo)
-            #sacardatosJugadores("https://sofifa.com"+link,id_equipo)
+            sacardatosJugadores("https://sofifa.com"+link,id_equipo)
     # Actualizados datos del equipo
-    conexionsql.updateclub(id_equipo)
+    # conexionsql.updateclub(id_equipo)
 
 def sacardatosJugadores(get_url,id_equipo):
     page = requests.get(get_url, headers=headers) # Optenemos la pagina
@@ -124,8 +124,9 @@ def sacardatosJugadores(get_url,id_equipo):
             valor = i.find("div").text
             valor=valor.replace("Value","").replace("€","") #Eliminamos los datos no numericos del valor
     valor=convertirValor(valor)
-    Ldatos=(nombre,id_equipo,posicion,int(kg),int(cm),pais,int(valor),fecha,id_equipo,posicion,int(kg),int(cm),pais,int(valor)) # Duplicamos datos para usar on duplicate key update
-    conexionsql.insertarjugador(Ldatos)
+    Ldatos=(nombre,id_equipo,posicion,int(kg),int(cm),pais,int(valor),fecha)
+    print(Ldatos)
+    # conexionsql.insertarjugador(Ldatos)
 
 #Funciones para sacar datos individuales de la cadena de texto:
 
@@ -144,17 +145,12 @@ def diferenciarfecha(cadena):
     return str(fecha)
 
 def diferenciarCm(cadena):
-    cadena = cadena.replace(" ", "")
-    cm=cadena.find("cm")
-    parentesis = cadena.find(")")
-    return cadena[parentesis+1:cm]
+    start,end = (re.search(r'(\d+)cm',cadena)).span()
+    return cadena[start:end].replace("cm","")
 
 def diferenciarKg(cadena):
-    cadena = cadena.replace(" ", "")
-    cm=cadena.find("cm")
-    kg = cadena.find("kg")
-    return cadena[cm+2:kg]
-
+    start,end = (re.search(r'(\d+)kg',cadena)).span()
+    return cadena[start:end].replace("kg","")
 
 # Conversiones de los datos para que sean más leibles
     # Convertimos las fechas para que sea legible en sql

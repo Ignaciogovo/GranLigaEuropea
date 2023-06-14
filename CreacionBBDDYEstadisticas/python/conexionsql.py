@@ -3,78 +3,101 @@ from datetime import date
 import conexionpython as cp
 ###Insert y updates:
 # Insertar clubes
-def insertarclub(nombre,pais,id_estadio):
-	db = cp.bbddliga()
-	# prepare a cursor object using cursor() method
-	cursor = db.cursor()
+def insertarclub(nombre, pais, id_estadio):
+    db = cp.bbddliga()
+    cursor = db.cursor()
 
-	# ejecuta el SQL query usando el metodo execute().
+    # Verificar si el nombre del club ya existe en la tabla
+    sql_select = "SELECT nombre FROM club WHERE nombre = %s"
+    cursor.execute(sql_select, (nombre,))
+    existing_row = cursor.fetchone()
 
-	#INSERT:
-	sql = "INSERT INTO club(nombre, pais, activo,id_estadio) VALUES (%s,%s,1,%s) ON DUPLICATE KEY UPDATE activo=1" # --> Activo indica que este equipo va a participar este año 
-	valores = (nombre,pais,id_estadio)
-	cursor.execute(sql,valores)
+    if existing_row:
+        # Si el nombre del club existe, realizar una actualización
+        sql_update = "UPDATE club SET activo = 1 WHERE nombre = %s"
+        cursor.execute(sql_update, (nombre,))
+    else:
+        # Si el nombre del club no existe, realizar una inserción
+        sql_insert = "INSERT INTO club(nombre, pais, activo, id_estadio) VALUES (%s, %s, 1, %s)"
+        valores = (nombre, pais, id_estadio)
+        cursor.execute(sql_insert, valores)
 
-	   # Commit your changes in the database
-	db.commit()
-	print(cursor.rowcount, "registro insertado")
-	# desconecta del servidor
-	db.close()
+    db.commit()
+    # print(cursor.rowcount, "registro insertado")
+
+    db.close()
 
 # Insertar Jugadores
 def insertarjugador(datos_jugadores):
-	# print(datos_jugadores)
-	db = cp.bbddliga()
-	# prepare a cursor object using cursor() method
-	cursor = db.cursor()
+    db = cp.bbddliga()
+    cursor = db.cursor()
 
-	# ejecuta el SQL query usando el metodo execute().
+    # Verificar si el nombre ya existe en la tabla
+    nombre = datos_jugadores[0]
+    sql_select = "SELECT nombre FROM jugadores WHERE nombre = %s"
+    cursor.execute(sql_select, (nombre,))
+    existing_row = cursor.fetchone()
 
-	#INSERT:
-	sql = "INSERT INTO jugadores(nombre,id_club,posicion,peso,altura,nacionalidad,valor,FechaNacimiento,activo) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,1) ON DUPLICATE KEY UPDATE id_club=%s,posicion=%s,peso=%s,altura=%s,nacionalidad=%s,valor=%s, activo = 1"
-	cursor.execute(sql,datos_jugadores)
+    if existing_row:
+        # Si el nombre existe, realizar una actualización
+        sql_update = "UPDATE jugadores SET id_club = %s, posicion = %s, peso = %s, altura = %s, nacionalidad = %s, valor = %s, activo = 1 WHERE nombre = %s"
+        cursor.execute(sql_update, datos_jugadores + (nombre,))
+    else:
+        # Si el nombre no existe, realizar una inserción
+        sql_insert = "INSERT INTO jugadores(nombre, id_club, posicion, peso, altura, nacionalidad, valor, FechaNacimiento, activo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 1)"
+        cursor.execute(sql_insert, datos_jugadores)
 
-	   # Commit your changes in the database
-	db.commit()
-	print(cursor.rowcount, "registro insertado")
-	# desconecta del servidor
-	db.close()
+    db.commit()
+    # print(cursor.rowcount, "registro insertado")
+
+    db.close()
 # Insertar arbitros:
-def insertarAbitros(datos):
-	db = cp.bbddliga()
-	# prepare a cursor object using cursor() method
-	cursor = db.cursor()
+def insertarArbitros(datos):
+    db = cp.bbddliga()
+    cursor = db.cursor()
 
-	# ejecuta el SQL query usando el metodo execute().
+    # Verificar si el nombre del árbitro ya existe en la tabla
+    sql_select = "SELECT nombre FROM arbitros WHERE nombre = %s"
+    cursor.execute(sql_select, (datos[0],))
+    existing_row = cursor.fetchone()
 
-	#INSERT:
-	sql = "INSERT INTO arbitros(nombre,nacionalidad,FechaNacimiento,activo) VALUES (%s,%s,%s,1) ON DUPLICATE KEY UPDATE nombre=%s"
-	cursor.execute(sql,datos)
+    if existing_row:
+        # Si el nombre del árbitro existe, realizar una actualización
+        sql_update = "UPDATE arbitros SET activo = 1 WHERE nombre = %s"
+        cursor.execute(sql_update, (datos[0],))
+    else:
+        # Si el nombre del árbitro no existe, realizar una inserción
+        sql_insert = "INSERT INTO arbitros(nombre, nacionalidad, FechaNacimiento, activo) VALUES (%s, %s, %s, 1)"
+        cursor.execute(sql_insert, datos)
 
-	   # Commit your changes in the database
-	db.commit()
-	print(cursor.rowcount, "registro insertado")
-	# desconecta del servidor
-	db.close()
+    db.commit()
+    # print(cursor.rowcount, "registro insertado")
 
+    db.close()
 
 # Insertar Estadios
 def insertarEstadios(estadio):
-	db = cp.bbddliga()
-	# prepare a cursor object using cursor() method
-	cursor = db.cursor()
+    db = cp.bbddliga()
+    cursor = db.cursor()
 
-	# ejecuta el SQL query usando el metodo execute().
+    # Verificar si el nombre del estadio ya existe en la tabla
+    sql_select = "SELECT nombre FROM estadios WHERE nombre = %s"
+    cursor.execute(sql_select, (estadio,))
+    existing_row = cursor.fetchone()
 
-	#INSERT:
-	sql = "INSERT INTO estadios(nombre) VALUES (%s) ON DUPLICATE KEY UPDATE nombre=%s" # cursor.execute("INSERT INTO input_1 (a,b,c,d) VALUES (%s,%s,%s,%s) ON DUPLICATE KEY UPDATE VALUES a=%s,b=%s,c=%s", (item['a'],item['b'],item['c'],item['d'],item['a'],item['b'],item['c']))
-	cursor.execute(sql,(estadio,estadio))
-	   # Commit your changes in the database
-	db.commit()
-	print(cursor.rowcount, "registro insertado")
-	# desconecta del servidor
-	db.close()
+    if existing_row:
+        # Si el nombre del estadio existe, realizar una actualización
+        sql_update = "UPDATE estadios SET nombre = %s WHERE nombre = %s"
+        cursor.execute(sql_update, (estadio, estadio))
+    else:
+        # Si el nombre del estadio no existe, realizar una inserción
+        sql_insert = "INSERT INTO estadios(nombre) VALUES (%s)"
+        cursor.execute(sql_insert, (estadio,))
 
+    db.commit()
+    # print(cursor.rowcount, "registro insertado")
+
+    db.close()
 #Insertar partidos
 def insertarPartidos(datos_partido):
 	db = cp.bbddliga()
