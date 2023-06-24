@@ -438,3 +438,9 @@ def selectCampeonLiga():
 	id_club = dato[0]
 	db.close()
 	return(id_club)
+
+
+
+
+
+print(selectCampeonLiga())

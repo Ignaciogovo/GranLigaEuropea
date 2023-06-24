@@ -1,6 +1,6 @@
-# import pymysql
-# import tweepy
-# from tweepy import OAuthHandler
+import pymysql
+import tweepy
+from tweepy import OAuthHandler
 import os
 from dotenv import load_dotenv
 # Obtiene la ruta absoluta del directorio actual
