@@ -82,10 +82,10 @@ def busquedajugadores(nombre_equipo,pais):
 def IngresoDatos(get_url,equipoNombre,pais):
     id_estadio = sacarEstadio(get_url)
     # Ingresamos el club 
-    # conexionsql.insertarclub(equipoNombre,pais,id_estadio)
+    conexionsql.insertarclub(equipoNombre,pais,id_estadio)
     # time.sleep(1)
     # Obtenemos el id de ese club:
-    id_equipo = 1 #conexionsql.SelectClub(equipoNombre)
+    id_equipo = conexionsql.SelectClub(equipoNombre)
     # Usamos la url para obtener los datos de los jugadores de cada club
     page = requests.get(get_url, headers=headers) # Optenemos la pagina
     soup = BeautifulSoup(page.content,'html.parser')
@@ -99,9 +99,10 @@ def IngresoDatos(get_url,equipoNombre,pais):
             print("https://sofifa.com"+link,id_equipo)
             sacardatosJugadores("https://sofifa.com"+link,id_equipo)
     # Actualizados datos del equipo
-    # conexionsql.updateclub(id_equipo)
+    conexionsql.updateclub(id_equipo)
 
 def sacardatosJugadores(get_url,id_equipo):
+    time.sleep(1)
     page = requests.get(get_url, headers=headers) # Optenemos la pagina
     soup = BeautifulSoup(page.content,'html.parser')
     datos = soup.find("div", class_="info")
@@ -124,9 +125,9 @@ def sacardatosJugadores(get_url,id_equipo):
             valor = i.find("div").text
             valor=valor.replace("Value","").replace("€","") #Eliminamos los datos no numericos del valor
     valor=convertirValor(valor)
-    Ldatos=(nombre,id_equipo,posicion,int(kg),int(cm),pais,int(valor),fecha)
-    print(Ldatos)
-    # conexionsql.insertarjugador(Ldatos)
+    Ldatos=[nombre,id_equipo,posicion,int(kg),int(cm),pais,int(valor),fecha]
+    # print(Ldatos)
+    conexionsql.insertarjugador(Ldatos)
 
 #Funciones para sacar datos individuales de la cadena de texto:
 
@@ -199,7 +200,6 @@ def convertirPosiciones (cadena):
 
 # Sacamos el sacarEstadio
 def sacarEstadio(get_url):
-    print(get_url)
     time.sleep(2)
     
     page = requests.get(get_url, headers=headers) # Optenemos la pagina
@@ -208,11 +208,9 @@ def sacarEstadio(get_url):
         # Retraso antes de procesar la respuesta
     others = soup.find("div", class_="bp3-card player")
     estadio = others.find("li", class_="ellipsis")
-    print(estadio.text)
     estadio = replace_ignore_case(estadio.text,"Home Stadium", "")
-    print(estadio)
-    # conexionsql.insertarEstadios(estadio)
-    id_estadio=1 # conexionsql.SelectEstadio(estadio)
+    conexionsql.insertarEstadios(estadio)
+    id_estadio=conexionsql.SelectEstadio(estadio)
     return(id_estadio)
 
 
@@ -238,3 +236,46 @@ posiciones={
 
 # HEADERS Para las requests:
 headers = {'User-Agent': ua.chrome}
+
+
+
+
+
+
+
+
+
+
+
+
+
+# get_url="https://sofifa.com/player/263955/ben-knight/230040/"
+
+
+
+
+
+# page = requests.get(get_url, headers=headers) # Optenemos la pagina
+# soup = BeautifulSoup(page.content,'html.parser')
+# datos = soup.find("div", class_="info")
+# #Buscamos el nombre:
+# nombre = datos.find("h1").text
+# #Buscamos el pais:
+# pais = datos.find("a")
+# pais = pais.get("title")
+# #Sacamos Posicion,fecha,cm y kg a partir de funciones creadas:
+# datosindi=datos.find("div")
+# posicion = diferenciarPosicion(datosindi.text)
+# fecha=diferenciarfecha(datosindi.text)
+# cm = diferenciarCm(datosindi.text)
+# kg = diferenciarKg(datosindi.text)
+# #Buscamos el valor de mercado:
+# sacarvalor= soup.find("section", class_="card spacing")
+# #Buscamos el valor economico entre las otras estadisticas:
+# for i in sacarvalor.find_all("div", class_="block-quarter"):
+#     if i.find("div", class_="sub").text == "Value": #Si el texto del div es igual a value:
+#         valor = i.find("div").text
+#         valor=valor.replace("Value","").replace("€","") #Eliminamos los datos no numericos del valor
+# valor=convertirValor(valor)
+# Ldatos=(nombre,1,posicion,int(kg),int(cm),pais,int(valor),fecha)
+# print(Ldatos)

@@ -168,6 +168,21 @@ Create table historico_club(
 
 
 
+Create table historico_jugadores(
+  id int NOT NULL auto_increment,
+  id_jugador int unsigned,
+  nombre varchar(100),
+  id_club int unsigned,
+  posicion varchar(100),
+  peso varchar(100),
+  altura varchar(100),
+  nacionalidad varchar(100),
+  valor int unsigned,
+  FechaNacimiento Date,
+  temporada int,
+  control_fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) AUTO_INCREMENT=1; 
 
 
 

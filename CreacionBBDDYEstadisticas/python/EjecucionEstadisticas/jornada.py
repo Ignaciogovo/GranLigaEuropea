@@ -24,6 +24,7 @@ if jornada > 0:
         temporada = cs.selectTemporada()
         if jornada == 1:
             print("Comienzo de la temporada", temporada)
+            cs.actualizar_fecha_temporada()
         print("Comienzo de jornada: ",jornada)
         now = datetime.now()
         print(now)

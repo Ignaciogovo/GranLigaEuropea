@@ -22,3 +22,29 @@ def configurar_fecha(fecha):
         return fecha  
     fecha_mysql = fecha_dt.strftime('%Y-%m-%d')
     return(fecha_mysql)
+
+
+
+
+
+
+#Eliminar palabras repetidas
+# Obtenido desde: https://foroayuda.es/como-eliminar-palabras-duplicadas-de-la-cadena-en-el-ejemplo-de-codigo-de-python/
+def unique_list(l):
+    ulist = []
+    [ulist.append(x) for x in l if x not in ulist]
+    return ulist
+
+
+
+
+
+
+# Convertir datos de una lista en str:
+def convertir_a_str(lista):
+    return [str(elemento) for elemento in lista]
+
+
+
+
+

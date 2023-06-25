@@ -2,7 +2,14 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import sofifa
-# link pagina:
+import os
+import sys
+# Obtén la ruta del directorio padre
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Agrega el directorio padre al sys.path
+sys.path.append(parent_dir)
+from funciones_globales import unique_list
 
 def EjecucionBundesliga():
     url = "https://www.bundesliga.com/es/bundesliga/clasificacion"
@@ -13,7 +20,7 @@ def EjecucionBundesliga():
     count = 0
     pais = "Alemania"
     for i in prueba:
-        if count == 20:
+        if count == 18:
             break
         count +=1
         Sininiciales= (i.text)[3:]
@@ -26,13 +33,5 @@ def EjecucionBundesliga():
             print("puesto: %d equipo: %s" % (i+1, equipos[i]))
             sofifa.busquedajugadores(equipos[i],pais)
             break
-
-#Eliminar palabras repetidas
-# Obtenido desde: https://foroayuda.es/como-eliminar-palabras-duplicadas-de-la-cadena-en-el-ejemplo-de-codigo-de-python/
-def unique_list(l):
-    ulist = []
-    [ulist.append(x) for x in l if x not in ulist]
-    return ulist
-
 
 fundadores = ["Bayern","Dortmund"]

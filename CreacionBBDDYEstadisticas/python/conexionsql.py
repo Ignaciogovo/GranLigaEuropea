@@ -1,6 +1,30 @@
 # Abre conexion con la base de datos
 from datetime import date
 import conexionpython as cp
+from funciones_globales import convertir_a_str
+
+
+# Insert historico jugadores:
+# Actualizar datos club
+def historico_jugadores():
+	db = cp.bbddliga()
+	cursor = db.cursor()
+	sql="call insert_historico_jugadores();"
+	cursor.execute(sql)
+	# Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "Jugadores historicos insertados")
+	db.close()
+
+
+
+
+
+
+
+
+
+
 ###Insert y updates:
 # Insertar clubes
 def insertarclub(nombre, pais, id_estadio):
@@ -29,19 +53,19 @@ def insertarclub(nombre, pais, id_estadio):
 
 # Insertar Jugadores
 def insertarjugador(datos_jugadores):
+    datos_jugadores=convertir_a_str(datos_jugadores)
     db = cp.bbddliga()
     cursor = db.cursor()
 
     # Verificar si el nombre ya existe en la tabla
     nombre = datos_jugadores[0]
     sql_select = "SELECT nombre FROM jugadores WHERE nombre = %s"
-    cursor.execute(sql_select, (nombre,))
+    cursor.execute(sql_select, [nombre,])
     existing_row = cursor.fetchone()
-
     if existing_row:
         # Si el nombre existe, realizar una actualización
         sql_update = "UPDATE jugadores SET id_club = %s, posicion = %s, peso = %s, altura = %s, nacionalidad = %s, valor = %s, activo = 1 WHERE nombre = %s"
-        cursor.execute(sql_update, datos_jugadores + (nombre,))
+        cursor.execute(sql_update, datos_jugadores[1:-1] + [nombre,])
     else:
         # Si el nombre no existe, realizar una inserción
         sql_insert = "INSERT INTO jugadores(nombre, id_club, posicion, peso, altura, nacionalidad, valor, FechaNacimiento, activo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 1)"
@@ -55,7 +79,6 @@ def insertarjugador(datos_jugadores):
 def insertarArbitros(datos):
     db = cp.bbddliga()
     cursor = db.cursor()
-
     # Verificar si el nombre del árbitro ya existe en la tabla
     sql_select = "SELECT nombre FROM arbitros WHERE nombre = %s"
     cursor.execute(sql_select, (datos[0],))
@@ -138,7 +161,6 @@ def insertarEstadisticasPartidos(estadisticas_partido):
 	
 #Insertar Temporada
 def insertarTemporada():
-	fecha_inicio = date.today()
 	db = cp.bbddliga()
 	# prepare a cursor object using cursor() method
 	cursor = db.cursor()
@@ -146,8 +168,8 @@ def insertarTemporada():
 	# ejecuta el SQL query usando el metodo execute().
 
 	#INSERT:
-	sql = "INSERT INTO temporada(fecha_inicio) VALUES (%s)"
-	cursor.execute(sql,fecha_inicio)
+	sql = "INSERT INTO temporada VALUES ()"
+	cursor.execute(sql)
 
 	   # Commit your changes in the database
 	db.commit()
@@ -165,6 +187,25 @@ def insertarClasificacion():
 	#INSERT:
 	sql = "	insert into clasificacion(id_club,temporada) select id,(select max(id) from temporada) as temporada from club where activo = 1;"
 	cursor.execute(sql)
+
+	   # Commit your changes in the database
+	db.commit()
+	print(cursor.rowcount, "registro insertado")
+	# desconecta del servidor
+	db.close()
+
+
+def actualizar_fecha_temporada():
+	fecha_inicio = date.today()
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+
+	# ejecuta el SQL query usando el metodo execute().
+
+	#INSERT:UPDATE 
+	sql = "temporada set fecha_inicio = %s where id = (select id from(select max(id) from temporada) as tablaTemporal);"
+	cursor.execute(sql,fecha_inicio)
 
 	   # Commit your changes in the database
 	db.commit()
@@ -442,5 +483,3 @@ def selectCampeonLiga():
 
 
 
-
-print(selectCampeonLiga())
