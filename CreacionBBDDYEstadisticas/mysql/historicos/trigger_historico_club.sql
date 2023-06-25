@@ -8,6 +8,8 @@
 DROP TRIGGER IF EXISTS update_historicoClub;
 DELIMITER //
 
+DELIMITER $$
+$$
 CREATE TRIGGER update_historicoClub
 BEFORE UPDATE ON club
 FOR EACH ROW
@@ -25,15 +27,15 @@ BEGIN
 		END IF;
 	END IF;
 
-END //
-
+END
+$$
 DELIMITER ;
 
 
 
 ------ TRIGGER PARA DELETE
-DELIMITER //
-
+DELIMITER $$
+$$
 CREATE TRIGGER delete_historicoClub
 AFTER DELETE ON club
 FOR EACH ROW
@@ -43,6 +45,5 @@ select max(id) into temporada_id
 from temporada;
   INSERT INTO historico_club(id_club,nombre,nJugadores,ValorTotal,temporada)
   VALUES (OLD.id,old.nombre,old.nJugadores,old.ValorTotal,temporada_id);
-END //
-
+END$$
 DELIMITER ;

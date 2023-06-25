@@ -162,6 +162,7 @@ Create table historico_club(
   nombre varchar(100),
   nJugadores int,
   ValorTotal int,
+  temporada int,
   control_fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 ) AUTO_INCREMENT=1; 
