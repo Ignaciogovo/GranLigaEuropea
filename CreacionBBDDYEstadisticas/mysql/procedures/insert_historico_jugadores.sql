@@ -1,8 +1,8 @@
-DROP PROCEDURE IF EXISTS `database`.insert_historico_jugadores;
+DROP PROCEDURE IF EXISTS `liga`.insert_historico_jugadores;
 
 DELIMITER $$
 $$
-CREATE PROCEDURE `database`.insert_historico_jugadores()
+CREATE PROCEDURE `liga`.insert_historico_jugadores()
 BEGIN
 	 DECLARE max_temporada INT;
     

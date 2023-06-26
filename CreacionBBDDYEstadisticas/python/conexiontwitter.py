@@ -26,3 +26,13 @@ def twittearFinal():
     api = tweepy.API(auth)
     texto =  "¡¡FINAAAL DE LA TEMPORADA: "+ temporada + "!! Felicidades a " + campeon +" por su campeonato ligero."
     api.update_status(texto)
+
+
+
+
+
+
+def twittearMensaje(mensaje):
+    auth=cp.tokensTwitter()
+    api = tweepy.API(auth)
+    api.update_status(mensaje)

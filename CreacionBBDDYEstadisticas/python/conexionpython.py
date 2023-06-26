@@ -18,7 +18,10 @@ password = os.getenv('PASSWORD')
 ip = os.getenv('IP')
 usuario = os.getenv('USER')
 database = os.getenv('DATABASE')
-
+consumer_key=os.getenv('CONSUMER_KEY')
+consumer_secret=os.getenv('CONSUMER_SECRET')
+access_token=os.getenv('ACCESS_TOKEN')
+access_token_secret=os.getenv('ACCESS_TOKEN_SECRET')
 # Utiliza la contraseña en tu código
 def bbddliga():
     db = pymysql.connect(host=ip,user=usuario,password=password,database=database,charset='utf8mb4')
@@ -30,10 +33,6 @@ def bbddliga():
 # Si quieres usar un bot de twitter:
 
 def tokensTwitter():
-    consumer_key = "xxxxxxxxxxxxxxxx"
-    consumer_secret = "xxxxxxxxxxxxxxxxxxxxxx"
-    access_token = "xxxxxxxxxxxxxxxxxxxx"
-    access_token_secret = "xxxxxxxxxxxxxxxxxxxx"
     auth = OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
     return auth
