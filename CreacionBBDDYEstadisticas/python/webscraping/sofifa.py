@@ -9,10 +9,11 @@ import time
 from bs4 import BeautifulSoup
 import requests
 from datetime import date
-import sys 
-import os
+
 from fake_useragent import UserAgent
 ua = UserAgent()
+import sys 
+import os
 # Obtén la ruta del directorio padre
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

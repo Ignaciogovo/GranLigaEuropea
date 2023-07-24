@@ -14,10 +14,10 @@ load_dotenv(env_path)
 
 # Carga las variables de entorno desde el archivo .env
 # Obtén la contraseña desde la variable de entorno
-password = os.getenv('PASSWORD')
-ip = os.getenv('IP')
-usuario = os.getenv('USER')
-database = os.getenv('DATABASE')
+password = os.getenv('PASSWORD_DB')
+ip = os.getenv('IP_DB')
+usuario = os.getenv('USER_DB')
+database = os.getenv('DATABASE_DB')
 consumer_key=os.getenv('CONSUMER_KEY')
 consumer_secret=os.getenv('CONSUMER_SECRET')
 access_token=os.getenv('ACCESS_TOKEN')

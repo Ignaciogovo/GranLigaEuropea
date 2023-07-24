@@ -1,12 +1,31 @@
 # importing the sys module
-import sys
-# in the sys.path list
-sys.path.append('.\\')     
+import sys 
+import os
+import os
+from dotenv import load_dotenv
+
+
+
+# Obtén la ruta del directorio padre
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Agrega el directorio padre al sys.path
+sys.path.append(parent_dir)
 import conexionsql as cs
 import conexiontwitter as ct
 import CreadorJornadas as cj
 from time import sleep
 from datetime import datetime
+
+# Concatena el nombre del archivo .env al final de la ruta
+env_path = os.path.join(parent_dir , '.env')
+load_dotenv(env_path)
+# Carga las variables de entorno desde el archivo .env
+control_backup=os.getenv('CONTROL_BACKUP')
+ruta_backup=os.getenv('RUTA_BACKUP')
+
+
+
+
 
 def finalizarTemporada():
     # Finalizamos temporada
@@ -25,22 +44,28 @@ if jornada > 0:
         if jornada == 1:
             print("Comienzo de la temporada", temporada)
             cs.actualizar_fecha_temporada()
+            # Creamos el calendario y las jornadas
+            cj.generar_calendario(temporada)
         print("Comienzo de jornada: ",jornada)
         now = datetime.now()
         print(now)
         # ct.twittearJornada(jornada)
         sleep(2)
-        cj.calendario(jornada)
+        cj.partidos_jornada(jornada)
         print("Finalización de jornada", jornada)
-
+        try:
+            cs.insert_clasificacion_jornada(jornada,temporada)
+        except:
+            print("No se ha podido actualizar clasificación jornada")
         if jornada == 38:
             print("Finalización de temporada")
             finalizarTemporada()
-            # ct.twittearFinal()
+            ct.twittearFinal()
+        if control_backup == 'S':
         # Escritura del nombre de la copia de seguridad para la ejecución del comando en bash
-        # newdata="LJ"+str(jornada)+"T"+str(temporada)+".sql"
-        # with open('\\CreacionBBDDYEstadisticas\\backup\\jornadaTemporada.txt', "w") as myfile:
-        #     myfile.write(newdata)
+            newdata="LJ"+str(jornada)+"T"+str(temporada)+".sql"
+            with open(ruta_backup, "w") as myfile:
+                myfile.write(newdata)
 else:
     print("Lo siento, la temporada aún no ha Empezado")
     

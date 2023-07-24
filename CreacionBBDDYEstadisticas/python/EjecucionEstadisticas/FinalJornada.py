@@ -1,7 +1,11 @@
-# importing the sys module
-import sys
-# in the sys.path list
-sys.path.append('.\\')        
+import sys 
+import os
+# Obtén la ruta del directorio padre
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Agrega el directorio padre al sys.path
+sys.path.append(parent_dir)
+     
 import conexiontwitter as ct
 from conexionsql import selectJornadaSinSuma
 

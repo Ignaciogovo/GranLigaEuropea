@@ -188,7 +188,27 @@ Create table historico_jugadores(
 
 
 
+create table orden_temporada(
+  id int NOT NULL auto_increment,
+  id_club int,
+  orden int,
+  temporada int,
+  control_fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+)AUTO_INCREMENT=1; 
+ALTER TABLE  orden_temporada
+ADD CONSTRAINT unico_orden_temporada UNIQUE (orden, temporada);
 
+
+create table calendario(
+  id int NOT NULL auto_increment,
+  id_local int,
+  id_visitante int,
+  jornada int,
+  temporada int,
+  control_fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+)AUTO_INCREMENT=1; 
 
 
 

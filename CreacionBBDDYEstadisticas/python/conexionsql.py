@@ -195,6 +195,70 @@ def insertarClasificacion():
 	db.close()
 
 
+
+def insertarOrdenTemporada(id_club,index,temporada):
+    db = cp.bbddliga()
+    # prepare a cursor object using cursor() method
+    cursor = db.cursor()
+    # INSERT:
+    sql = "INSERT INTO orden_temporada (id_club, orden, temporada) VALUES (%s, %s, %s);"
+    cursor.execute(sql, (id_club, index, temporada))
+
+    # Commit your changes in the database
+    db.commit()
+    print(cursor.rowcount, "registro insertado")
+    # desconecta del servidor
+    db.close()
+    
+def borrarOrdenTemporadaPorTemporada(temporada):
+    db = cp.bbddliga()
+    # prepare a cursor object using cursor() method
+    cursor = db.cursor()
+
+    # DELETE:
+    delete_query = "DELETE FROM orden_temporada WHERE temporada = %s;"
+    cursor.execute(delete_query, (temporada,))
+
+    # Commit your changes in the database
+    db.commit()
+    print(cursor.rowcount, "registros eliminados")
+    # desconecta del servidor
+    db.close()
+    
+def insertarCalendario(id_local, id_visitante, jornada, temporada):
+    db = cp.bbddliga()
+    # prepare a cursor object using cursor() method
+    cursor = db.cursor()
+
+    # INSERT:
+    sql = "INSERT INTO calendario (id_local, id_visitante, jornada, temporada) VALUES (%s, %s, %s, %s);"
+    cursor.execute(sql, (id_local, id_visitante, jornada, temporada))
+
+    # Commit your changes in the database
+    db.commit()
+    print(cursor.rowcount, "registro insertado")
+    # desconecta del servidor
+    db.close()
+
+def borrarCalendarioPorTemporada(temporada):
+    db = cp.bbddliga()
+    # prepare a cursor object using cursor() method
+    cursor = db.cursor()
+
+    # DELETE:
+    delete_query = "DELETE FROM calendario WHERE temporada = %s;"
+    cursor.execute(delete_query, (temporada,))
+
+    # Commit your changes in the database
+    db.commit()
+    print(cursor.rowcount, "registros eliminados")
+    # desconecta del servidor
+    db.close()
+
+
+
+
+
 def actualizar_fecha_temporada():
 	fecha_inicio = date.today()
 	db = cp.bbddliga()
@@ -204,7 +268,7 @@ def actualizar_fecha_temporada():
 	# ejecuta el SQL query usando el metodo execute().
 
 	#INSERT:UPDATE 
-	sql = "temporada set fecha_inicio = %s where id = (select id from(select max(id) from temporada) as tablaTemporal);"
+	sql = "update temporada set fecha_inicio = %s where id = (select id_temporada from(select max(id) as id_temporada from temporada) as tablaTemporal);"
 	cursor.execute(sql,fecha_inicio)
 
 	   # Commit your changes in the database
@@ -222,7 +286,7 @@ def finalizarTemporada():
 	# ejecuta el SQL query usando el metodo execute().
 
 	#UPDATE:
-	sql = "UPDATE temporada set fecha_final = %s where id = (select id from(select max(id) from temporada) as tablaTemporal);"
+	sql = "UPDATE temporada set fecha_final = %s where id = (select id_temporada from(select max(id) as id_temporada from temporada) as tablaTemporal);"
 	cursor.execute(sql,fecha_final)
 
 	   # Commit your changes in the database
@@ -279,6 +343,17 @@ def updateclasificacion(id_local,gol_local,id_visitante, gol_visitante,temporada
 	db = cp.bbddliga()
 	cursor = db.cursor()
 	sql="call actualizarClasificacion(%s,%s,%s,%s,%s);"
+	cursor.execute(sql,datos)
+	# Commit your changes in the database
+	db.commit()
+	# print(cursor.rowcount, "registro actualizado")
+	db.close()
+
+def insert_clasificacion_jornada(jornada,temporada):
+	datos =  [jornada,temporada]
+	db = cp.bbddliga()
+	cursor = db.cursor()
+	sql="call insertar_clasificacion_ultima_jornada(%s,%s);"
 	cursor.execute(sql,datos)
 	# Commit your changes in the database
 	db.commit()
@@ -481,5 +556,43 @@ def selectCampeonLiga():
 	return(id_club)
 
 
+
+def selectOrdenTemporada():
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+	sql = "select id_club from orden_temporada where temporada = (select max(id) from temporada) order by orden;"
+	cursor.execute(sql)
+	datos = cursor.fetchall()
+	db.close()
+	clubes = []
+	for row in datos:
+		clubes.append(row[0])
+	return(clubes)
+
+
+
+
+
+
+def select_calendario(jornada):
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+
+	# ejecuta el SQL query usando el metodo execute().
+
+	#INSERT:
+	sql = "	select id_local,id_visitante from calendario where temporada = (select max(id) from temporada) and jornada = %s;"
+	datos = cursor.execute(sql,jornada)
+	datos = cursor.fetchall()
+	db.close()
+	partidos = []
+	for row in datos:
+		partido = {}
+		partido["id_local"]=row[0]
+		partido["id_visitante"] = row[1]
+		partidos.append(partido)
+	return(partidos)
 
 
