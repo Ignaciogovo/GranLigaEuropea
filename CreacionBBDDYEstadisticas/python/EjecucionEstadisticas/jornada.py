@@ -67,7 +67,7 @@ if jornada > 0:
             with open(ruta_backup, "w") as myfile:
                 myfile.write(newdata)
 else:
-    print("Lo siento, la temporada aún no ha Empezado")
+    print("Lo siento, la temporada aún no ha empezado")
     
 now = datetime.now()
 print(now)
