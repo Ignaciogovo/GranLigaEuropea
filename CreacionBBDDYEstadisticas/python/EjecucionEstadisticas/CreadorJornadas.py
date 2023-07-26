@@ -131,7 +131,7 @@ def generar_calendario(temporada):
     organizar_orden_temporada(temporada)
     
     # Definimos el calendario de la temporada con el siguiente bucle:
-    for i in range(1,38):
+    for i in range(1,39):
         calendario(i,temporada)
 
 
