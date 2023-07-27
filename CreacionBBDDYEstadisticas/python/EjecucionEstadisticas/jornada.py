@@ -64,8 +64,11 @@ if jornada > 0:
         if control_backup == 'S':
         # Escritura del nombre de la copia de seguridad para la ejecución del comando en bash
             newdata="LJ"+str(jornada)+"T"+str(temporada)+".sql"
-            with open(ruta_backup, "w") as myfile:
-                myfile.write(newdata)
+            try:
+                with open(ruta_backup, "w") as myfile:
+                    myfile.write(newdata)
+            except:
+                print("No se ha podido escribir el nombre de la copia de seguridad en el archivo: "+ ruta_backup)
 else:
     print("Lo siento, la temporada aún no ha empezado")
     
