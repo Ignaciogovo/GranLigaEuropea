@@ -350,7 +350,7 @@ def updateclasificacion(id_local,gol_local,id_visitante, gol_visitante,temporada
 	db.close()
 
 def insert_clasificacion_jornada(jornada,temporada):
-	datos =  [jornada,temporada]
+	datos =  (jornada,temporada)
 	db = cp.bbddliga()
 	cursor = db.cursor()
 	sql="call insertar_clasificacion_ultima_jornada(%s,%s);"
@@ -359,7 +359,6 @@ def insert_clasificacion_jornada(jornada,temporada):
 	db.commit()
 	# print(cursor.rowcount, "registro actualizado")
 	db.close()
-
 
 
 # Consultas
