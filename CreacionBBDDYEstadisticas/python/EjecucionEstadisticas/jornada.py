@@ -49,7 +49,7 @@ if jornada > 0:
         print("Comienzo de jornada: ",jornada)
         now = datetime.now()
         print(now)
-        # ct.twittearJornada(jornada)
+        ct.twittearJornada(jornada)
         sleep(2)
         cj.partidos_jornada(jornada)
         print("Finalización de jornada", jornada)

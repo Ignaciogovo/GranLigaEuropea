@@ -208,7 +208,7 @@ create table calendario(
   temporada int,
   control_fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
-)AUTO_INCREMENT=1; 
+)AUTO_INCREMENT=1;
 
 
 
