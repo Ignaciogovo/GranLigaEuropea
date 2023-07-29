@@ -8,7 +8,7 @@
         return($arrays);
     }
     function planificacionjornadas($participantes,$mitad,$array1,$array2,$jornada){
-        include_once('C:\xampp\htdocs\ProyectoLiga\ConexionRemota\web\funciones.php');
+        include_once('funciones.php');
         $jornadaBDD = selectJornada();
         $tiempo = 1;
         if ($jornada >1){
@@ -78,7 +78,7 @@
 
     }
     function sacarResultados($local,$visitante){
-        include_once('C:\xampp\htdocs\ProyectoLiga\ConexionRemota\web\funciones.php');
+        include_once('funciones.php');
         print($local);
         $goles = selectgoles($local,$visitante);
         $local =  SelectNombreClub($local);
@@ -87,7 +87,7 @@
         echo "<br>";
     }
     function sacarClubs($local,$visitante){
-        include_once('C:\xampp\htdocs\ProyectoLiga\ConexionRemota\web\funciones.php');
+        include_once('funciones.php');
         $local =  SelectNombreClub($local);
         $visitante = SelectNombreClub($visitante);
         echo $local . " --vs-- ". $visitante;

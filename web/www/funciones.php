@@ -181,7 +181,7 @@ function maximosTarjetas(){
     when valor =1000000 then '1M'
     end as valor,club
     from estadisticas_totales
-    order by amarillas desc
+    order by total desc, rojas desc, amarillas desc
 	limit 20 ";
 
   if ($resultados = mysqli_query($conexion,$consulta))
@@ -222,6 +222,25 @@ function selectJornada(){
   }
   
 }
+function selectTemporada(){
+  include_once("conexion.php");
+  $conexion = conexion();
+  $consulta = " select max(id) from temporada;";
+  if ($temporada= mysqli_query($conexion,$consulta))
+  {
+    // Fetch one and one row
+  $temporada=mysqli_fetch_row($temporada);
+  $temporada = $temporada[0];
+  return($temporada);
+  }
+  
+}
+
+
+
+
+
+
 function selectGoles($local,$visitante){
   require_once("conexion.php");
   $conexion = conexion();

@@ -1,3 +1,7 @@
+<?php
+include_once("funciones.php");
+$jornada=selectJornada()
+?>
 <!doctype html>
 <html lang="en">
 
@@ -25,10 +29,10 @@
                     <span class="navbar-text ms-5">
                         <h1>Gran liga europea</h1>
                     </span>
-                    <div class="collapse navbar-collapse" id="navbarText">
+                    <div class="navbar" id="navbarText">
                         <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="active link-warning" aria-current="page" href="#">Disabled</a>
+                                <a class="active link-warning" aria-current="page" href="jornadas.php">Disabled</a>
                             </li>
                             <li class="nav-item">
                                 <a class="m-3 link-warning" href="#clasificacion">Clasificación</a>
@@ -47,10 +51,10 @@
         </header>
         <div>
         <div class="container mt-5 mb-5">
-        <h1 class ="m-3" id="clasificacion">Clasificación</h1>
+        <h1 class ="m-3" id="clasificacion">Clasificación - Jornada <?php echo $jornada; ?></h1>
         <div class="row">
             <div class="col">
-                <table class="table table-striped mb-t">
+                <table class="table table-responsive table-striped mb-t">
                     <thead>
                         <tr class="p-4">
                             <th scope="col">Puesto</th>
@@ -66,7 +70,6 @@
                     </thead>
                     <tbody>
 <?php 
-                    include_once("funciones.php");
                     clasificacion();
 ?>
                     </tbody>
@@ -78,7 +81,7 @@
         <h1 class ="m-3">Máximos goleadores de la temporada</h1>
         <div class="row">
             <div class="col">
-                <table class="table table-striped mb-t table-expand-lg">
+                <table class="table table-responsive table-striped mb-t table-expand-lg">
                     <thead>
                         <tr class="p-4">
                             <th scope="col"></th>
