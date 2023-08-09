@@ -13,6 +13,8 @@ import random as ra
 import funcionJugadores as fj
 
 def partido(e_local,e_visitante,jornada):
+    # Temporada
+    temporada=  cs.selectTemporada()
     v_local = cs.selectValorClub(e_local)
     v_visitante = cs.selectValorClub(e_visitante)
     diff = abs(v_local-v_visitante)
@@ -25,10 +27,11 @@ def partido(e_local,e_visitante,jornada):
     diff =abs(potencial_local-potencial_visitante)
     if diff <= 0.5:
         potencial_visitante = potencial_local
+
     # Asignacion de arbitro:
-    arbitro= ra.randint(1,9)
-    # Temporada
-    temporada=  cs.selectTemporada()
+    arbitros=cs.select_id_arbitro_filtrado(jornada,temporada)
+    arbitro= ra.choice(arbitros)[0]
+
     if potencial_local < potencial_visitante:
         #Ganador segundo equipo:
         #Asignacion de goles
@@ -36,16 +39,6 @@ def partido(e_local,e_visitante,jornada):
         gol_visitante = int(round(potencial_visitante/2.5,0))
         if gol_local == gol_visitante:
             gol_visitante=gol_visitante+1
-        datos_partidos= [e_local,e_visitante,gol_local,gol_visitante,arbitro,(str(aforo) + '%'),jornada,temporada]
-        #Insertamos resultado del partido
-        cs.insertarPartidos(datos_partidos)
-        # ejecutamos las estadisticas de los jugadores
-        fj.ejecucionEstadisticas(e_local,gol_local)
-        fj.ejecucionEstadisticas(e_visitante,gol_visitante)
-        # Actualizamos Clasificacion
-        cs.updateclasificacion(e_local,gol_local,e_visitante,gol_visitante,temporada)
-        # Twittear resultado de partido
-        ct.twittearPartido(e_local,e_visitante,gol_local,gol_visitante)
     elif potencial_local > potencial_visitante:
         #Ganador primer equipo:
         #Asignacion de goles
@@ -53,30 +46,20 @@ def partido(e_local,e_visitante,jornada):
         gol_visitante = int(round(potencial_visitante/2.5,0))
         if gol_local == gol_visitante:
             gol_local=gol_local+1
-        datos_partidos= [e_local,e_visitante,gol_local,gol_visitante,arbitro,(str(aforo) + '%'),jornada,temporada]
-        #Insertamos resultado del partido
-        cs.insertarPartidos(datos_partidos)
-        # ejecutamos las estadisticas de los jugadores
-        fj.ejecucionEstadisticas(e_local,gol_local)
-        fj.ejecucionEstadisticas(e_visitante,gol_visitante)
-        # Actualizamos Clasificacion
-        cs.updateclasificacion(e_local,gol_local,e_visitante,gol_visitante, temporada)
-        # Twittear resultado de partido
-        ct.twittearPartido(e_local,e_visitante,gol_local,gol_visitante)
     elif potencial_local==potencial_visitante:
         # Empate:
         gol_local = int(round(potencial_local/2.5,0))
         gol_visitante = gol_local
-        datos_partidos= [e_local,e_visitante,gol_local,gol_visitante,arbitro,(str(aforo) + '%'),jornada,temporada]
-        #Insertamos resultado del partido
-        cs.insertarPartidos(datos_partidos)
-        # ejecutamos las estadisticas de los jugadores
-        fj.ejecucionEstadisticas(e_local,gol_local)
-        fj.ejecucionEstadisticas(e_visitante,gol_visitante)
-        # Actualizamos Clasificacion
-        cs.updateclasificacion(e_local,gol_local,e_visitante,gol_visitante, temporada)
-        # Twittear resultado de partido
-        ct.twittearPartido(e_local,e_visitante,gol_local,gol_visitante)
+    datos_partidos= [e_local,e_visitante,gol_local,gol_visitante,arbitro,(str(aforo) + '%'),jornada,temporada]
+    #Insertamos resultado del partido
+    cs.insertarPartidos(datos_partidos)
+    # ejecutamos las estadisticas de los jugadores
+    fj.ejecucionEstadisticas(e_local,gol_local)
+    fj.ejecucionEstadisticas(e_visitante,gol_visitante)
+    # Actualizamos Clasificacion
+    cs.updateclasificacion(e_local,gol_local,e_visitante,gol_visitante, temporada)
+    # Twittear resultado de partido
+    ct.twittearPartido(e_local,e_visitante,gol_local,gol_visitante)
 
 # Calcula el potencial de victoria de cada equipo
 def calculoPotenciales(v_local,v_visitante,diff,jornada):

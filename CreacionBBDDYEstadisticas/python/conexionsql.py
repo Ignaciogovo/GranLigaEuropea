@@ -581,7 +581,6 @@ def select_calendario(jornada):
 
 	# ejecuta el SQL query usando el metodo execute().
 
-	#INSERT:
 	sql = "	select id_local,id_visitante from calendario where temporada = (select max(id) from temporada) and jornada = %s;"
 	datos = cursor.execute(sql,jornada)
 	datos = cursor.fetchall()
@@ -594,4 +593,16 @@ def select_calendario(jornada):
 		partidos.append(partido)
 	return(partidos)
 
+def select_id_arbitro_filtrado(temporada,jornada):
+	db = cp.bbddliga()
+	# prepare a cursor object using cursor() method
+	cursor = db.cursor()
+
+	# ejecuta el SQL query usando el metodo execute().
+
+	sql = "select id from arbitros where id not in (select id_arbitro from partidos where temporada = %s and jornada = %s) and activo	= 1;"
+	datos = cursor.execute(sql,(temporada,jornada))
+	datos = cursor.fetchall()
+	db.close()
+	return(datos)
 
