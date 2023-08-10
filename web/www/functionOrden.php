@@ -10,6 +10,7 @@
     function planificacionjornadas($participantes,$mitad,$array1,$array2,$jornada){
         include_once('funciones.php');
         $jornadaBDD = selectJornada();
+        $temporada = selectTemporada();
         $tiempo = 1;
         if ($jornada >1){
             while ($tiempo <=$jornada){ //Bucle para el número de jornadas siendo el número de jornadas igual al número de participantes.
@@ -19,6 +20,75 @@
                     $tiempo ++;
                 }
 
+        }
+        if ($mitad%2==0) {  // Si la mitad de la temporada fuera impar algunos equipos jugarian más partidos en casa que de visitante y viceversa.
+            if ($tiempo%2==0){
+            echo "<h4>Jornada ".$jornada."</h4>";
+            echo "<br>";
+            echo "<h5>visitante vs Local</h5>";
+            echo "<br>";
+            $v2 = 0;
+                if ($jornada <= $jornadaBDD){
+                    // Para que el equipo 1 siempre esté fijo, fuera del bucle de orden de los partidos.
+                    sacarResultados($array2[$v2],1);
+                    while ( $v2 < $mitad-1){  //Bucle para orden de los partidos.
+                        $local = $array2[$v2+1];
+                        $visitante = $array1[$v2];
+                        sacarResultados($local,$visitante);
+                        $v2++;
+                    }
+                }else{
+                    // Para que el equipo 1 siempre esté fijo, fuera del bucle de orden de los partidos.
+                    sacarClubs($array2[$v2],1);
+                    while ( $v2 < $mitad-1){  //Bucle para orden de los partidos.
+                        $local = $array2[$v2+1];
+                        $visitante = $array1[$v2];
+                        sacarClubs($local,$visitante);
+                        $v2++;
+                    }
+                }
+
+
+        }else{
+            echo "<h4>Jornada ".$jornada."</h4>";
+            echo "<br>";
+            echo "<h5>Local vs visitante</h5>";
+            echo "<br>";
+            $v2 = 0;
+            if ($jornada <= $jornadaBDD){
+                // Para que el equipo 1 siempre esté fijo, fuera del bucle de orden de los partidos.
+                sacarResultados(1,$array2[$v2]);
+                while ( $v2 < $mitad-1){  //Bucle para orden de los partidos.
+                    $local = $array1[$v2];
+                    $visitante = $array2[$v2+1];
+                    sacarResultados($local,$visitante);
+                    $v2++;
+                }
+            }else{
+                // Para que el equipo 1 siempre esté fijo, fuera del bucle de orden de los partidos.
+                sacarClubs(1,$array2[$v2]);
+                while ( $v2 < $mitad-1){  //Bucle para orden de los partidos.
+                    $local = $array1[$v2];
+                    $visitante = $array2[$v2+1];
+                    sacarClubs($local,$visitante);
+                    $v2++;
+                }
+            }
+        }
+        }
+
+    }
+    function imprimir_calendario($jornada,$temporada){
+        include_once('funciones.php');
+        $jornadaBDD = selectJornada();
+        $temporadaBBDD = selectTemporada();
+        $tiempo = 1;
+        if (select_control_partidos($jornada,$temporada)==true){
+            echo "<h4>Jornada ".$jornada."</h4>";
+            echo "<br>";
+            echo "<h5>visitante vs Local</h5>";
+            echo "<br>";
+            
         }
         if ($mitad%2==0) {  // Si la mitad de la temporada fuera impar algunos equipos jugarian más partidos en casa que de visitante y viceversa.
             if ($tiempo%2==0){

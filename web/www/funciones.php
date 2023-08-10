@@ -270,6 +270,52 @@ function SelectNombreClub($id_club){
   }
 }
 
+function select_calendario($jornada,$temporada)
+{
+  include_once("conexion.php");
+  $conexion = conexion();
+  $consulta = "select id_local,(select nombre from club where id=id_local) local_,id_visitante,(select nombre from club where id= id_visitante) visitante from liga.calendario where temporada = $temporada and jornada = $jornada ";
 
+  if ($resultados = mysqli_query($conexion,$consulta))
+    {
+      $calendario_array=array();
+      // Fetch one and one row
+      while ($row=mysqli_fetch_row($resultados))
+        {
+          $jornada_array=array(
+            'temporada'=>$temporada,
+            'jornada'=>$jornada,
+            'id_local'=>$row[0],
+            'local'=>$row[1],
+            'id_visitante'=>$row[2],
+            'visitante'=>$row[3]
+          );
+        $calendario_array[]=$jornada_array;
+        }
+        //end while
+      // Free result set
+      mysqli_free_result($resultados);
+    }// end if
+    else{
+      print("No trae datos");
+    }
+    return($calendario_array);
+}
+
+function select_control_partidos($jornada,$temporada)
+{
+  include_once("conexion.php");
+  $conexion = conexion();
+  $consulta = "select 1 from liga.partido where temporada = $temporada and jornada = $jornada ";
+
+  if ($resultado = mysqli_query($conexion,$consulta))
+    {
+      $resultado=true;
+    }// end if
+    else{
+      $resultado=false;
+    }
+    return($resultado);
+}
 
 ?>
