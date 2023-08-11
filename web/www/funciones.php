@@ -297,7 +297,7 @@ function select_calendario($jornada,$temporada)
       mysqli_free_result($resultados);
     }// end if
     else{
-      print("No trae datos");
+      $calendario_array=FALSE;
     }
     return($calendario_array);
 }
@@ -317,5 +317,40 @@ function select_control_partidos($jornada,$temporada)
     }
     return($resultado);
 }
+
+function select_partidos($jornada,$temporada)
+{
+  include_once("conexion.php");
+  $conexion = conexion();
+  $consulta = "SELECT id_local,(select nombre from club where id=id_local) local_,id_visitante,(select nombre from club where id= id_visitante) visitante,goles_local,goles_visitante,id_arbitro,(select nombre from arbitros where id=id_arbitro) arbitro, replace(aforo,'%','') aforo FROM liga.partidos where temporada = $temporada and jornada = $jornada ";
+
+  if ($resultado = mysqli_query($conexion,$consulta))
+    {
+      $partidos_array=array();
+      // Fetch one and one row
+      while ($row=mysqli_fetch_row($resultado))
+        {
+          $jornada_array=array(
+            'temporada'=>$temporada,
+            'jornada'=>$jornada,
+            'id_local'=>$row[0],
+            'local'=>$row[1],
+            'id_visitante'=>$row[2],
+            'visitante'=>$row[3],
+            'goles_local'=>$row[4],
+            'goles_visitante'=>$row[5],
+            'id_arbitro'=>$row[6],
+            'arbitro'=>$row[7],
+            'aforo'=> $row[8]
+          );
+        $partidos_array[]=$jornada_array;
+        }
+   }// end if
+    else{
+      $partidos_array=false;
+    }
+    return($partidos_array);
+}
+
 
 ?>

@@ -51,32 +51,69 @@ $jornada=selectJornada()
         </header>
         <div>
         <div class="container mt-5 mb-5">
-        <h1 class ="m-3" id="clasificacion">Clasificación - Jornada <?php echo $jornada; ?></h1>
-        <div class="row">
-            <div class="col">
-                <table class="table table-responsive table-striped mb-t">
-                    <thead>
-                        <tr class="p-4">
-                            <th scope="col">Puesto</th>
-                            <th scope="col">Club</th>
-                            <th scope="col">puntos</th>
-                            <th scope="col">A favor</th>
-                            <th scope="col">En contra</th>
-                            <th scope="col">+-Goles</th>
-                            <th scope="col">Ganados</th>
-                            <th scope="col">Empatados</th>
-                            <th scope="col">Perdidos</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-<?php 
-                    clasificacion();
-?>
-                    </tbody>
-                </table>
+            <h1 class ="m-3" id="clasificacion">Clasificación - Jornada <?php echo $jornada; ?></h1>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-responsive table-striped mb-t">
+                        <thead>
+                            <tr class="p-4">
+                                <th scope="col">Puesto</th>
+                                <th scope="col">Club</th>
+                                <th scope="col">puntos</th>
+                                <th scope="col">A favor</th>
+                                <th scope="col">En contra</th>
+                                <th scope="col">+-Goles</th>
+                                <th scope="col">Ganados</th>
+                                <th scope="col">Empatados</th>
+                                <th scope="col">Perdidos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    <?php 
+                        clasificacion();
+    ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+
+
+
+        <div class="container mt-5 mb-5">
+            <h1 class ="m-3" id="clasificacion">Partidos - Jornada <?php echo $jornada; ?></h1>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-responsive table-striped mb-t">
+                        <thead>
+                            <tr class="p-4">
+                                <th scope="col">Partido</th>
+                                <th scope="col">arbitro</th>
+                                <th scope="col">aforo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    <?php 
+                        // $jornada = 5; // Cambia esto al número de jornada deseado
+                        $temporada = 2; // Cambia esto a la temporada deseada
+
+                        $partidos = select_partidos($jornada, $temporada);
+
+                        if ($partidos !== false) {
+                    foreach ($partidos as $partido) {
+                    echo "<tr>
+                            <td><span class='bold'>{$partido['local']} <strong>{$partido['goles_local']}-{$partido['goles_visitante']}</strong> {$partido['visitante']}</span></td>
+                            <td>{$partido['arbitro']}</td>
+                            <td> {$partido['aforo']}</td>
+                            </tr>";
+
+                    }}
+    ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     <div class="container mt-5 mb-5">
         <h1 class ="m-3">Máximos goleadores de la temporada</h1>
         <div class="row">
