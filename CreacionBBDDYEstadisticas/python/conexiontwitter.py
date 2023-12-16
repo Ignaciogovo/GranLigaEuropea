@@ -51,6 +51,17 @@ def twittearFinal():
         except:
             print("Error al realizar tweet final temporada")
 
+def twittearPaginaweb(jornada):
+    # Comprobamos si se quiere twitterar
+    if control_twitter == 'S':
+        try:
+            auth=cp.tokensTwitter()
+            api = tweepy.API(auth)
+            # Publicar tweet
+            texto = "Ya estan disponibles todos los datos de la jornada "+str(jornada)+" en http://granligaeuropea.freetzi.com/"
+            api.update_status(texto)
+        except:
+            print("Error al realizar tweet final jornada")
 
 
 
